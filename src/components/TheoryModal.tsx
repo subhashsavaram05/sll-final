@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, BookOpen, Link as LinkIcon, Search, Sparkles } from 'lucide-react';
+import { X, BookOpen, Link as LinkIcon, Search, Sparkles, Zap, Layers } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 
 interface TheoryModalProps {
@@ -10,33 +10,33 @@ interface TheoryModalProps {
 export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLearn }) => {
   const topics = [
     {
-      title: '1. What is a Hash Table?',
-      desc: 'A data structure that maps keys to array indices using a hash function, achieving average O(1) time complexity for insert, search, and delete.',
-      formula: 'Index = h(key) = key % tableSize',
+      title: '1. Node Architecture (Data + Next)',
+      desc: 'Each node stores its data value and a next pointer referencing the next node in sequence. The chain starts at HEAD and ends with NULL.',
+      formula: 'NODE = [ DATA | NEXT ] → [ DATA | NULL ]',
       icon: <Sparkles className="w-4 h-4 text-indigo-600 dark:text-purple-400" />,
     },
     {
-      title: '2. Separate Chaining (Closed Addressing)',
-      desc: 'Each slot in the hash table points to a linked list. When keys collide at the same index, they are simply appended to that list.',
-      formula: 'Bucket[h(k)].append(k)',
-      icon: <LinkIcon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
+      title: '2. Insertion at Beginning',
+      desc: 'Create new node, point its next to current HEAD, and update HEAD to the new node.',
+      formula: 'newNode->next = head; head = newNode;  // O(1)',
+      icon: <Zap className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />,
     },
     {
-      title: '3. Linear Probing (Open Addressing)',
-      desc: 'When a collision happens at index h(k), we search sequentially for the next available slot at (h + 1), (h + 2)... wrapping around if needed.',
-      formula: 'h(k, i) = (h(k) + i) % m',
-      icon: <Search className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
+      title: '3. Insertion at End',
+      desc: 'Traverse until temp->next is NULL, then set temp->next to newNode.',
+      formula: 'while(temp->next != NULL) temp = temp->next; temp->next = newNode;  // O(n)',
+      icon: <LinkIcon className="w-4 h-4 text-amber-600 dark:text-amber-400" />,
     },
     {
-      title: '4. Quadratic Probing (Open Addressing)',
-      desc: 'Instead of linear stepping which causes primary clustering, quadratic probing jumps by squares (+1, +4, +9, +16...) to disperse entries across the table.',
-      formula: 'h(k, i) = (h(k) + i²) % m',
-      icon: <Search className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
+      title: '4. Deletion by Pointer Bypass',
+      desc: 'Move to position - 1, save deleteNode, and bypass it by linking to deleteNode->next.',
+      formula: 'temp->next = deleteNode->next; free(deleteNode);  // O(n)',
+      icon: <Layers className="w-4 h-4 text-purple-600 dark:text-purple-400" />,
     },
     {
-      title: '5. Double Hashing (Open Addressing)',
-      desc: 'Uses two independent hash functions: h1 determines the starting index, and h2 calculates a non-zero jump interval unique to each key.',
-      formula: 'h(k, i) = (h1(k) + i × h2(k)) % m, where h2(k) ≠ 0',
+      title: '5. Searching & Display',
+      desc: 'Linear sequential traversal starting from HEAD checking each node or printing its data.',
+      formula: 'while(temp != NULL) { if(temp->data == key) return 1; temp = temp->next; }  // O(n)',
       icon: <Search className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />,
     },
   ];
@@ -52,9 +52,9 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
             </div>
             <div>
               <h3 className="text-base font-bold text-slate-900 dark:text-white tracking-tight">
-                Hashing Formulas & Algorithms
+                Singly Linked List Reference Guide
               </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">Quick Reference Field Guide</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-sans">Quick Reference Operations</p>
             </div>
           </div>
           <button
@@ -81,7 +81,7 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-2.5">{topic.desc}</p>
               <div className="flex items-center gap-2 bg-white dark:bg-[#050816] border border-slate-200 dark:border-purple-500/25 rounded-lg px-3 py-2 text-xs font-mono font-bold text-slate-800 dark:text-cyan-300 shadow-2xs">
-                <span className="text-indigo-600 dark:text-purple-400 text-[11px] uppercase tracking-wider font-sans">Formula:</span>
+                <span className="text-indigo-600 dark:text-purple-400 text-[11px] uppercase tracking-wider font-sans">Syntax:</span>
                 <span>{topic.formula}</span>
               </div>
             </div>
@@ -99,10 +99,12 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
               }}
               className="btn-modern-secondary px-4 py-2 text-xs font-semibold flex items-center gap-1.5 cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
-              <span>Open Full Theory Guide</span>
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>Open Complete SLL Notes (15 Chapters)</span>
             </button>
-          ) : <div />}
+          ) : (
+            <div />
+          )}
 
           <button
             onClick={() => {
@@ -111,7 +113,7 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
             }}
             className="btn-modern-primary px-4 py-2 text-xs font-semibold cursor-pointer"
           >
-            Close Guide
+            Got it
           </button>
         </div>
       </div>

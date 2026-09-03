@@ -199,6 +199,24 @@ export const THEORY_ID_MAP: Record<string, string> = {
   '10': 'theory-10',
   '11': 'theory-11',
   '12': 'theory-12',
+  '13': 'theory-13',
+  '14': 'theory-14',
+  '15': 'theory-15',
+  'theory-01': 'theory-01',
+  'theory-02': 'theory-02',
+  'theory-03': 'theory-03',
+  'theory-04': 'theory-04',
+  'theory-05': 'theory-05',
+  'theory-06': 'theory-06',
+  'theory-07': 'theory-07',
+  'theory-08': 'theory-08',
+  'theory-09': 'theory-09',
+  'theory-10': 'theory-10',
+  'theory-11': 'theory-11',
+  'theory-12': 'theory-12',
+  'theory-13': 'theory-13',
+  'theory-14': 'theory-14',
+  'theory-15': 'theory-15',
 };
 
 export const normalizeTheoryChapterId = (idOrSlug: string): string => {
@@ -619,6 +637,11 @@ class ProgressManager {
 
   public recordSandboxOp() {
     this.state.sandboxOperationsCount += 1;
+    this.saveState();
+  }
+
+  public addScore(points: number) {
+    this.state.totalScore = (this.state.totalScore || 0) + points;
     this.saveState();
   }
 

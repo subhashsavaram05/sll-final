@@ -1,6 +1,6 @@
 {
   "name": "Hash Quest",
-  "description": "An interactive educational mini-game to master hashing and collision resolution algorithms by playing.",
+  "description": "Interactive Single Linked List learning platform and visual game with node creation, insertions, deletions, linear search, and sequential traversal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

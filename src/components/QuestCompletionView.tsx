@@ -36,37 +36,37 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
     {
       id: 1,
       code: '01',
-      title: 'Basic Modulo Hashing',
-      desc: 'h(k) = k mod m direct slot computation and bounds wrapping.',
-      tag: 'FOUNDATION',
+      title: 'Create & Insert Nodes',
+      desc: 'Node structure [DATA | NEXT], beginning & tail insertions, memory allocation in O(1).',
+      tag: 'NODE MANIPULATION',
     },
     {
       id: 2,
       code: '02',
-      title: 'Separate Chaining',
-      desc: 'Linked bucket traversal handling multiple collisions per slot.',
-      tag: 'CLOSED ADDRESSING',
+      title: 'Delete Operations',
+      desc: 'Removing HEAD and TAIL nodes, pointer rewiring, freeing detached memory.',
+      tag: 'POINTER UPDATES',
     },
     {
       id: 3,
       code: '03',
-      title: 'Linear Probing',
-      desc: 'Consecutive step scanning (i = 0, 1, 2...) with circular array wraps.',
-      tag: 'OPEN ADDRESSING',
+      title: 'Traversal & Display',
+      desc: 'Sequential forward traversal from HEAD to NULL using CURRENT pointer.',
+      tag: 'LINEAR TRAVERSAL',
     },
     {
       id: 4,
       code: '04',
-      title: 'Quadratic Probing',
-      desc: 'Exponential step dispersal jumping over primary memory clusters.',
-      tag: 'OPEN ADDRESSING',
+      title: 'Linear Search',
+      desc: 'Step-by-step element inspection, node matching, and O(N) traversal search.',
+      tag: 'SEARCH ALGORITHM',
     },
     {
       id: 5,
       code: '05',
-      title: 'Double Hashing',
-      desc: 'Dual hash functions generating unique dynamic jump steps.',
-      tag: 'OPTIMAL OPEN ADDRESSING',
+      title: 'Master Challenge',
+      desc: 'Comprehensive 7-step sequence executing create, insert, delete, search, and traverse.',
+      tag: 'DATA STRUCTURE MASTERY',
     },
   ];
 
@@ -77,20 +77,20 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-slate-100 dark:border-purple-500/15 pb-3 font-mono">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-amber-200 dark:border-amber-500/30">
             <Trophy className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-            <span>Game Level 06 // Completion Milestone</span>
+            <span>Game Level 06 // Single Linked List Mastery Milestone</span>
           </div>
           <span className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
-            Status: 5 of 5 Algorithms Mastered
+            Status: 5 of 5 Levels Mastered
           </span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           <div className="lg:col-span-8 space-y-3">
             <h1 className="text-3xl sm:text-5xl font-bold font-display text-slate-900 dark:text-white tracking-tight leading-tight animate-heading-enter">
-              Hash Game Completed!
+              Single Linked List Mastered!
             </h1>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl font-normal">
-              Congratulations! You have completed all foundational and advanced collision resolution levels. You have verified how direct memory hashing transforms slow <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">O(N)</code> scans into lightning-fast <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">O(1)</code> lookups.
+              Congratulations! You have completed all 5 progressive Single Linked List levels. You have verified how non-contiguous dynamic nodes in RAM memory connect via <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">NEXT</code> pointers and how <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">HEAD</code> and <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">TAIL</code> pointers govern insertions and deletions.
             </p>
           </div>
 

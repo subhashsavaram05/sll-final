@@ -55,171 +55,184 @@ export interface StudentAnswerRecord {
 export const QUIZ_QUESTIONS: QuizQuestion[] = [
   {
     id: 1,
-    question: '1. What is hashing in data structures?',
+    question: 'What is a single linked list?',
     options: [
-      'A sorting algorithm for array elements',
-      'A technique to map keys to array indexes for fast O(1) storage and retrieval',
-      'A binary tree rebalancing mechanism',
-      'A linear sequential search scan',
+      'A collection of nodes where each node points to the next node',
+      'A collection of elements stored only in consecutive memory locations',
+      'A collection of nodes where every node points to every other node',
+      'A collection that can store only one data value',
     ],
-    correctIndex: 1,
-    correctAnswerText: 'A technique to map keys to array indexes for fast O(1) storage and retrieval',
+    correctIndex: 0,
+    correctAnswerText: 'A collection of nodes where each node points to the next node',
     explanation:
-      'Hashing is a technique used to store and retrieve data quickly in average O(1) constant time by using a mathematical hash function to compute direct memory slot positions.',
+      'Correct! A single linked list consists of nodes, and each node stores data and a pointer to the next node.',
     techniqueCode: 'CORE-01',
-    targetChapterId: 'what-is-hashing',
+    targetChapterId: 'theory-01',
+    targetLevelId: 1,
   },
   {
     id: 2,
-    question: '2. What is the primary role of a hash function?',
+    question: 'What are the main parts of a node in a single linked list?',
     options: [
-      'To sort elements in ascending numerical order',
-      'To compress data files for network transfer',
-      'To calculate the array index where a given key should be stored',
-      'To delete duplicate elements from memory',
+      'Data and a pointer to the next node',
+      'Data and two pointers to previous nodes',
+      'Only a data value',
+      'Index and array size',
     ],
-    correctIndex: 2,
-    correctAnswerText: 'To calculate the array index where a given key should be stored',
+    correctIndex: 0,
+    correctAnswerText: 'Data and a pointer to the next node',
     explanation:
-      'A hash function calculates the exact numerical index in the hash table where a key should be stored or retrieved using deterministic arithmetic.',
+      'Every node in a single linked list contains two main parts: the DATA component (holding the value) and the NEXT pointer (holding the address of the next node).',
     techniqueCode: 'CORE-02',
-    targetChapterId: 'hash-function',
+    targetChapterId: 'theory-01',
     targetLevelId: 1,
   },
   {
     id: 3,
-    question: '3. What is a hash table?',
+    question: 'What does HEAD represent in a single linked list?',
     options: [
-      'An array-based data structure that stores key-value pairs using calculated hash indexes',
-      'A database table sorted alphabetically',
-      'A singly linked list with pointer traversal',
-      'A heap queue used exclusively for scheduling',
+      'The first node of the linked list',
+      'The last node of the linked list',
+      'The middle node of the linked list',
+      'The number of nodes in the linked list',
     ],
     correctIndex: 0,
-    correctAnswerText: 'An array-based data structure that stores key-value pairs using calculated hash indexes',
+    correctAnswerText: 'The first node of the linked list',
     explanation:
-      'A hash table is a data structure that implements an associative array abstract data type, using a hash function to compute an index into an array of buckets or slots.',
+      'HEAD is the pointer pointing to the first node of the linked list. If HEAD is NULL, the list is empty. Also, the last node in the list has its NEXT pointer set to NULL.',
     techniqueCode: 'CORE-03',
-    targetChapterId: 'hash-table',
+    targetChapterId: 'theory-01',
+    targetLevelId: 1,
   },
   {
     id: 4,
-    question: '4. Using the modulo formula h(key) = key % 10, where will key 25 be stored?',
-    options: ['Index 2', 'Index 5', 'Index 10', 'Index 25'],
-    correctIndex: 1,
-    correctAnswerText: 'Index 5',
+    question:
+      'When inserting a new node at the beginning of a single linked list, what should be done first with the new node\'s NEXT pointer?',
+    options: [
+      'Point it to the current HEAD',
+      'Set it permanently to NULL',
+      'Point it to the TAIL',
+      'Delete the current HEAD',
+    ],
+    correctIndex: 0,
+    correctAnswerText: 'Point it to the current HEAD',
     explanation:
-      '25 % 10 = 5. Dividing 25 by 10 leaves a remainder of 5, so key 25 maps to table slot index 5.',
-    techniqueCode: 'MATH-04',
-    targetChapterId: 'hash-function',
+      'The NEXT pointer connects a node to the following node, so the new node must point to the current HEAD when inserting at the beginning (new_node.next = HEAD) before moving HEAD.',
+    techniqueCode: 'INS-01',
+    targetChapterId: 'theory-02',
     targetLevelId: 1,
   },
   {
     id: 5,
-    question: '5. What is a collision in a hash table?',
+    question:
+      'When inserting a new node at the end of a non-empty single linked list, where should the new node be connected?',
     options: [
-      'When an element is deleted from memory',
-      'When the hash table is completely empty',
-      'When two different keys produce the exact same hash index',
-      'When a search query fails to find a key',
+      'After the current last node',
+      'Before the current first node',
+      'Between HEAD and the second node',
+      'Before the current last node',
     ],
-    correctIndex: 2,
-    correctAnswerText: 'When two different keys produce the exact same hash index',
+    correctIndex: 0,
+    correctAnswerText: 'After the current last node',
     explanation:
-      'A collision occurs when two or more distinct keys evaluate to the exact same table slot when passed through the hash function (e.g. h(k1) == h(k2)).',
-    techniqueCode: 'COLLISION-05',
-    targetChapterId: 'what-is-a-collision',
+      'To insert at the end, the new node is connected after the current last node by updating the last node\'s NEXT pointer to point to the new node (tail.next = new_node).',
+    techniqueCode: 'INS-02',
+    targetChapterId: 'theory-02',
+    targetLevelId: 1,
   },
   {
     id: 6,
-    question: '6. If 23 % 10 = 3 and 33 % 10 = 3, what occurs during insertion of 33?',
+    question:
+      'What happens to HEAD when the first node of a single linked list is deleted?',
     options: [
-      'Both keys are automatically deleted',
-      'A collision occurs at index 3 and requires a resolution strategy',
-      'The table becomes corrupted and throws a fatal error',
-      'Key 33 silently overwrites key 23 without warning',
+      'HEAD moves to the second node',
+      'HEAD remains on the deleted node',
+      'HEAD becomes the last node',
+      'HEAD is always set to the previous node',
     ],
-    correctIndex: 1,
-    correctAnswerText: 'A collision occurs at index 3 and requires a resolution strategy',
+    correctIndex: 0,
+    correctAnswerText: 'HEAD moves to the second node',
     explanation:
-      'Both 23 % 10 and 33 % 10 evaluate to index 3. Because slot 3 is already occupied when 33 arrives, a collision occurs and must be resolved.',
-    techniqueCode: 'COLLISION-06',
-    targetChapterId: 'what-is-a-collision',
+      'When deleting the first node, HEAD is updated to point to the second node (HEAD = HEAD.next), and the first node\'s memory is freed.',
+    techniqueCode: 'DEL-01',
+    targetChapterId: 'theory-03',
     targetLevelId: 2,
   },
   {
     id: 7,
-    question: '7. Which technique attaches a linked chain to each bucket upon collision?',
+    question:
+      'To delete the last node of a single linked list, what should the previous node\'s NEXT pointer become?',
     options: [
-      'Linear Probing',
-      'Quadratic Probing',
-      'Separate Chaining',
-      'Binary Search',
+      'NULL',
+      'HEAD',
+      'The deleted node\'s address',
+      'The first node\'s DATA',
     ],
-    correctIndex: 2,
-    correctAnswerText: 'Separate Chaining',
+    correctIndex: 0,
+    correctAnswerText: 'NULL',
     explanation:
-      'Separate Chaining (closed addressing) stores colliding keys in a linked list attached directly to that bucket, e.g., Slot 3: [23] → [33] → [43].',
-    exampleSnippet: 'Slot 3: [23] → [33] → [43]',
-    techniqueCode: 'CHAIN-07',
-    targetChapterId: 'separate-chaining',
+      'To delete the last node, traverse to the second-to-last node and set its NEXT pointer to NULL, making it the new end of the list before freeing the old last node.',
+    techniqueCode: 'DEL-02',
+    targetChapterId: 'theory-03',
     targetLevelId: 2,
   },
   {
     id: 8,
-    question: '8. How does Linear Probing resolve a collision at index h?',
+    question: 'How does traversal normally proceed in a single linked list?',
     options: [
-      'Sequentially checks the next consecutive positions (h+1, h+2, h+3...) mod m',
-      'Deletes the existing element in that slot',
-      'Creates a binary search tree in memory',
-      'Stops the insertion and reports table failure',
+      'Start at HEAD and follow NEXT pointers until NULL',
+      'Start at TAIL and follow PREVIOUS pointers',
+      'Start at the middle and move randomly',
+      'Start at HEAD and stop after the first node',
     ],
     correctIndex: 0,
-    correctAnswerText: 'Sequentially checks the next consecutive positions (h+1, h+2, h+3...) mod m',
+    correctAnswerText: 'Start at HEAD and follow NEXT pointers until NULL',
     explanation:
-      'Linear Probing is an open addressing strategy that sequentially checks consecutive slots: (hash + i) % m for i = 1, 2, 3... until an empty slot is located.',
-    techniqueCode: 'PROBE-08',
-    targetChapterId: 'linear-probing',
+      'Traversal starts at HEAD and follows NEXT pointers (CURRENT = CURRENT.next) sequentially node by node until reaching NULL.',
+    techniqueCode: 'TRAV-01',
+    targetChapterId: 'theory-04',
     targetLevelId: 3,
   },
   {
     id: 9,
-    question: '9. What jump pattern does Quadratic Probing use to avoid primary clustering?',
+    question: 'How is an element normally searched for in a single linked list?',
     options: [
-      'Random pseudo-generated offsets',
-      'Squared increments such as 1², 2², 3²...: (hash + i²) mod m',
-      'Sequential steps of +1 only',
-      'Halving the table index on each step',
+      'Visit nodes one by one and compare their DATA values',
+      'Check only the first node',
+      'Check only the last node',
+      'Access any node directly using an array index',
     ],
-    correctIndex: 1,
-    correctAnswerText: 'Squared increments such as 1², 2², 3²...: (hash + i²) mod m',
+    correctIndex: 0,
+    correctAnswerText: 'Visit nodes one by one and compare their DATA values',
     explanation:
-      'Quadratic Probing uses squared jump offsets (hash + 1², hash + 2², hash + 3²...) % m to spread keys across the table and avoid contiguous clusters.',
-    techniqueCode: 'PROBE-09',
-    targetChapterId: 'quadratic-probing',
+      'Searching in a single linked list requires linear traversal: inspect each node\'s DATA starting from HEAD until the matching value is found or the list terminates at NULL.',
+    techniqueCode: 'SEARCH-01',
+    targetChapterId: 'theory-05',
     targetLevelId: 4,
   },
   {
     id: 10,
-    question: '10. What is used in Double Hashing to calculate probe steps?',
+    question:
+      'Consider this linked list:\n\nHEAD → [10 | 2002] → [20 | 2003] → [30 | NULL]\n\nIf a new node containing 5 is inserted at the beginning, what should the new structure be?',
     options: [
-      'Two sorting algorithms',
-      'Two linked lists per bucket',
-      'A second hash function h2(key) that computes a non-zero jump interval',
-      'Two separate hash tables',
+      'HEAD → [5 | 2001] → [10 | 2002] → [20 | 2003] → [30 | NULL]',
+      'HEAD → [10 | 2002] → [5 | 2001] → [20 | 2003] → [30 | NULL]',
+      'HEAD → [5 | NULL] → [10 | 2002] → [20 | 2003] → [30 | NULL]',
+      'HEAD → [30 | NULL] → [20 | 2003] → [10 | 2002] → [5 | 2001]',
     ],
-    correctIndex: 2,
-    correctAnswerText: 'A second hash function h2(key) that computes a non-zero jump interval',
+    correctIndex: 0,
+    correctAnswerText:
+      'HEAD → [5 | 2001] → [10 | 2002] → [20 | 2003] → [30 | NULL]',
     explanation:
-      'Double Hashing uses two hash functions: h1(key) computes the initial slot index, while h2(key) computes a key-dependent jump interval: index = (h1 + i * h2) % m.',
-    techniqueCode: 'PROBE-10',
-    targetChapterId: 'double-hashing',
+      'When inserting node 5 at the beginning, new_node.next points to address 2001 (containing 10), and HEAD updates to point to the new node 5, resulting in HEAD → [5 | 2001] → [10 | 2002] → [20 | 2003] → [30 | NULL].',
+    techniqueCode: 'MASTER-01',
+    targetChapterId: 'theory-02',
     targetLevelId: 5,
   },
 ];
 
-const QUIZ_STORAGE_ANSWERS_KEY = 'hash_quest_quiz_answers_v3';
-const QUIZ_STORAGE_SUBMITTED_KEY = 'hash_quest_quiz_submitted_v3';
+const QUIZ_STORAGE_ANSWERS_KEY = 'sll_quiz_answers_v1';
+const QUIZ_STORAGE_SUBMITTED_KEY = 'sll_quiz_submitted_v1';
 
 export const QuizView: React.FC<QuizViewProps> = ({
   onNavigateToTheory,
@@ -435,7 +448,74 @@ export const QuizView: React.FC<QuizViewProps> = ({
     progressManager.resetQuizAttempt();
   };
 
+  const getPerformanceFeedback = (score: number) => {
+    if (score >= 9) {
+      return {
+        badge: 'OUTSTANDING MASTERY (GRADE A+)',
+        message: 'Excellent! You have a strong understanding of Single Linked Lists.',
+      };
+    }
+    if (score >= 7) {
+      return {
+        badge: 'GOOD WORK (GRADE B+)',
+        message: 'Good work! Review a few operations to strengthen your understanding.',
+      };
+    }
+    if (score >= 5) {
+      return {
+        badge: 'PROGRESSING (GRADE C)',
+        message: "You're getting there! Review insertion, deletion, and traversal.",
+      };
+    }
+    return {
+      badge: 'REVIEW NEEDED',
+      message: 'Keep learning! Review the basic structure and operations of Single Linked Lists.',
+    };
+  };
+
   const answeredCount = Object.keys(studentAnswers).length;
+  const feedback = getPerformanceFeedback(score);
+
+  // Dynamic certificate/completion card theme determined by final quiz percentage
+  const certificateTheme = useMemo(() => {
+    if (percentage >= 80) {
+      return {
+        // Grade A — Green Theme (80% – 100%)
+        cardBorder: 'border-2 border-emerald-500/40 dark:border-emerald-500/40 shadow-emerald-500/5 dark:shadow-[0_8px_30px_rgba(16,185,129,0.15)]',
+        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600 shadow-emerald-500/20 dark:shadow-emerald-950/50',
+        badge: 'border border-[#00A86B]/40 dark:border-emerald-500/40 bg-[#E6F8F0] dark:bg-emerald-950/60 text-[#008A54] dark:text-emerald-300',
+        scoreCardBorder: 'border-2 border-emerald-300/80 dark:border-emerald-500/40 shadow-[0_8px_30px_rgba(16,185,129,0.12)] dark:shadow-[0_8px_30px_rgba(16,185,129,0.2)]',
+        scoreTag: 'text-emerald-600 dark:text-emerald-400',
+        scoreText: 'text-[#00A86B] dark:text-emerald-400',
+        accuracyPill: 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-200',
+        correctStat: 'text-[#00A86B] dark:text-emerald-400',
+      };
+    } else if (percentage >= 40) {
+      return {
+        // Grade B — Light Blue Theme (40% – 79%)
+        cardBorder: 'border-2 border-sky-400/50 dark:border-sky-500/40 shadow-sky-500/5 dark:shadow-[0_8px_30px_rgba(14,165,233,0.15)]',
+        trophyBg: 'bg-sky-500 dark:bg-sky-600 shadow-sky-500/20 dark:shadow-sky-950/50',
+        badge: 'border border-sky-400/50 dark:border-sky-500/40 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300',
+        scoreCardBorder: 'border-2 border-sky-300/80 dark:border-sky-500/40 shadow-[0_8px_30px_rgba(14,165,233,0.12)] dark:shadow-[0_8px_30px_rgba(14,165,233,0.2)]',
+        scoreTag: 'text-sky-600 dark:text-sky-400',
+        scoreText: 'text-sky-500 dark:text-sky-400',
+        accuracyPill: 'bg-sky-50/70 dark:bg-sky-950/40 border-sky-200 dark:border-sky-500/30 text-sky-800 dark:text-sky-200',
+        correctStat: 'text-sky-500 dark:text-sky-400',
+      };
+    } else {
+      return {
+        // Grade C — Yellow Theme (0% – 39%)
+        cardBorder: 'border-2 border-amber-400/50 dark:border-amber-500/40 shadow-amber-500/5 dark:shadow-[0_8px_30px_rgba(245,158,11,0.15)]',
+        trophyBg: 'bg-amber-500 dark:bg-amber-600 shadow-amber-500/20 dark:shadow-amber-950/50',
+        badge: 'border border-amber-400/50 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300',
+        scoreCardBorder: 'border-2 border-amber-300/80 dark:border-amber-500/40 shadow-[0_8px_30px_rgba(245,158,11,0.12)] dark:shadow-[0_8px_30px_rgba(245,158,11,0.2)]',
+        scoreTag: 'text-amber-600 dark:text-amber-400',
+        scoreText: 'text-amber-500 dark:text-amber-400',
+        accuracyPill: 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-200 dark:border-amber-500/30 text-amber-800 dark:text-amber-200',
+        correctStat: 'text-amber-500 dark:text-amber-400',
+      };
+    }
+  }, [percentage]);
 
   return (
     <div className="w-full max-w-4xl mx-auto py-4 px-4 font-sans text-slate-900 dark:text-white animate-page-enter">
@@ -444,11 +524,11 @@ export const QuizView: React.FC<QuizViewProps> = ({
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono">
             <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
-            <span>Knowledge Assessment</span>
+            <span>KNOWLEDGE ASSESSMENT</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              Simple Hashing Quiz (10 Questions)
+              Single Linked List Quiz (10 Questions)
             </span>
             {isSubmitted && (
               <span className="px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 rounded-md text-xs font-semibold">
@@ -459,10 +539,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
         </div>
 
         <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight animate-heading-enter">
-          Hashing Knowledge Check
+          Single Linked List Knowledge Check
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl mt-1 leading-relaxed">
-          Test your understanding of modulo formulas, hash collisions, separate chaining, linear/quadratic probing, and double hashing.
+          Test your understanding of nodes, pointers, traversal, insertion, deletion, searching, and the basic operations of a single linked list.
         </p>
 
         {/* Question Index Tabs / Progress Tracker */}
@@ -533,68 +613,62 @@ export const QuizView: React.FC<QuizViewProps> = ({
       {/* QUIZ COMPLETION VIEW (Displayed ONLY after Complete & Review is clicked) */}
       {isSubmitted ? (
         <div className="space-y-8">
-          {/* 1. Existing Quiz Assessment Completed Section (Completely Unchanged) */}
           <div
             id="quiz-result-card"
-            className="p-6 sm:p-10 lg:p-12 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] flex flex-col items-center justify-center text-center animate-editorial-scale transition-all"
+            className={`p-6 sm:p-10 lg:p-12 bg-white dark:bg-[#0B1228] rounded-3xl flex flex-col items-center justify-center text-center animate-editorial-scale transition-all ${certificateTheme.cardBorder}`}
           >
             {/* 1. Top Achievement Trophy Icon */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl bg-[#00A86B] dark:bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-500/20 dark:shadow-emerald-950/50 mx-auto mb-4 sm:mb-5">
+            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-lg mx-auto mb-4 sm:mb-5 ${certificateTheme.trophyBg}`}>
               <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[2.2]" />
             </div>
 
             {/* 2. Achievement Badge */}
-            <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-[#00A86B]/40 dark:border-emerald-500/40 bg-[#E6F8F0] dark:bg-emerald-950/60 text-[#008A54] dark:text-emerald-300 font-mono text-[11px] sm:text-xs font-bold tracking-wider uppercase mb-3 sm:mb-4">
-              ★ OUTSTANDING MASTERY (GRADE A+) ★
+            <div className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full font-mono text-[11px] sm:text-xs font-bold tracking-wider uppercase mb-3 sm:mb-4 ${certificateTheme.badge}`}>
+              ★ {feedback.badge} ★
             </div>
 
             {/* 3. Main Completion Heading */}
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B192C] dark:text-white tracking-tight uppercase mb-3">
-              QUIZ ASSESSMENT COMPLETED
+              Single Linked List Knowledge Check Complete!
             </h2>
 
             {/* 4. Supporting Description */}
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed font-normal mb-6 sm:mb-8">
-              Incredible performance! You demonstrated thorough command of Stack operations and algorithmic constraints.
+              {feedback.message}
             </p>
 
-            {/* 5. Large Highlighted Score Card */}
-            <div className="w-full max-w-md mx-auto p-6 sm:p-8 bg-white dark:bg-[#070B18] border-2 border-indigo-200/70 dark:border-purple-500/40 rounded-3xl shadow-[0_8px_30px_rgba(99,102,241,0.08)] dark:shadow-[0_8px_30px_rgba(124,58,237,0.18)] flex flex-col items-center justify-center text-center mb-6 sm:mb-8">
-              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] text-[#6366F1] dark:text-purple-300 uppercase mb-2">
+            {/* 5. Highlighted Score Card */}
+            <div className={`w-full max-w-md mx-auto p-6 sm:p-8 bg-white dark:bg-[#070B18] rounded-3xl flex flex-col items-center justify-center text-center mb-6 sm:mb-8 ${certificateTheme.scoreCardBorder}`}>
+              <span className={`text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase mb-2 ${certificateTheme.scoreTag}`}>
                 FINAL HIGHLIGHTED SCORE
               </span>
-              <div className="text-5xl sm:text-6xl font-black text-[#00A86B] dark:text-emerald-400 font-sans tracking-tight leading-none my-2">
-                {percentage}%
+              <div className={`text-5xl sm:text-6xl font-black font-sans tracking-tight leading-none my-2 ${certificateTheme.scoreText}`}>
+                {score} / {totalQuestions}
               </div>
-              <div className="mt-3 px-4 py-1.5 rounded-xl bg-slate-50 dark:bg-purple-950/40 border border-slate-200 dark:border-purple-500/30 text-slate-700 dark:text-slate-300 font-mono text-xs sm:text-sm font-semibold">
-                {score} / {totalQuestions} Questions Correct
+              <div className={`mt-3 px-4 py-1.5 rounded-xl font-mono text-xs sm:text-sm font-semibold border ${certificateTheme.accuracyPill}`}>
+                Accuracy: {percentage}%
               </div>
             </div>
 
-            {/* 6. Summary Statistics Cards (CORRECT, INCORRECT, ACCURACY - STRICTLY NO XP) */}
+            {/* 6. Summary Statistics Cards: Correct Answers, Incorrect Answers, Accuracy */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl mx-auto">
-              {/* CORRECT CARD */}
               <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
-                  CORRECT
+                  CORRECT ANSWERS
                 </span>
-                <span className="text-xl sm:text-2xl font-extrabold text-[#00A86B] dark:text-emerald-400 font-mono flex items-center justify-center gap-1.5">
+                <span className={`text-xl sm:text-2xl font-extrabold font-mono flex items-center justify-center gap-1.5 ${certificateTheme.correctStat}`}>
                   <Check className="w-5 h-5 stroke-[2.5]" />
                   {score}
                 </span>
               </div>
-
-              {/* INCORRECT CARD */}
               <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
-                  INCORRECT
+                  INCORRECT ANSWERS
                 </span>
                 <span className="text-xl sm:text-2xl font-extrabold text-rose-500 dark:text-rose-400 font-mono">
                   {totalQuestions - score}
                 </span>
               </div>
-
-              {/* ACCURACY CARD */}
               <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
                   ACCURACY
@@ -605,33 +679,47 @@ export const QuizView: React.FC<QuizViewProps> = ({
               </div>
             </div>
 
-            {/* 7. Action Buttons (Retake Quiz & Back to Home) */}
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 mt-8 w-full max-w-md mx-auto">
-              {/* 1. Retake Quiz (Primary Action) */}
+            {/* 7. Action Buttons: Review Answers, Retry Quiz, Continue Learning */}
+            <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 mt-8 w-full max-w-lg mx-auto">
+              <button
+                id="btn-quiz-review-answers"
+                type="button"
+                onClick={() => {
+                  soundManager.playNav();
+                  const el = document.getElementById('quiz-question-overview-section');
+                  if (el) el.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-5 py-2.5 rounded-xl bg-indigo-50 dark:bg-purple-950/60 border border-indigo-200 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 font-sans text-xs sm:text-sm font-semibold shadow-xs hover:bg-indigo-100 dark:hover:bg-purple-900/50 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <ListOrdered className="w-4 h-4" />
+                <span>Review Answers</span>
+              </button>
+
               <button
                 id="btn-quiz-retake"
                 type="button"
                 onClick={handleResetQuiz}
-                className="w-full sm:w-auto px-6 sm:px-7 py-3 rounded-2xl bg-[#4F46E5] hover:bg-[#4338CA] dark:bg-purple-600 dark:hover:bg-purple-500 text-white font-sans text-sm font-semibold shadow-md shadow-indigo-500/20 dark:shadow-[0_4px_16px_rgba(124,58,237,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
+                className="btn-modern-primary px-6 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4 stroke-[2.2]" />
-                <span>Retake Quiz</span>
+                <span>Retry Quiz</span>
               </button>
 
-              {/* 2. Back to Home (Secondary Action) */}
               <button
-                id="btn-quiz-back-to-home"
+                id="btn-quiz-continue-learning"
                 type="button"
                 onClick={() => {
                   soundManager.playNav();
-                  if (onNavigateToHome) {
+                  if (onNavigateToQuest) {
+                    onNavigateToQuest(1);
+                  } else if (onNavigateToHome) {
                     onNavigateToHome();
                   }
                 }}
-                className="w-full sm:w-auto px-6 sm:px-7 py-3 rounded-2xl bg-white hover:bg-slate-50 dark:bg-[#070B18] dark:hover:bg-[#0F1733] text-slate-800 dark:text-slate-200 border border-slate-200/90 dark:border-purple-500/30 font-sans text-sm font-semibold shadow-xs transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-98 flex items-center justify-center gap-2 cursor-pointer"
+                className="btn-modern-secondary px-5 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Home className="w-4 h-4 stroke-[2.2] text-[#4F46E5] dark:text-purple-300" />
-                <span>Back to Home</span>
+                <Gamepad2 className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                <span>Continue Learning</span>
               </button>
             </div>
           </div>
@@ -694,7 +782,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     </div>
 
                     {/* Question Statement */}
-                    <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-3.5 mb-4 leading-snug break-words">
+                    <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-3.5 mb-4 leading-snug break-words whitespace-pre-line">
                       {cleanQuestionText}
                     </h4>
 
@@ -823,7 +911,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             </div>
 
             {/* Question Statement */}
-            <p className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-6 leading-snug break-words">
+            <p className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mb-6 leading-snug break-words whitespace-pre-line">
               {currentQuestion.question}
             </p>
 
@@ -903,7 +991,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     }`}
                   >
                     <Check className="w-4 h-4" />
-                    <span>Confirm Answer</span>
+                    <span>Submit Answer</span>
                   </button>
                 ) : (
                   <button

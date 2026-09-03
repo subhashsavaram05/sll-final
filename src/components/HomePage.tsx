@@ -1,18 +1,20 @@
 import React from 'react';
 import {
   ArrowRight,
+  ArrowDown,
   Target,
-  Key,
-  MapPin,
-  Database,
-  Divide,
-  AlertTriangle,
-  Zap,
-  Folder,
-  Globe,
+  Puzzle,
   Lightbulb,
   BookOpen,
   Star,
+  Zap,
+  Database,
+  Globe,
+  FileText,
+  List,
+  Plus,
+  Minus,
+  Settings,
 } from 'lucide-react';
 import { soundManager } from '../utils/audio';
 import { useScrollReveal } from '../hooks/useScrollReveal';
@@ -41,12 +43,12 @@ export const HomePage: React.FC<HomePageProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto flex flex-col gap-6 sm:gap-7 font-sans text-slate-900 dark:text-slate-100 animate-page-enter pb-10 select-text">
       {/* =========================================================================
-          SECTION 01: HERO SECTION & HASH TABLE DIAGRAM
+          SECTION 01: HERO SECTION & SINGLE LINKED LIST DIAGRAM
           ========================================================================= */}
       <section className="reveal-on-scroll bg-white dark:bg-[#0B1228] p-6 sm:p-10 rounded-2xl border border-slate-200/90 dark:border-purple-500/20 shadow-xs dark:shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           {/* Left Side: Curriculum Label, Main Heading, & Educational Description */}
-          <div className="lg:col-span-7 flex flex-col gap-3.5">
+          <div className="lg:col-span-6 flex flex-col gap-3.5">
             {/* Small Curriculum Label */}
             <div className="flex items-center">
               <span className="text-[11px] sm:text-xs font-mono font-bold tracking-wider text-[#4F46E5] dark:text-purple-400 uppercase">
@@ -55,131 +57,102 @@ export const HomePage: React.FC<HomePageProps> = ({
             </div>
 
             {/* Main Title */}
-            <h1 className="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-[#0F172A] dark:text-white tracking-tight leading-[1.15]">
-              Hashing &amp; <br />
-              <span>Collision Resolution</span>
+            <h1 className="text-3xl sm:text-4xl lg:text-[46px] font-extrabold text-[#0F172A] dark:text-white tracking-tight leading-[1.12]">
+              Single Linked <br />
+              <span>List</span>
             </h1>
 
             {/* Educational Description */}
             <p className="text-sm sm:text-[15px] text-slate-600 dark:text-slate-300 leading-relaxed max-w-lg">
-              Learn how hashing maps keys to memory locations, why collisions happen, and the strategies that keep
-              data fast, organized, and easy to access.
+              Learn how a single linked list stores elements using nodes, how the nodes are connected, and the basic operations to traverse, insert, and delete elements.
             </p>
           </div>
 
-          {/* Right Side: Visual Hashing Diagram (Hash Symbol -> Mapping -> Hash Table) */}
-          <div className="lg:col-span-5 flex items-center justify-center lg:justify-end">
-            <div className="relative flex items-center gap-3 sm:gap-5 py-2">
-              {/* 3D Glossy Royal Blue / Violet Hash Function Badge */}
-              <div className="relative z-10 w-20 h-20 sm:w-22 sm:h-22 rounded-2xl bg-gradient-to-br from-[#6366F1] via-[#4F46E5] to-[#3730A3] dark:from-purple-600 dark:via-purple-700 dark:to-indigo-900 text-white flex items-center justify-center shadow-[0_12px_28px_rgba(79,70,229,0.32),inset_0_2px_4px_rgba(255,255,255,0.4)] dark:shadow-[0_0_28px_rgba(168,85,247,0.35)] border border-indigo-200/40 transform -rotate-3 hover:rotate-0 transition-transform shrink-0">
-                <span className="font-mono text-3xl sm:text-4xl font-extrabold select-none drop-shadow-sm">#</span>
-              </div>
+          {/* Right Side: Visual Single Linked List Diagram (Head -> [10|●] -> [20|●] -> [30|●] -> NULL) */}
+          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end overflow-x-auto py-2">
+            <div className="flex flex-col items-start min-w-[340px] sm:min-w-[420px]">
+              {/* Nodes Row with Head Pointer */}
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
+                {/* Node 1 with Head Label above */}
+                <div className="flex flex-col items-center">
+                  {/* Head pointer indicator */}
+                  <div className="flex flex-col items-center mb-1">
+                    <span className="text-xs font-bold text-[#0F172A] dark:text-white leading-none">Head</span>
+                    <ArrowDown className="w-3.5 h-3.5 text-[#4F46E5] dark:text-purple-400 stroke-[2.5]" />
+                  </div>
 
-              {/* Connecting Curved Dashed Lines */}
-              <div className="hidden sm:block absolute left-18 sm:left-20 top-1/2 -translate-y-1/2 w-16 h-56 pointer-events-none z-0">
-                <svg className="w-full h-full" viewBox="0 0 60 220" fill="none">
-                  {/* Branching from # icon */}
-                  {/* Upper curve to Index 2 (22) */}
-                  <path
-                    d="M 2 110 C 25 110, 32 72, 58 72"
-                    stroke="#818CF8"
-                    strokeWidth="1.75"
-                    strokeDasharray="3.5 3.5"
-                    strokeLinecap="round"
-                    className="dark:stroke-purple-400 opacity-90"
-                  />
-                  {/* Middle branch to Index 3 */}
-                  <path
-                    d="M 2 110 C 25 110, 35 110, 58 110"
-                    stroke="#818CF8"
-                    strokeWidth="1.75"
-                    strokeDasharray="3.5 3.5"
-                    strokeLinecap="round"
-                    className="dark:stroke-purple-400 opacity-90"
-                  />
-                  {/* Lower curve to Index 4 (42) */}
-                  <path
-                    d="M 2 110 C 25 110, 32 148, 58 148"
-                    stroke="#818CF8"
-                    strokeWidth="1.75"
-                    strokeDasharray="3.5 3.5"
-                    strokeLinecap="round"
-                    className="dark:stroke-purple-400 opacity-90"
-                  />
-                </svg>
-              </div>
+                  {/* Node 1 Body [ 10 | ● ] */}
+                  <div className="flex items-stretch bg-[#FAF9FF] dark:bg-[#131B38] border-2 border-[#818CF8] dark:border-purple-500/70 rounded-xl p-1 shadow-2xs">
+                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-purple-500/30 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
+                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">10</span>
+                    </div>
+                    <div className="bg-[#EEF2FF] dark:bg-purple-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#4F46E5] dark:bg-purple-400" />
+                    </div>
+                  </div>
 
-              {/* Hash Table Visual Structure */}
-              <div className="flex items-center gap-2.5 z-10">
-                {/* Index Labels Column (0, 1, 2, 3, 4, ..., n-1) */}
-                <div className="flex flex-col justify-between h-[245px] text-right font-mono text-xs font-bold text-[#0F172A] dark:text-slate-300 py-1.5 select-none">
-                  <span className="h-8 flex items-center justify-end">0</span>
-                  <span className="h-8 flex items-center justify-end">1</span>
-                  <span className="h-8 flex items-center justify-end">2</span>
-                  <span className="h-8 flex items-center justify-end">3</span>
-                  <span className="h-8 flex items-center justify-end">4</span>
-                  <span className="h-4 flex items-center justify-end text-slate-400 dark:text-slate-500 font-bold">⋮</span>
-                  <span className="h-8 flex items-center justify-end">n-1</span>
+                  {/* Node Label Below */}
+                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 1</span>
                 </div>
 
-                {/* Vertical Continuous Hash Table Structure matching Reference 1 */}
-                <div className="w-32 sm:w-36 bg-[#FAF9FF] dark:bg-[#0E152E] border-2 border-[#D5DEFD] dark:border-purple-500/40 rounded-xl overflow-hidden flex flex-col shadow-xs">
-                  {/* Row 0: Empty */}
-                  <div className="h-8 flex border-b border-[#E0E7FF] dark:border-purple-900/40 bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1" />
-                  </div>
+                {/* Arrow 1 -> 2 */}
+                <div className="flex items-center -mt-4">
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#6366F1] dark:text-purple-400 stroke-[2.5]" />
+                </div>
 
-                  {/* Row 1: Occupied (87) */}
-                  <div className="h-8 flex items-center border-b border-[#E0E7FF] dark:border-purple-900/40 bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 h-full bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1 flex items-center justify-center px-1.5 py-0.5">
-                      <div className="w-full h-6 rounded-md bg-white dark:bg-[#0B1228] border border-[#CBD7FC] dark:border-purple-500/40 flex items-center justify-center shadow-2xs">
-                        <span className="font-mono font-bold text-xs sm:text-sm text-[#4F46E5] dark:text-purple-300">87</span>
-                      </div>
+                {/* Node 2 [ 20 | ● ] */}
+                <div className="flex flex-col items-center">
+                  {/* Spacer for Head height alignment */}
+                  <div className="h-[22px] mb-1" />
+
+                  {/* Node 2 Body */}
+                  <div className="flex items-stretch bg-[#FAF9FF] dark:bg-[#131B38] border-2 border-[#818CF8] dark:border-purple-500/70 rounded-xl p-1 shadow-2xs">
+                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-purple-500/30 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
+                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">20</span>
+                    </div>
+                    <div className="bg-[#EEF2FF] dark:bg-purple-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#4F46E5] dark:bg-purple-400" />
                     </div>
                   </div>
 
-                  {/* Row 2: Occupied (22) */}
-                  <div className="h-8 flex items-center border-b border-[#E0E7FF] dark:border-purple-900/40 bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 h-full bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1 flex items-center justify-center px-1.5 py-0.5">
-                      <div className="w-full h-6 rounded-md bg-white dark:bg-[#0B1228] border border-[#CBD7FC] dark:border-purple-500/40 flex items-center justify-center shadow-2xs">
-                        <span className="font-mono font-bold text-xs sm:text-sm text-[#4F46E5] dark:text-purple-300">22</span>
-                      </div>
+                  {/* Node Label Below */}
+                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 2</span>
+                </div>
+
+                {/* Arrow 2 -> 3 */}
+                <div className="flex items-center -mt-4">
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#6366F1] dark:text-purple-400 stroke-[2.5]" />
+                </div>
+
+                {/* Node 3 [ 30 | ● ] */}
+                <div className="flex flex-col items-center">
+                  {/* Spacer for Head height alignment */}
+                  <div className="h-[22px] mb-1" />
+
+                  {/* Node 3 Body */}
+                  <div className="flex items-stretch bg-[#FAF9FF] dark:bg-[#131B38] border-2 border-[#818CF8] dark:border-purple-500/70 rounded-xl p-1 shadow-2xs">
+                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-purple-500/30 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
+                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">30</span>
+                    </div>
+                    <div className="bg-[#EEF2FF] dark:bg-purple-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
+                      <div className="w-2.5 h-2.5 rounded-full bg-[#4F46E5] dark:bg-purple-400" />
                     </div>
                   </div>
 
-                  {/* Row 3: Empty */}
-                  <div className="h-8 flex border-b border-[#E0E7FF] dark:border-purple-900/40 bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1" />
-                  </div>
+                  {/* Node Label Below */}
+                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 3</span>
+                </div>
 
-                  {/* Row 4: Occupied (42) */}
-                  <div className="h-8 flex items-center border-b border-[#E0E7FF] dark:border-purple-900/40 bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 h-full bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1 flex items-center justify-center px-1.5 py-0.5">
-                      <div className="w-full h-6 rounded-md bg-white dark:bg-[#0B1228] border border-[#CBD7FC] dark:border-purple-500/40 flex items-center justify-center shadow-2xs">
-                        <span className="font-mono font-bold text-xs sm:text-sm text-[#4F46E5] dark:text-purple-300">42</span>
-                      </div>
-                    </div>
-                  </div>
+                {/* Arrow 3 -> NULL */}
+                <div className="flex items-center -mt-4">
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#6366F1] dark:text-purple-400 stroke-[2.5]" />
+                </div>
 
-                  {/* Row ⋮ */}
-                  <div className="h-4 flex items-center justify-center text-slate-400 dark:text-slate-500 text-xs font-mono font-bold select-none border-b border-[#E0E7FF] dark:border-purple-900/40 bg-[#FAF9FF] dark:bg-[#0E152E]">
-                    ⋮
-                  </div>
-
-                  {/* Row n-1: Occupied (73) */}
-                  <div className="h-8 flex items-center bg-white/70 dark:bg-purple-950/20">
-                    <div className="w-10 sm:w-11 h-full bg-[#E8EDFE] dark:bg-purple-950/60 border-r border-[#E0E7FF] dark:border-purple-900/40 shrink-0" />
-                    <div className="flex-1 flex items-center justify-center px-1.5 py-0.5">
-                      <div className="w-full h-6 rounded-md bg-white dark:bg-[#0B1228] border border-[#CBD7FC] dark:border-purple-500/40 flex items-center justify-center shadow-2xs">
-                        <span className="font-mono font-bold text-xs sm:text-sm text-[#4F46E5] dark:text-purple-300">73</span>
-                      </div>
-                    </div>
-                  </div>
+                {/* NULL End Terminal */}
+                <div className="flex flex-col items-center -mt-4">
+                  <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-slate-200 uppercase tracking-wide">
+                    NULL
+                  </span>
                 </div>
               </div>
             </div>
@@ -187,7 +160,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
 
         {/* =========================================================================
-            SECTION 02: THREE CONCEPT CARDS
+            SECTION 02: THREE SUMMARY CARDS
             ========================================================================= */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 pt-8 border-t border-slate-100 dark:border-purple-500/15">
           {/* Card 1: Core Idea */}
@@ -198,39 +171,36 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div>
               <h2 className="text-sm font-bold text-[#0F172A] dark:text-white">Core Idea</h2>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                Map data to an index using a hash function.
+                Store elements in nodes linked using pointers.
               </p>
             </div>
           </div>
 
-          {/* Card 2: Key Formula */}
+          {/* Card 2: Key Structure */}
           <div className="bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-purple-500/20 rounded-2xl p-4.5 flex items-start gap-3.5 shadow-2xs hover:border-indigo-300 dark:hover:border-purple-500/40 transition-all">
             <div className="w-11 h-11 rounded-2xl bg-[#EEF2FF] dark:bg-purple-950/70 border border-[#E0E7FF] dark:border-purple-500/30 flex items-center justify-center text-[#4F46E5] dark:text-purple-300 shrink-0 font-serif font-bold text-xl">
               <span>Σ</span>
             </div>
-            <div>
-              <h2 className="text-sm font-bold text-[#0F172A] dark:text-white">Key Formula</h2>
-              <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                <span className="font-mono text-slate-800 dark:text-slate-200 font-semibold">h[key] = index</span> <br />
-                <span className="text-slate-500 dark:text-slate-400">(index in table)</span>
-              </p>
+            <div className="min-w-0 flex-1">
+              <h2 className="text-sm font-bold text-[#0F172A] dark:text-white">Key Structure</h2>
+              <pre className="font-mono text-[11px] sm:text-xs text-slate-800 dark:text-slate-200 mt-1 leading-tight font-medium bg-transparent p-0 overflow-x-auto">
+{`class Node {
+  int data;
+  Node next;
+}`}
+              </pre>
             </div>
           </div>
 
-          {/* Card 3: Main Challenge */}
+          {/* Card 3: Main Advantage */}
           <div className="bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-purple-500/20 rounded-2xl p-4.5 flex items-start gap-3.5 shadow-2xs hover:border-indigo-300 dark:hover:border-purple-500/40 transition-all">
             <div className="w-11 h-11 rounded-2xl bg-[#EEF2FF] dark:bg-purple-950/70 border border-[#E0E7FF] dark:border-purple-500/30 flex items-center justify-center text-[#4F46E5] dark:text-purple-300 shrink-0">
-              {/* Reference 6-point collision asterisk/flower icon */}
-              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 3v18" />
-                <path d="M4.22 7.22l15.56 9.56" />
-                <path d="M4.22 16.78l15.56-9.56" />
-              </svg>
+              <Puzzle className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-[#0F172A] dark:text-white">Main Challenge</h2>
+              <h2 className="text-sm font-bold text-[#0F172A] dark:text-white">Main Advantage</h2>
               <p className="text-xs text-slate-600 dark:text-slate-400 mt-1 leading-relaxed">
-                Handle collisions and maintain efficiency.
+                Dynamic size with efficient insertions and deletions.
               </p>
             </div>
           </div>
@@ -252,86 +222,54 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-          {/* Left Column: Question & Explanation */}
-          <div className="lg:col-span-4 flex flex-col gap-2">
+          {/* Left Column: Highlighted Statement & Explanation */}
+          <div className="lg:col-span-5 flex flex-col gap-2.5">
             <h3 className="text-base sm:text-lg font-bold text-[#4F46E5] dark:text-purple-300 leading-snug">
-              How can we find data without checking everything?
+              A sequence of nodes connected by links (pointers).
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              Hashing helps by calculating where data should be stored so we can find it quickly.
+              Each node contains data and a reference (pointer) to the next node in the list.
             </p>
           </div>
 
-          {/* Right Column: Horizontal Flow (Key -> Hash Function -> Index -> Bucket) */}
-          <div className="lg:col-span-8 bg-[#F8FAFC] dark:bg-[#080D1F] border border-slate-200/80 dark:border-purple-500/20 rounded-2xl p-5 sm:p-6">
-            <div className="grid grid-cols-2 gap-x-4 gap-y-6 items-start sm:flex sm:flex-nowrap sm:items-center sm:justify-between sm:gap-2">
-              {/* Step 1: Key */}
-              <div className="flex flex-col items-center text-center w-full sm:w-auto sm:flex-1 sm:min-w-[85px]">
-                <div className="w-13 h-13 rounded-full bg-white dark:bg-[#131B38] border border-slate-200/80 dark:border-purple-500/30 text-[#4F46E5] dark:text-purple-400 flex items-center justify-center shadow-xs mb-2.5 shrink-0">
-                  <svg className="w-7 h-7 fill-[#4F46E5] dark:fill-purple-400" viewBox="0 0 24 24">
-                    <g transform="rotate(-45 12 12)">
-                      <path
-                        fillRule="evenodd"
-                        clipRule="evenodd"
-                        d="M17 7.2a4.8 4.8 0 1 1-4.45 6.6H11.5v1.7a.5.5 0 0 1-.5.5H9.4a.5.5 0 0 1-.5-.5v-1.7H5.5a1.8 1.8 0 0 1 0-3.6h7.05A4.8 4.8 0 0 1 17 7.2zm0 3.1a1.7 1.7 0 1 0 0 3.4 1.7 1.7 0 0 0 0-3.4zm-11.5.85a.85.85 0 1 0 0 1.7.85.85 0 0 0 0-1.7z"
-                      />
-                    </g>
-                  </svg>
-                </div>
-                <span className="text-sm font-bold text-[#0F172A] dark:text-white">Key</span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Input value</span>
-              </div>
-
-              {/* Arrow 1 */}
-              <ArrowRight className="w-4 h-4 text-[#818CF8] dark:text-purple-400 shrink-0 hidden sm:block" />
-
-              {/* Step 2: Hash Function */}
-              <div className="flex flex-col items-center text-center w-full sm:w-auto sm:flex-1 sm:min-w-[85px]">
-                <div className="w-13 h-13 rounded-full bg-white dark:bg-[#131B38] border border-slate-200/80 dark:border-purple-500/30 flex items-center justify-center shadow-xs mb-2.5 shrink-0">
-                  <div className="w-8 h-8 rounded-xl bg-[#4F46E5] dark:bg-purple-600 flex items-center justify-center shadow-2xs">
-                    <svg className="w-4.5 h-4.5 text-white stroke-white stroke-[2.5]" viewBox="0 0 24 24" fill="none" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="4" y1="9" x2="20" y2="9" />
-                      <line x1="4" y1="15" x2="20" y2="15" />
-                      <line x1="10" y1="3" x2="8" y2="21" />
-                      <line x1="16" y1="3" x2="14" y2="21" />
-                    </svg>
+          {/* Right Column: Visual Explanation of a Single Node */}
+          <div className="lg:col-span-7 bg-[#F8FAFC] dark:bg-[#080D1F] border border-slate-200/80 dark:border-purple-500/20 rounded-2xl p-5 sm:p-6">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-5">
+              {/* Single Node with Column Labels */}
+              <div className="flex items-center gap-3">
+                <div className="flex flex-col items-center">
+                  {/* Data & Next labels */}
+                  <div className="flex justify-between w-full px-2 mb-1 text-[11px] font-bold text-slate-700 dark:text-slate-300">
+                    <span>Data</span>
+                    <span>Next</span>
                   </div>
+
+                  {/* Node Box [ 10 | ● ] */}
+                  <div className="flex items-stretch bg-[#FAF9FF] dark:bg-[#131B38] border-2 border-[#818CF8] dark:border-purple-500/70 rounded-xl p-1 shadow-2xs">
+                    <div className="bg-white dark:bg-[#0B1228] px-4 py-2.5 rounded-lg border border-[#E2E8F0] dark:border-purple-500/30 flex items-center justify-center min-w-[48px]">
+                      <span className="font-mono font-bold text-base text-[#0F172A] dark:text-white">10</span>
+                    </div>
+                    <div className="bg-[#EEF2FF] dark:bg-purple-950/60 px-3 py-2.5 rounded-lg flex items-center justify-center ml-1">
+                      <div className="w-3 h-3 rounded-full bg-[#4F46E5] dark:bg-purple-400" />
+                    </div>
+                  </div>
+
+                  {/* Node Label Below */}
+                  <span className="text-xs font-bold text-[#0F172A] dark:text-slate-300 mt-1.5">Node</span>
                 </div>
-                <span className="text-sm font-bold text-[#0F172A] dark:text-white">Hash Function</span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Converts key to an index</span>
+
+                {/* Arrow pointing to "Points to the next node" */}
+                <ArrowRight className="w-5 h-5 text-[#6366F1] dark:text-purple-400 stroke-[2.5] shrink-0" />
+
+                {/* "Points to the next node" pill card */}
+                <div className="bg-[#EEF2FF] dark:bg-purple-950/50 border border-[#C7D2FE] dark:border-purple-500/30 rounded-xl px-3.5 py-2.5 text-xs font-medium text-[#4F46E5] dark:text-purple-300 text-center max-w-[110px] leading-snug">
+                  Points to the next node
+                </div>
               </div>
 
-              {/* Arrow 2 */}
-              <ArrowRight className="w-4 h-4 text-[#818CF8] dark:text-purple-400 shrink-0 hidden sm:block" />
-
-              {/* Step 3: Index */}
-              <div className="flex flex-col items-center text-center w-full sm:w-auto sm:flex-1 sm:min-w-[85px]">
-                <div className="w-13 h-13 rounded-full bg-white dark:bg-[#131B38] border border-slate-200/80 dark:border-purple-500/30 text-[#4F46E5] dark:text-purple-400 flex items-center justify-center shadow-xs mb-2.5 shrink-0">
-                  <svg className="w-6 h-6 fill-[#4F46E5] dark:fill-purple-400" viewBox="0 0 24 24">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C7.58 2 4 5.58 4 10c0 5.25 7.15 11.45 7.45 11.71a.84.84 0 0 0 1.1 0C12.85 21.45 20 15.25 20 10c0-4.42-3.58-8-8-8zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
-                  </svg>
-                </div>
-                <span className="text-sm font-bold text-[#0F172A] dark:text-white">Index</span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Points to a position in the table</span>
-              </div>
-
-              {/* Arrow 3 */}
-              <ArrowRight className="w-4 h-4 text-[#818CF8] dark:text-purple-400 shrink-0 hidden sm:block" />
-
-              {/* Step 4: Bucket */}
-              <div className="flex flex-col items-center text-center w-full sm:w-auto sm:flex-1 sm:min-w-[85px]">
-                <div className="w-13 h-13 rounded-full bg-white dark:bg-[#131B38] border border-slate-200/80 dark:border-purple-500/30 text-[#4F46E5] dark:text-purple-400 flex items-center justify-center shadow-xs mb-2.5 shrink-0">
-                  <svg className="w-6.5 h-6.5 fill-[#4F46E5] dark:fill-purple-400" viewBox="0 0 24 24">
-                    {/* Top handle pill */}
-                    <rect x="8.5" y="2" width="7" height="2.2" rx="1.1" />
-                    {/* Horizontal rim */}
-                    <rect x="3.8" y="5.2" width="16.4" height="3.2" rx="1.6" />
-                    {/* Tapered bucket body */}
-                    <path d="M5.5 9.8h13l-1.35 10a2.5 2.5 0 0 1-2.48 2.2H9.33a2.5 2.5 0 0 1-2.48-2.2L5.5 9.8z" />
-                  </svg>
-                </div>
-                <span className="text-sm font-bold text-[#0F172A] dark:text-white">Bucket</span>
-                <span className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Data is stored at that location</span>
+              {/* End of list note card */}
+              <div className="bg-[#EEF2FF]/60 dark:bg-purple-950/30 border border-[#E0E7FF] dark:border-purple-500/20 rounded-xl p-3.5 text-xs text-slate-700 dark:text-slate-300 leading-relaxed max-w-[200px]">
+                The last node points to <span className="font-mono font-bold text-[#0F172A] dark:text-white">NULL</span> (indicating the end of the list).
               </div>
             </div>
           </div>
@@ -358,7 +296,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           <div className="hidden md:block absolute top-5 left-[10%] right-[10%] h-0.5 border-t-2 border-dashed border-[#D5DEFD] dark:border-purple-500/30 z-0" />
 
           <div className="flex flex-col items-center md:grid md:grid-cols-5 md:gap-4 md:items-start relative z-10">
-            {/* Stage 01: Hash Functions */}
+            {/* Stage 01: Node Structure */}
             <div
               onClick={() => {
                 soundManager.playSelect();
@@ -369,18 +307,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#EDE9FE] dark:bg-purple-950 text-[#6D28D9] dark:text-purple-300 border-2 border-white dark:border-[#0B1228] shadow-xs flex items-center justify-center font-mono font-extrabold text-xs mb-3 group-hover:bg-[#4F46E5] group-hover:text-white transition-colors">
                 01
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#F5F3FF] dark:bg-[#131B38] border border-[#DDD6FE] dark:border-purple-500/30 flex items-center justify-center text-[#4F46E5] dark:text-purple-400 mb-2.5 shadow-2xs group-hover:border-indigo-400 transition-all font-mono font-bold text-lg">
-                #
+              <div className="w-12 h-12 rounded-full bg-[#ECFDF5] dark:bg-[#131B38] border border-[#A7F3D0] dark:border-emerald-500/30 flex items-center justify-center text-[#10B981] dark:text-emerald-400 mb-2.5 shadow-2xs group-hover:border-emerald-400 transition-all">
+                <FileText className="w-5 h-5" />
               </div>
               <h3 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white leading-snug">
-                Hash <br className="hidden md:inline" /> Functions
+                Node <br className="hidden md:inline" /> Structure
               </h3>
             </div>
 
             {/* Mobile Connector Line: 01 -> 02 */}
             <div className="md:hidden w-0.5 h-6 border-l-2 border-dashed border-[#D5DEFD] dark:border-purple-500/40 my-2" />
 
-            {/* Stage 02: Direct Addressing */}
+            {/* Stage 02: Traversal */}
             <div
               onClick={() => {
                 soundManager.playSelect();
@@ -391,18 +329,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#EDE9FE] dark:bg-purple-950 text-[#6D28D9] dark:text-purple-300 border-2 border-white dark:border-[#0B1228] shadow-xs flex items-center justify-center font-mono font-extrabold text-xs mb-3 group-hover:bg-[#4F46E5] group-hover:text-white transition-colors">
                 02
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#F5F3FF] dark:bg-[#131B38] border border-[#DDD6FE] dark:border-purple-500/30 flex items-center justify-center text-[#4F46E5] dark:text-blue-400 mb-2.5 shadow-2xs group-hover:border-[#C7D2FE] transition-all">
-                <Database className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-[#EFF6FF] dark:bg-[#131B38] border border-[#BFDBFE] dark:border-blue-500/30 flex items-center justify-center text-[#3B82F6] dark:text-blue-400 mb-2.5 shadow-2xs group-hover:border-blue-400 transition-all">
+                <List className="w-5 h-5" />
               </div>
               <h3 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white leading-snug">
-                Direct <br className="hidden md:inline" /> Addressing
+                Traversal
               </h3>
             </div>
 
             {/* Mobile Connector Line: 02 -> 03 */}
             <div className="md:hidden w-0.5 h-6 border-l-2 border-dashed border-[#D5DEFD] dark:border-purple-500/40 my-2" />
 
-            {/* Stage 03: Modulo Arithmetic */}
+            {/* Stage 03: Insertion */}
             <div
               onClick={() => {
                 soundManager.playSelect();
@@ -413,18 +351,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#EDE9FE] dark:bg-purple-950 text-[#6D28D9] dark:text-purple-300 border-2 border-white dark:border-[#0B1228] shadow-xs flex items-center justify-center font-mono font-extrabold text-xs mb-3 group-hover:bg-[#4F46E5] group-hover:text-white transition-colors">
                 03
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#F5F3FF] dark:bg-[#131B38] border border-[#DDD6FE] dark:border-purple-500/30 flex items-center justify-center text-[#06B6D4] dark:text-cyan-400 mb-2.5 shadow-2xs group-hover:border-cyan-400 transition-all">
-                <Divide className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-[#E0F2FE] dark:bg-[#131B38] border border-[#BAE6FD] dark:border-sky-500/30 flex items-center justify-center text-[#0284C7] dark:text-sky-400 mb-2.5 shadow-2xs group-hover:border-sky-400 transition-all">
+                <Plus className="w-5 h-5" />
               </div>
               <h3 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white leading-snug">
-                Modulo <br className="hidden md:inline" /> Arithmetic
+                Insertion
               </h3>
             </div>
 
             {/* Mobile Connector Line: 03 -> 04 */}
             <div className="md:hidden w-0.5 h-6 border-l-2 border-dashed border-[#D5DEFD] dark:border-purple-500/40 my-2" />
 
-            {/* Stage 04: Collisions */}
+            {/* Stage 04: Deletion */}
             <div
               onClick={() => {
                 soundManager.playSelect();
@@ -435,18 +373,18 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#EDE9FE] dark:bg-purple-950 text-[#6D28D9] dark:text-purple-300 border-2 border-white dark:border-[#0B1228] shadow-xs flex items-center justify-center font-mono font-extrabold text-xs mb-3 group-hover:bg-[#4F46E5] group-hover:text-white transition-colors">
                 04
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#FFFBEB] dark:bg-[#131B38] border border-[#FDE68A] dark:border-amber-500/30 flex items-center justify-center text-[#F59E0B] dark:text-amber-400 mb-2.5 shadow-2xs group-hover:border-amber-400 transition-all">
-                <AlertTriangle className="w-5 h-5" />
+              <div className="w-12 h-12 rounded-full bg-[#FEF2F2] dark:bg-[#131B38] border border-[#FECACA] dark:border-red-500/30 flex items-center justify-center text-[#EF4444] dark:text-red-400 mb-2.5 shadow-2xs group-hover:border-red-400 transition-all">
+                <Minus className="w-5 h-5" />
               </div>
               <h3 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white leading-snug">
-                Collisions
+                Deletion
               </h3>
             </div>
 
             {/* Mobile Connector Line: 04 -> 05 */}
             <div className="md:hidden w-0.5 h-6 border-l-2 border-dashed border-[#D5DEFD] dark:border-purple-500/40 my-2" />
 
-            {/* Stage 05: Collision Resolution */}
+            {/* Stage 05: Applications */}
             <div
               onClick={() => {
                 soundManager.playSelect();
@@ -457,18 +395,11 @@ export const HomePage: React.FC<HomePageProps> = ({
               <div className="w-10 h-10 rounded-full bg-[#EDE9FE] dark:bg-purple-950 text-[#6D28D9] dark:text-purple-300 border-2 border-white dark:border-[#0B1228] shadow-xs flex items-center justify-center font-mono font-extrabold text-xs mb-3 group-hover:bg-[#4F46E5] group-hover:text-white transition-colors">
                 05
               </div>
-              <div className="w-12 h-12 rounded-full bg-[#F0FDF4] dark:bg-[#131B38] border border-[#BBF7D0] dark:border-emerald-500/30 flex items-center justify-center text-[#10B981] dark:text-emerald-400 mb-2.5 shadow-2xs group-hover:border-emerald-400 transition-all">
-                {/* Collision resolution switch icon matching reference */}
-                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 3h5v5" />
-                  <path d="M4 20L21 3" />
-                  <path d="M21 16v5h-5" />
-                  <path d="M15 15l6 6" />
-                  <path d="M4 4l5 5" />
-                </svg>
+              <div className="w-12 h-12 rounded-full bg-[#EEF2FF] dark:bg-[#131B38] border border-[#C7D2FE] dark:border-indigo-500/30 flex items-center justify-center text-[#4F46E5] dark:text-indigo-400 mb-2.5 shadow-2xs group-hover:border-indigo-400 transition-all">
+                <Settings className="w-5 h-5" />
               </div>
               <h3 className="text-xs sm:text-sm font-bold text-[#0F172A] dark:text-white leading-snug">
-                Collision <br className="hidden md:inline" /> Resolution
+                Applications
               </h3>
             </div>
           </div>
@@ -491,33 +422,33 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         {/* 3 Value Cards Matching Exact References */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {/* Card 1: Fast Lookup (Subtle Purple Tint) */}
+          {/* Card 1: Dynamic Size (Subtle Purple/Lavender Tint) */}
           <div className="bg-[#FAF8FF] dark:bg-[#0E1326] border border-[#EDE9FE] dark:border-purple-500/25 rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-2xs">
             <div className="w-11 h-11 rounded-full bg-[#7C3AED] text-white flex items-center justify-center shadow-xs">
               <Zap className="w-5 h-5 fill-white" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0F172A] dark:text-white mb-1.5">Fast Lookup</h3>
+              <h3 className="text-base font-bold text-[#0F172A] dark:text-white mb-1.5">Dynamic Size</h3>
               <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Find data in constant time without scanning the entire collection.
+                Can grow or shrink during runtime.
               </p>
             </div>
           </div>
 
-          {/* Card 2: Organized Data (Light mode green tint, Dark mode unified neutral card surface) */}
+          {/* Card 2: Efficient Updates (Soft green/mint tint) */}
           <div className="bg-[#F0FDF4] dark:bg-[#0E1326] border border-[#DCFCE7] dark:border-purple-500/25 rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-2xs">
             <div className="w-11 h-11 rounded-full bg-[#10B981] text-white flex items-center justify-center shadow-xs">
-              <Folder className="w-5 h-5 fill-white" />
+              <Database className="w-5 h-5 fill-white" />
             </div>
             <div>
-              <h3 className="text-base font-bold text-[#0F172A] dark:text-white mb-1.5">Organized Data</h3>
+              <h3 className="text-base font-bold text-[#0F172A] dark:text-white mb-1.5">Efficient Updates</h3>
               <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Convert large sets of keys into manageable memory locations.
+                Insertions and deletions are easier compared to arrays.
               </p>
             </div>
           </div>
 
-          {/* Card 3: Real-World Use (Subtle Royal-Blue/Violet Tint) */}
+          {/* Card 3: Real-World Use (Subtle Blue Tint) */}
           <div className="bg-[#EEF2FF] dark:bg-[#0E1326] border border-[#E0E7FF] dark:border-purple-500/25 rounded-2xl p-5 sm:p-6 flex flex-col justify-between gap-4 shadow-2xs">
             <div className="w-11 h-11 rounded-full bg-[#4F46E5] text-white flex items-center justify-center shadow-xs">
               <Globe className="w-5 h-5" />
@@ -525,7 +456,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <div>
               <h3 className="text-base font-bold text-[#0F172A] dark:text-white mb-1.5">Real-World Use</h3>
               <p className="text-xs sm:text-[13px] text-slate-600 dark:text-slate-400 leading-relaxed">
-                Used in databases, caches, password systems, and programming structures.
+                Used in stacks, queues, graphs, hash tables, and many real-world systems.
               </p>
             </div>
           </div>
@@ -670,7 +601,7 @@ export const HomePage: React.FC<HomePageProps> = ({
                 4. Ready to Start?
               </h2>
               <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-lg leading-relaxed">
-                Begin with the fundamental idea behind hashing: transforming a key into a memory location.
+                Explore the concept of single linked lists and build a strong foundation in data structures.
               </p>
             </div>
           </div>
@@ -689,3 +620,4 @@ export const HomePage: React.FC<HomePageProps> = ({
     </div>
   );
 };
+

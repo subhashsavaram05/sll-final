@@ -26,6 +26,7 @@ import { VideoTutorialsView } from './components/VideoTutorialsView';
 import { MyProgressView } from './components/MyProgressView';
 import { QuizView } from './components/QuizView';
 import { QuestCompletionView } from './components/QuestCompletionView';
+import { SingleLinkedListGame } from './components/sll-game/SingleLinkedListGame';
 import { FieldNotesBackground } from './components/FieldNotesBackground';
 import { GameHintCard } from './components/GameHintCard';
 import { GameLevelGuide } from './components/GameLevelGuide';
@@ -647,142 +648,57 @@ export default function App() {
             {/* 3. GAME PLAY SECTION */}
             {(activeTab === 'GAME' || activeTab === 'QUEST') && (
               <div className="flex flex-col gap-6 animate-page-enter">
-                {/* Level Stepper Bar */}
-                <LevelProgressBar
-                  currentLevelId={currentLevelIndex >= 5 && isAllLevelsCompleted ? 6 : currentLevel.id}
-                  completedLevels={completedLevels}
-                  onSelectLevel={(lvlId) => {
-                    if (lvlId === 6 && !isAllLevelsCompleted) {
-                      // Blocked: Cannot enter Completion until all 5 levels are complete
-                      return;
-                    }
-                    soundManager.playClick();
-                    setCurrentLevelIndex(lvlId - 1);
-                    if (lvlId <= 5) {
-                      initLevel(lvlId - 1);
-                    }
-                  }}
-                  onOpenLab={() => setActiveTab('LAB')}
-                  isCompletionActive={currentLevelIndex >= 5 && isAllLevelsCompleted}
-                />
-
                 {/* Level 6: Quest Completion & Mastery Certificate */}
                 {currentLevelIndex >= 5 && isAllLevelsCompleted ? (
-                  <QuestCompletionView
-                    onReplayLevel={(lvlId) => {
-                      setCurrentLevelIndex(lvlId - 1);
-                      initLevel(lvlId - 1);
-                    }}
-                    onOpenTheory={() => {
-                      setActiveTheoryTopic('what-is-hashing');
-                      setActiveTab('THEORY');
-                    }}
-                    onOpenSandbox={() => {
-                      setActiveTab('LAB');
-                    }}
-                    onOpenQuiz={() => {
-                      setActiveTab('QUIZ');
-                    }}
-                    onOpenProgress={() => {
-                      setActiveTab('PROGRESS');
-                    }}
-                  />
-                ) : (
-                  <div key={`game-level-${currentLevel.id}`} className="flex flex-col gap-6 animate-chapter-switch">
-                    {/* Level Title & Subtitle Banner */}
-                    <div className="text-center max-w-2xl mx-auto font-sans">
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 text-xs font-bold mb-2 uppercase font-mono rounded-lg">
-                        <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
-                        <span>Level {currentLevel.id < 10 ? `0${currentLevel.id}` : currentLevel.id} • {currentLevel.title}</span>
-                      </div>
-                      <h2 className="text-2xl sm:text-4xl font-bold font-display text-slate-900 dark:text-white tracking-tight animate-heading-enter">
-                        {currentLevel.subtitle}
-                      </h2>
-                    </div>
-
-                    {/* Level Instruction Guide (Technical Field Notes Guide) */}
-                    <GameLevelGuide levelId={currentLevel.id} />
-
-                    {/* Active Key Interaction Area */}
-                    <CurrentKeyCard
-                      currentKey={currentKey}
-                      level={currentLevel}
-                      gameState={gameState}
-                      calculatedIndex={calculatedIndex}
-                      targetIndex={isProbing ? currentStep?.targetIndex ?? targetIndex : targetIndex}
-                      isCalculating={isCalculating}
-                      onCalculate={() => currentKey !== null && performCalculation(currentKey)}
-                      onSubmitManualAnswer={handleManualModulusSubmit}
-                      onAutoPlace={() => {
-                        if (isProbing) {
-                          handleConfirmProbeInsertion();
-                        } else if (currentKey !== null) {
-                          const targetSlot = calculatedIndex !== null 
-                            ? calculatedIndex 
-                            : calculateBaseHash(currentKey, currentLevel.tableSize);
-                          placeKeyInSlot(targetSlot);
+                  <>
+                    <LevelProgressBar
+                      currentLevelId={6}
+                      completedLevels={completedLevels}
+                      onSelectLevel={(lvlId) => {
+                        soundManager.playClick();
+                        setCurrentLevelIndex(lvlId - 1);
+                        if (lvlId <= 5) {
+                          initLevel(lvlId - 1);
                         }
                       }}
-                      onDragStart={handleDragStart}
-                      onDragEnd={handleDragEnd}
-                      probeStepNumber={currentProbeStepIndex}
-                      probeFormulaStr={currentStep?.calculationStr}
-                      isProbing={isProbing}
+                      onOpenLab={() => setActiveTab('LAB')}
+                      isCompletionActive={true}
                     />
-
-                    {/* Contextual Field Hint System */}
-                    <GameHintCard
-                      level={currentLevel}
-                      gameState={gameState}
-                      currentKey={currentKey}
-                      calculatedIndex={calculatedIndex}
-                      targetIndex={targetIndex}
-                      isProbing={isProbing}
-                      probeStepNumber={currentProbeStepIndex}
-                      currentProbeStep={currentStep}
+                    <QuestCompletionView
+                      onReplayLevel={(lvlId) => {
+                        setCurrentLevelIndex(lvlId - 1);
+                        initLevel(lvlId - 1);
+                      }}
+                      onOpenTheory={() => {
+                        setActiveTheoryTopic('what-is-hashing');
+                        setActiveTab('THEORY');
+                      }}
+                      onOpenSandbox={() => {
+                        setActiveTab('LAB');
+                      }}
+                      onOpenQuiz={() => {
+                        setActiveTab('QUIZ');
+                      }}
+                      onOpenProgress={() => {
+                        setActiveTab('PROGRESS');
+                      }}
                     />
-
-                    {/* Probing Step Controller */}
-                    {isProbing && currentKey !== null && (
-                      <ProbingController
-                        technique={currentLevel.technique}
-                        currentKey={currentKey}
-                        baseHash={calculatedIndex !== null ? calculatedIndex : calculateBaseHash(currentKey, currentLevel.tableSize)}
-                        h2Val={h2Val}
-                        currentStepIndex={currentProbeStepIndex}
-                        allSteps={probeSteps}
-                        onNextStep={handleNextProbeStep}
-                        onAutoSolveProbe={handleAutoSolveProbe}
-                        onConfirmInsertion={handleConfirmProbeInsertion}
-                        isCompleted={!currentStep?.isOccupied}
-                      />
-                    )}
-
-                    {/* The Visual Hash Table Array */}
-                    <HashTable
-                      slots={slots}
-                      technique={currentLevel.technique}
-                      targetIndex={!isProbing ? targetIndex : null}
-                      probingIndex={isProbing ? currentStep?.targetIndex ?? null : null}
-                      collidedIndex={collidedSlotIndex}
-                      incomingKey={currentKey}
-                      onCellClick={handleCellClick}
-                      onDropKey={handleDropOnCell}
-                      tableSize={currentLevel.tableSize}
-                    />
-
-                    {/* Dynamic Explanation Panel */}
-                    <ExplanationPanel
-                      level={currentLevel}
-                      gameState={gameState}
-                      currentKey={currentKey}
-                      calculatedIndex={calculatedIndex}
-                      targetIndex={targetIndex}
-                      probingIndex={isProbing ? currentStep?.targetIndex ?? null : null}
-                      isProbing={isProbing}
-                      probeStepNumber={currentProbeStepIndex}
-                    />
-                  </div>
+                  </>
+                ) : (
+                  <SingleLinkedListGame
+                    currentLevelId={currentLevelIndex + 1}
+                    onSelectLevel={(lvlId) => {
+                      soundManager.playClick();
+                      setCurrentLevelIndex(lvlId - 1);
+                    }}
+                    onOpenLab={() => setActiveTab('LAB')}
+                    onOpenTheory={() => {
+                      setActiveTheoryTopic('theory-01');
+                      setActiveTab('THEORY');
+                    }}
+                    onOpenQuiz={() => setActiveTab('QUIZ')}
+                    onOpenProgress={() => setActiveTab('PROGRESS')}
+                  />
                 )}
               </div>
             )}

@@ -831,6 +831,10 @@ class SoundEffectsController {
     this.playError();
   }
 
+  public playInvalid() {
+    this.playError();
+  }
+
   public playQuizWrong() {
     this.playError();
   }
@@ -1305,6 +1309,36 @@ class SoundEffectsController {
       });
     } catch {
       // Safe fallback
+    }
+  }
+
+  public play(name: string) {
+    switch (name) {
+      case 'click':
+        this.playClick();
+        break;
+      case 'step':
+        this.playStep();
+        break;
+      case 'success':
+        this.playCalcSuccess();
+        break;
+      case 'error':
+        this.playError();
+        break;
+      case 'allocate':
+      case 'link':
+        this.playChain();
+        break;
+      case 'free':
+        this.playReset();
+        break;
+      case 'levelUp':
+        this.playLevelComplete();
+        break;
+      default:
+        this.playStep();
+        break;
     }
   }
 }

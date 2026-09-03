@@ -21,11 +21,11 @@ export const LevelProgressBar: React.FC<LevelProgressBarProps> = ({
   const pState = progressManager.getState();
 
   const steps = [
-    { id: 1, code: '01', name: 'Basic Modulo' },
-    { id: 2, code: '02', name: 'Chaining' },
-    { id: 3, code: '03', name: 'Linear Probe' },
-    { id: 4, code: '04', name: 'Quadratic' },
-    { id: 5, code: '05', name: 'Double Hash' },
+    { id: 1, code: '01', name: 'Create & Insert' },
+    { id: 2, code: '02', name: 'Delete Nodes' },
+    { id: 3, code: '03', name: 'Traverse' },
+    { id: 4, code: '04', name: 'Search' },
+    { id: 5, code: '05', name: 'Master Challenge' },
   ];
 
   const isAllQuestCompleted = [1, 2, 3, 4, 5].every(
