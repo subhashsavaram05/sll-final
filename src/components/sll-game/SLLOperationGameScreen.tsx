@@ -32,6 +32,7 @@ import {
   SLLActionModalType,
   SLLTaskDef,
   AssistanceMode,
+  SLLTeacherStep,
 } from '../../types/sllGame';
 import { SLL_TASKS, LEVEL_TASK_IDS, LEVEL_METADATA } from '../../data/sllTasks';
 import { SLLWorkspace } from './SLLWorkspace';
@@ -42,10 +43,19 @@ import { SLLActionModal } from './SLLActionModal';
 import { SLLHowItWorksModal } from './SLLHowItWorksModal';
 import { SLLSolveWalkthrough } from './SLLSolveWalkthrough';
 import { SLLMissionBoard } from './SLLMissionBoard';
+import { SLLTeacherBanner } from './SLLTeacherBanner';
+import { SLLHowToPlayModal } from './SLLHowToPlayModal';
+import {
+  getNextTeacherStep,
+  executeSingleTeacherStep,
+  getTaskStep,
+  getTaskTotalSteps,
+  getAllTaskSteps,
+} from '../../utils/sllStepAssistant';
 import { validateTaskAnswer } from '../../utils/sllValidator';
 import { soundManager } from '../../utils/audio';
 import { progressManager } from '../../utils/progressManager';
-import { Compass, X } from 'lucide-react';
+import { Compass, X, Lightbulb } from 'lucide-react';
 
 interface SLLOperationGameScreenProps {
   taskId: string;
@@ -70,10 +80,15 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
   const currentTaskIndex = levelTaskIds.indexOf(taskId);
   const nextTaskId = currentTaskIndex >= 0 && currentTaskIndex < levelTaskIds.length - 1 ? levelTaskIds[currentTaskIndex + 1] : undefined;
 
-  // Assistance Mode: 'guide' | 'play' | 'solve'
-  const [assistanceMode, setAssistanceMode] = useState<AssistanceMode>('guide');
+  // Assistance Mode: 'guide_solve' | 'play'
+  const [assistanceMode, setAssistanceMode] = useState<AssistanceMode>('guide_solve');
+  const [currentStep, setCurrentStep] = useState<number>(1);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [taskStatus, setTaskStatus] = useState<'in_progress' | 'completed'>('in_progress');
   const [isHowItWorksOpen, setIsHowItWorksOpen] = useState<boolean>(false);
+  const [isHowToPlayOpen, setIsHowToPlayOpen] = useState<boolean>(false);
   const [showMissionBoard, setShowMissionBoard] = useState<boolean>(false);
+  const [teacherLastActionResult, setTeacherLastActionResult] = useState<string | null>(null);
 
   // Direct Workspace Interaction Modes
   const [pendingConnectFrom, setPendingConnectFrom] = useState<number | null>(null);
@@ -135,6 +150,10 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
     setFeedback(null);
     setIsCompleted(false);
     setHintLevel(0);
+    setTeacherLastActionResult(null);
+    setCurrentStep(1);
+    setCompletedSteps([]);
+    setTaskStatus('in_progress');
     setHistory([]);
     setRedoStack([]);
   };
@@ -163,6 +182,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       stagedNodes: JSON.parse(JSON.stringify(stagedNodes)),
       traversalOutput: [...traversalOutput],
       taskStepIndex: 0,
+      currentStep,
+      completedSteps: [...completedSteps],
+      taskStatus,
     };
     setHistory((prev) => [...prev, snapshot]);
     setRedoStack([]);
@@ -177,6 +199,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       stagedNodes: JSON.parse(JSON.stringify(stagedNodes)),
       traversalOutput: [...traversalOutput],
       taskStepIndex: 0,
+      currentStep,
+      completedSteps: [...completedSteps],
+      taskStatus,
     };
 
     setRedoStack((prev) => [...prev, current]);
@@ -186,6 +211,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
     setPointers(previous.pointers);
     setStagedNodes(previous.stagedNodes);
     setTraversalOutput(previous.traversalOutput);
+    if (previous.currentStep !== undefined) setCurrentStep(previous.currentStep);
+    if (previous.completedSteps !== undefined) setCompletedSteps(previous.completedSteps);
+    if (previous.taskStatus !== undefined) setTaskStatus(previous.taskStatus);
     setFeedback(null);
     soundManager.play('step');
   };
@@ -199,6 +227,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       stagedNodes: JSON.parse(JSON.stringify(stagedNodes)),
       traversalOutput: [...traversalOutput],
       taskStepIndex: 0,
+      currentStep,
+      completedSteps: [...completedSteps],
+      taskStatus,
     };
 
     setHistory((prev) => [...prev, current]);
@@ -208,6 +239,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
     setPointers(nextState.pointers);
     setStagedNodes(nextState.stagedNodes);
     setTraversalOutput(nextState.traversalOutput);
+    if (nextState.currentStep !== undefined) setCurrentStep(nextState.currentStep);
+    if (nextState.completedSteps !== undefined) setCompletedSteps(nextState.completedSteps);
+    if (nextState.taskStatus !== undefined) setTaskStatus(nextState.taskStatus);
     setFeedback(null);
     soundManager.play('step');
   };
@@ -229,6 +263,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'Node Allocated in Heap RAM',
       message: `Node [ DATA: ${data} | ADDR: ${address} | NEXT: ${nextAddress !== null ? nextAddress : 'NULL'} ] was placed in memory.`,
     });
+    advanceStepIfActionMatches('create_node', address, data);
   };
 
   const handleChangeNext = (fromAddress: number, toNextAddress: number | null) => {
@@ -242,6 +277,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'NEXT Pointer Updated',
       message: `Node at Address ${fromAddress} now points to NEXT = ${toNextAddress !== null ? toNextAddress : 'NULL'}.`,
     });
+    advanceStepIfActionMatches('connect_next', fromAddress, toNextAddress);
   };
 
   const handleSetHead = (address: number | null) => {
@@ -253,6 +289,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'HEAD Pointer Updated',
       message: `HEAD pointer is now pointing to Address ${address !== null ? address : 'NULL'}.`,
     });
+    advanceStepIfActionMatches('set_head', address);
   };
 
   const handleSetTail = (address: number | null) => {
@@ -264,6 +301,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'TAIL Pointer Updated',
       message: `TAIL pointer is now pointing to Address ${address !== null ? address : 'NULL'}.`,
     });
+    advanceStepIfActionMatches('set_tail', address);
   };
 
   const handleDeleteNode = (address: number) => {
@@ -279,6 +317,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'Node Memory Deallocated (free)',
       message: `Node at Address ${address} has been freed from memory.`,
     });
+    advanceStepIfActionMatches('delete_node', address);
   };
 
   // Direct Workspace Pointer Actions (No typing required)
@@ -292,6 +331,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'HEAD Connected!',
       message: `HEAD pointer now points to Node at Address ${address}.`,
     });
+    advanceStepIfActionMatches('set_head', address);
   };
 
   const handleSetTailDirect = (address: number) => {
@@ -304,6 +344,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'TAIL Connected!',
       message: `TAIL pointer now points to Node at Address ${address}.`,
     });
+    advanceStepIfActionMatches('set_tail', address);
   };
 
   const handleConnectNextDirect = (fromAddr: number, toAddr: number | null) => {
@@ -318,6 +359,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       title: 'Pointers Linked!',
       message: `Node ${fromAddr}'s NEXT pointer connects to ${toAddr !== null ? `Node ${toAddr}` : 'NULL'}.`,
     });
+    advanceStepIfActionMatches('connect_next', fromAddr, toAddr);
   };
 
   const handleInsertBetween = (prevAddr: number | null, nextAddr: number | null) => {
@@ -325,12 +367,14 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
     setActiveModal('CREATE_NODE');
   };
 
-  // Assistance Mode switcher with penalty enforcement
+  // Assistance Mode switcher: GUIDE & SOLVE vs PLAY
   const handleSelectAssistanceMode = (mode: AssistanceMode) => {
-    if (mode === 'solve' && assistanceMode !== 'solve') {
-      // Penalty for full solve walkthrough: -20
-      progressManager.addScore(-20);
-      soundManager.play('click');
+    soundManager.play('click');
+    if (mode === 'play') {
+      const hasSeen = localStorage.getItem('sll_has_seen_how_to_play');
+      if (!hasSeen) {
+        setIsHowToPlayOpen(true);
+      }
     }
     setAssistanceMode(mode);
   };
@@ -416,6 +460,108 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
 
   // Search Step Interaction (Level 4 Task 4)
   const currentSearchNode = nodes.find((n) => n.address === pointers.currentAddress);
+
+  // Active Teacher Step for GUIDE & SOLVE mode (real sequential step state machine)
+  const currentTeacherStep = getTaskStep(activeTask, currentStep, nodes, pointers);
+  const totalTaskSteps = getTaskTotalSteps(activeTask);
+
+  // Helper to advance the step machine on successful user action in PLAY mode
+  const advanceStepIfActionMatches = (
+    actionType: SLLTeacherStep['actionType'],
+    targetAddr?: number | null,
+    targetVal?: number | null
+  ) => {
+    if (taskStatus === 'completed' || isCompleted) return;
+    const step = currentTeacherStep || getTaskStep(activeTask, currentStep, nodes, pointers);
+    if (!step) return;
+
+    let matched = false;
+    if (step.actionType === actionType) {
+      if (actionType === 'create_node') {
+        matched = true;
+      } else if (actionType === 'set_head' || actionType === 'set_tail') {
+        matched = step.targetAddress === undefined || step.targetAddress === targetAddr;
+      } else if (actionType === 'connect_next') {
+        matched = step.targetAddress === undefined || step.targetAddress === targetAddr;
+      } else if (actionType === 'delete_node') {
+        matched = step.targetAddress === undefined || step.targetAddress === targetAddr;
+      } else {
+        matched = true;
+      }
+    }
+
+    if (matched) {
+      const stepJustFinished = currentStep;
+      const newCompleted = [...new Set([...completedSteps, stepJustFinished])];
+      setCompletedSteps(newCompleted);
+
+      const isLastStep = stepJustFinished >= totalTaskSteps || step.isCompleted;
+      if (isLastStep) {
+        setTaskStatus('completed');
+        setIsCompleted(true);
+        soundManager.play('celebrate');
+        progressManager.addScore(activeTask.xpReward);
+        setFeedback({
+          type: 'success',
+          title: 'TASK COMPLETE! 🎉',
+          message: 'All steps completed! You built the linked list correctly.',
+          explanation: activeTask.conceptExplanation,
+        });
+      } else {
+        const nextStepNum = stepJustFinished + 1;
+        setCurrentStep(nextStepNum);
+      }
+    }
+  };
+
+  // TEACHER STEP: Executes exactly ONE logical action in the live workspace
+  const handleExecuteTeacherStep = () => {
+    if (taskStatus === 'completed' || isCompleted) return;
+
+    const stepToExecute = currentTeacherStep || getTaskStep(activeTask, currentStep, nodes, pointers);
+    if (!stepToExecute) return;
+
+    pushSnapshot();
+    const result = executeSingleTeacherStep(stepToExecute, {
+      nodes,
+      pointers,
+      traversalOutput,
+    });
+    setNodes(result.nodes);
+    setPointers(result.pointers);
+    setTraversalOutput(result.traversalOutput);
+    setTeacherLastActionResult(result.feedbackMessage);
+
+    const stepJustFinished = currentStep;
+    const newCompleted = [...new Set([...completedSteps, stepJustFinished])];
+    setCompletedSteps(newCompleted);
+    soundManager.play('link');
+
+    // Check if task is finished
+    const isLastStep = stepJustFinished >= totalTaskSteps || stepToExecute.isCompleted;
+
+    if (isLastStep) {
+      setTaskStatus('completed');
+      setIsCompleted(true);
+      soundManager.play('celebrate');
+      progressManager.addScore(activeTask.xpReward);
+      setFeedback({
+        type: 'success',
+        title: 'TASK COMPLETE! 🎉',
+        message: result.feedbackMessage || 'All steps completed! You built the linked list correctly.',
+        explanation: activeTask.conceptExplanation,
+      });
+    } else {
+      const nextStepNum = stepJustFinished + 1;
+      setCurrentStep(nextStepNum);
+      const nextStepDef = getTaskStep(activeTask, nextStepNum, result.nodes, result.pointers);
+      setFeedback({
+        type: 'info',
+        title: `✓ Step ${stepJustFinished} Completed!`,
+        message: `${result.feedbackMessage} Next: Step ${nextStepNum} - ${nextStepDef?.title || 'Next step'}`,
+      });
+    }
+  };
   const handleSearchAnswer = (isMatchAnswer: boolean) => {
     if (!currentSearchNode) return;
     const target = 40;
@@ -518,58 +664,54 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
 
         {/* Center: Assistance Mode Switcher & Concept Guide Button */}
         <div className="flex items-center gap-2">
-          {/* 3-Mode Segmented Control: GUIDE | PLAY | SOLVE */}
-          <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs font-bold">
+          {/* 2-Mode Segmented Control: [ 💡 GUIDE & SOLVE ]   [ ▶ PLAY ] */}
+          <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs font-bold shadow-2xs">
             <button
               type="button"
-              onClick={() => handleSelectAssistanceMode('guide')}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-                assistanceMode === 'guide'
-                  ? 'bg-amber-500 text-white shadow-xs'
+              id="mode-guide-solve-btn"
+              onClick={() => {
+                if (assistanceMode !== 'guide_solve' && assistanceMode !== 'guide') {
+                  handleSelectAssistanceMode('guide_solve');
+                } else {
+                  handleExecuteTeacherStep();
+                }
+              }}
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
+                assistanceMode === 'guide_solve' || assistanceMode === 'guide'
+                  ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
-              title="Guide Mode: Step-by-step pointers & visual cues (0 penalty)"
+              title="Guide & Solve: Teaches the current step and automatically performs ONE step"
             >
-              <Compass className="w-3.5 h-3.5" />
-              <span>GUIDE</span>
+              <Lightbulb className="w-3.5 h-3.5 fill-current" />
+              <span>GUIDE & SOLVE</span>
             </button>
             <button
               type="button"
+              id="mode-play-btn"
               onClick={() => handleSelectAssistanceMode('play')}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
+              className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
                 assistanceMode === 'play'
-                  ? 'bg-indigo-600 text-white shadow-xs'
+                  ? 'bg-indigo-600 text-white font-bold shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
-              title="Play Mode: Direct workspace manipulation"
+              title="Play Mode: Direct interactive game mode"
             >
-              <Play className="w-3.5 h-3.5" />
+              <Play className="w-3.5 h-3.5 fill-current" />
               <span>PLAY</span>
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSelectAssistanceMode('solve')}
-              className={`flex items-center gap-1 px-3 py-1.5 rounded-xl transition-all cursor-pointer ${
-                assistanceMode === 'solve'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
-              }`}
-              title="Solve Walkthrough: Animated step-by-step solution (-20 penalty)"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>SOLVE</span>
             </button>
           </div>
 
-          {/* Visual Concept Modal Trigger */}
+          {/* Visual Concept Modal Trigger: [ 📖 CONCEPT ] */}
           <button
             type="button"
+            id="sll-concept-btn"
             onClick={() => setIsHowItWorksOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
             title="Learn how this linked list operation works visually"
           >
             <BookOpen className="w-4 h-4" />
-            <span className="hidden sm:inline">Concept</span>
+            <span>CONCEPT</span>
           </button>
 
           {/* Level 5 Master Mission Board Button */}
@@ -620,75 +762,85 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
         onOpenDeleteNode={() => setActiveModal('DELETE_NODE')}
       />
 
-      {/* 3. MAIN GAMEPLAY BODY */}
-      {assistanceMode === 'solve' ? (
-        /* SOLVE MODE: Interactive Step-by-Step Solution Walkthrough */
-        <div className="w-full">
-          <SLLSolveWalkthrough
+      {/* 3. MAIN GAMEPLAY BODY (Workspace + Task Panel) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+        {/* Left Column: Interactive RAM Workspace + Teacher Assistant + Bottom Controls */}
+        <div className="lg:col-span-8 flex flex-col gap-4">
+          {/* GUIDE & SOLVE TEACHER BANNER: Teaches step & performs ONE step */}
+          {(assistanceMode === 'guide_solve' || assistanceMode === 'guide') && (
+            <SLLTeacherBanner
+              step={currentTeacherStep}
+              lastActionResult={teacherLastActionResult}
+              onExecuteStep={handleExecuteTeacherStep}
+              onSwitchToPlay={() => handleSelectAssistanceMode('play')}
+              isTaskComplete={isCompleted || taskStatus === 'completed'}
+              completedSteps={completedSteps}
+              onNextTask={handleNextTaskClick}
+              hasNextTask={Boolean(nextTaskId)}
+            />
+          )}
+
+          <SLLWorkspace
+            nodes={nodes}
+            pointers={pointers}
+            stagedNodes={stagedNodes}
+            traversalOutput={traversalOutput}
+            searchTarget={searchTarget}
+            searchResult={searchResult}
+            selectedAddress={selectedAddress}
+            onSelectNode={(addr) => setSelectedAddress(addr)}
+            onOpenChangeNext={(addr) => {
+              setSelectedAddress(addr);
+              setActiveModal('CHANGE_NEXT');
+            }}
+            isTraversing={isTraversing}
+            isSearching={isSearching}
+            levelId={currentLevelId}
+            // Direct interactive workspace props
+            pendingConnectFrom={pendingConnectFrom}
+            isSettingHeadMode={isSettingHeadMode}
+            isSettingTailMode={isSettingTailMode}
+            onSetHeadDirect={handleSetHeadDirect}
+            onSetTailDirect={handleSetTailDirect}
+            onConnectNextDirect={handleConnectNextDirect}
+            onDeleteNodeDirect={handleDeleteNode}
+            onInsertBetween={handleInsertBetween}
+            guideTargetAddress={currentTeacherStep?.targetAddress ?? activeTask.targetCondition.expectedHead ?? undefined}
+          />
+
+          {/* Bottom Interactive Controls */}
+          <SLLBottomControls
+            onOpenCreateNode={() => setActiveModal('CREATE_NODE')}
+            onOpenChangeNext={() => setActiveModal('CHANGE_NEXT')}
+            onOpenSetHead={() => setActiveModal('SET_HEAD')}
+            onOpenSetTail={() => setActiveModal('SET_TAIL')}
+            onOpenDeleteNode={() => setActiveModal('DELETE_NODE')}
+            onUndo={handleUndo}
+            onRedo={handleRedo}
+            onResetTask={resetTaskState}
+            onOpenHint={handleOpenHint}
+            onOpenHowToPlay={() => setIsHowToPlayOpen(true)}
+            canUndo={history.length > 0}
+            canRedo={redoStack.length > 0}
+            nodeCount={nodes.length}
+            isSettingHeadMode={isSettingHeadMode}
+            isSettingTailMode={isSettingTailMode}
+            pendingConnectFrom={pendingConnectFrom}
+            onToggleSetHeadMode={() => setIsSettingHeadMode((prev) => !prev)}
+            onToggleSetTailMode={() => setIsSettingTailMode((prev) => !prev)}
+            onCancelDirectMode={() => {
+              setIsSettingHeadMode(false);
+              setIsSettingTailMode(false);
+              setPendingConnectFrom(null);
+            }}
+            assistanceMode={assistanceMode}
+            currentStep={currentStep}
             task={activeTask}
-            onExitSolve={() => setAssistanceMode('play')}
-            onTryItYourself={() => setAssistanceMode('play')}
+            nodes={nodes}
+            pointers={pointers}
+            onExecuteTeacherStep={handleExecuteTeacherStep}
           />
         </div>
-      ) : (
-        /* STANDARD / GUIDE / PLAY MODE: Workspace + Task Panel */
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-          {/* Left Column: Interactive RAM Workspace + Bottom Controls */}
-          <div className="lg:col-span-8 flex flex-col gap-4">
-            <SLLWorkspace
-              nodes={nodes}
-              pointers={pointers}
-              stagedNodes={stagedNodes}
-              traversalOutput={traversalOutput}
-              searchTarget={searchTarget}
-              searchResult={searchResult}
-              selectedAddress={selectedAddress}
-              onSelectNode={(addr) => setSelectedAddress(addr)}
-              onOpenChangeNext={(addr) => {
-                setSelectedAddress(addr);
-                setActiveModal('CHANGE_NEXT');
-              }}
-              isTraversing={isTraversing}
-              isSearching={isSearching}
-              levelId={currentLevelId}
-              // Direct interactive workspace props
-              pendingConnectFrom={pendingConnectFrom}
-              isSettingHeadMode={isSettingHeadMode}
-              isSettingTailMode={isSettingTailMode}
-              onSetHeadDirect={handleSetHeadDirect}
-              onSetTailDirect={handleSetTailDirect}
-              onConnectNextDirect={handleConnectNextDirect}
-              onDeleteNodeDirect={handleDeleteNode}
-              onInsertBetween={handleInsertBetween}
-              guideTargetAddress={activeTask.targetCondition.expectedHead ?? undefined}
-            />
-
-            {/* Bottom Interactive Controls */}
-            <SLLBottomControls
-              onOpenCreateNode={() => setActiveModal('CREATE_NODE')}
-              onOpenChangeNext={() => setActiveModal('CHANGE_NEXT')}
-              onOpenSetHead={() => setActiveModal('SET_HEAD')}
-              onOpenSetTail={() => setActiveModal('SET_TAIL')}
-              onOpenDeleteNode={() => setActiveModal('DELETE_NODE')}
-              onUndo={handleUndo}
-              onRedo={handleRedo}
-              onResetTask={resetTaskState}
-              onOpenHint={handleOpenHint}
-              canUndo={history.length > 0}
-              canRedo={redoStack.length > 0}
-              nodeCount={nodes.length}
-              isSettingHeadMode={isSettingHeadMode}
-              isSettingTailMode={isSettingTailMode}
-              pendingConnectFrom={pendingConnectFrom}
-              onToggleSetHeadMode={() => setIsSettingHeadMode((prev) => !prev)}
-              onToggleSetTailMode={() => setIsSettingTailMode((prev) => !prev)}
-              onCancelDirectMode={() => {
-                setIsSettingHeadMode(false);
-                setIsSettingTailMode(false);
-                setPendingConnectFrom(null);
-              }}
-            />
-          </div>
 
           {/* Right Column: Task Instructions & Evaluation Panel */}
           <div className="lg:col-span-4">
@@ -697,6 +849,8 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
               nodes={nodes}
               pointers={pointers}
               selectedNode={selectedNode}
+              currentStep={currentStep}
+              completedSteps={completedSteps}
               onOpenCreateNode={() => setActiveModal('CREATE_NODE')}
               onOpenChangeNext={(addr) => {
                 if (addr) setSelectedAddress(addr);
@@ -730,7 +884,6 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
             />
           </div>
         </div>
-      )}
 
       {/* 4. MODAL DIALOGS FOR CREATING, EDITING & HINTS */}
       <SLLActionModal
@@ -786,6 +939,15 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
           </motion.div>
         </div>
       )}
+
+      {/* 7. HOW TO PLAY ONBOARDING MODAL (PLAY MODE) */}
+      <SLLHowToPlayModal
+        isOpen={isHowToPlayOpen}
+        onClose={() => {
+          setIsHowToPlayOpen(false);
+          localStorage.setItem('sll_has_seen_how_to_play', 'true');
+        }}
+      />
     </div>
   );
 };

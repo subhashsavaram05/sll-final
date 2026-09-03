@@ -1,4 +1,21 @@
-export type AssistanceMode = 'guide' | 'play' | 'solve';
+export type AssistanceMode = 'guide_solve' | 'play' | 'guide' | 'solve';
+
+export interface SLLTeacherStep {
+  stepNumber: number;
+  totalSteps: number;
+  title: string;
+  what: string;
+  why: string;
+  actionType: 'create_node' | 'set_head' | 'set_tail' | 'connect_next' | 'delete_node' | 'traverse_step' | 'search_step' | 'verify_null' | 'check_answer';
+  targetAddress?: number | null;
+  targetData?: number;
+  targetPointer?: 'head' | 'tail' | 'next' | 'current';
+  nextAddress?: number | null;
+  createdNodeData?: { data: number; address: number };
+  resultMessage: string;
+  nextStepPreview: string;
+  isCompleted: boolean;
+}
 
 export interface GuideStep {
   stepNumber: number;
@@ -58,6 +75,9 @@ export interface SLLGameStateSnapshot {
   stagedNodes: SLLNode[];
   traversalOutput: number[];
   taskStepIndex: number;
+  currentStep: number;
+  completedSteps: number[];
+  taskStatus?: 'in_progress' | 'completed';
   description?: string;
 }
 

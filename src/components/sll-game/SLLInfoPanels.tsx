@@ -27,6 +27,10 @@ interface SLLInfoPanelsProps {
   onOpenSetHead: () => void;
   onOpenSetTail: () => void;
   onOpenDeleteNode: () => void;
+  isSettingHeadMode?: boolean;
+  isSettingTailMode?: boolean;
+  onToggleSetHeadMode?: () => void;
+  onToggleSetTailMode?: () => void;
 }
 
 export const SLLInfoPanels: React.FC<SLLInfoPanelsProps> = ({
@@ -38,6 +42,10 @@ export const SLLInfoPanels: React.FC<SLLInfoPanelsProps> = ({
   onOpenSetHead,
   onOpenSetTail,
   onOpenDeleteNode,
+  isSettingHeadMode = false,
+  isSettingTailMode = false,
+  onToggleSetHeadMode,
+  onToggleSetTailMode,
 }) => {
   // Count reachable nodes from HEAD
   let reachableCount = 0;
@@ -101,32 +109,51 @@ export const SLLInfoPanels: React.FC<SLLInfoPanelsProps> = ({
 
           <div className="mt-2.5 grid grid-cols-2 gap-1.5">
             <button
+              id="info-tool-create-node"
               onClick={onOpenCreateNode}
-              className="px-2 py-1.5 rounded-xl bg-indigo-50 dark:bg-purple-950/50 hover:bg-indigo-100 text-indigo-700 dark:text-purple-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors"
+              className="px-2 py-1.5 rounded-xl bg-indigo-50 dark:bg-purple-950/50 hover:bg-indigo-100 text-indigo-700 dark:text-purple-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
             >
               <Plus className="w-3 h-3" />
               <span>+ Node</span>
             </button>
             <button
+              id="info-tool-change-next"
               onClick={onOpenChangeNext}
-              className="px-2 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 text-purple-700 dark:text-purple-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors"
+              className="px-2 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/50 hover:bg-purple-100 text-purple-700 dark:text-purple-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors cursor-pointer"
             >
               <LinkIcon className="w-3 h-3" />
               <span>NEXT</span>
             </button>
             <button
-              onClick={onOpenSetHead}
-              className="px-2 py-1.5 rounded-xl bg-cyan-50 dark:bg-cyan-950/50 hover:bg-cyan-100 text-cyan-700 dark:text-cyan-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors"
+              id="info-tool-set-head"
+              onClick={onToggleSetHeadMode || onOpenSetHead}
+              className={`px-2 py-1.5 rounded-xl text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                isSettingHeadMode
+                  ? 'bg-indigo-600 text-white shadow-xs ring-2 ring-indigo-400/50 animate-pulse'
+                  : 'bg-indigo-50 dark:bg-indigo-950/50 hover:bg-indigo-100 text-indigo-700 dark:text-indigo-300'
+              }`}
+              title="Click a node in the workspace to set HEAD"
             >
-              <span>HEAD</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${isSettingHeadMode ? 'bg-white' : 'bg-indigo-500'}`} />
+              <span>{isSettingHeadMode ? 'Pick Node...' : 'HEAD'}</span>
             </button>
             <button
-              onClick={onOpenSetTail}
-              className="px-2 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 text-amber-700 dark:text-amber-300 text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-colors"
+              id="info-tool-set-tail"
+              onClick={onToggleSetTailMode || onOpenSetTail}
+              className={`px-2 py-1.5 rounded-xl text-[11px] font-mono font-bold flex items-center justify-center gap-1 transition-all cursor-pointer ${
+                isSettingTailMode
+                  ? 'bg-amber-500 text-white shadow-xs ring-2 ring-amber-400/50 animate-pulse'
+                  : 'bg-amber-50 dark:bg-amber-950/50 hover:bg-amber-100 text-amber-700 dark:text-amber-300'
+              }`}
+              title="Click a node in the workspace to set TAIL"
             >
-              <span>TAIL</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${isSettingTailMode ? 'bg-white' : 'bg-amber-500'}`} />
+              <span>{isSettingTailMode ? 'Pick Node...' : 'TAIL'}</span>
             </button>
           </div>
+          <p className="mt-1.5 text-[9px] font-sans text-slate-400 dark:text-slate-500 text-center">
+            💡 Or click any node directly to set HEAD/TAIL
+          </p>
         </div>
       </div>
 

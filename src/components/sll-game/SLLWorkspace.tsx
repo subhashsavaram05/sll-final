@@ -41,6 +41,14 @@ interface SLLWorkspaceProps {
   pendingConnectFrom?: number | null; // If set, user is picking a target node to connect NEXT to
   isSettingHeadMode?: boolean;
   isSettingTailMode?: boolean;
+  currentStep?: number;
+  totalSteps?: number;
+  currentStepActionType?: string;
+  currentStepInstruction?: string;
+  currentStepTargetAddress?: number | null;
+  wrongClickedAddress?: number | null;
+  onNodeClickDirect?: (address: number) => void;
+  onCancelDirectMode?: () => void;
 }
 
 export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
@@ -65,9 +73,21 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
   pendingConnectFrom,
   isSettingHeadMode,
   isSettingTailMode,
+  currentStep,
+  totalSteps,
+  currentStepActionType,
+  currentStepInstruction,
+  currentStepTargetAddress,
+  wrongClickedAddress,
+  onNodeClickDirect,
+  onCancelDirectMode,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [scaleFactor, setScaleFactor] = useState<number>(1);
+  const [draggingFromAddr, setDraggingFromAddr] = useState<number | null>(null);
+  const [dragOverAddr, setDragOverAddr] = useState<number | null>(null);
+  const [isDragOverNull, setIsDragOverNull] = useState<boolean>(false);
+  const [hoveredNodeAddr, setHoveredNodeAddr] = useState<number | null>(null);
 
   // Traverse the linked list from HEAD
   const orderedNodes: SLLNode[] = [];
@@ -90,27 +110,55 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
     }
   }
 
-  // Find unlinked/orphaned nodes (nodes in memory but not reachable from HEAD)
-  const unlinkedNodes = nodes.filter((n) => !visitedAddresses.has(n.address));
+  // If HEAD is NULL but there are nodes in RAM, display them prominently in the main stage!
+  const isAwaitingHead = orderedNodes.length === 0 && nodes.length > 0;
+  const stageNodes = isAwaitingHead ? nodes : orderedNodes;
+  const unlinkedNodes = isAwaitingHead ? [] : nodes.filter((n) => !visitedAddresses.has(n.address));
   const currentNode = nodes.find((n) => n.address === pointers.currentAddress);
+
+  // Step and mode helpers
+  const isHeadStep = currentStepActionType === 'set_head' || isSettingHeadMode;
+  const isTailStep = currentStepActionType === 'set_tail' || isSettingTailMode;
+  const isConnectStep = currentStepActionType === 'connect_next' || pendingConnectFrom !== null;
+  const isCreateStep = currentStepActionType === 'create_node';
+  const isDeleteStep = currentStepActionType === 'delete_node';
+  const isAnyDirectMode = isSettingHeadMode || isSettingTailMode || pendingConnectFrom !== null;
+
+  // Build prominent "CURRENT ACTION" instruction text
+  let currentActionText = currentStepInstruction || 'Follow the task steps to build the Singly Linked List.';
+  if (isHeadStep) {
+    const target = currentStepTargetAddress ?? (stageNodes.length > 0 ? stageNodes[0].address : 'first node');
+    currentActionText = `🎯 Select a node to set HEAD — Click the first node (Node ${target}) to make it HEAD.`;
+  } else if (isTailStep) {
+    const target = currentStepTargetAddress ?? (stageNodes.length > 0 ? stageNodes[stageNodes.length - 1].address : 'last node');
+    currentActionText = `🎯 Select a node to set TAIL — Click the last node (Node ${target}) to make it TAIL.`;
+  } else if (isConnectStep) {
+    if (pendingConnectFrom) {
+      currentActionText = `🔗 Connect NEXT — Click the target node to link Node ${pendingConnectFrom}'s NEXT pointer.`;
+    } else {
+      currentActionText = `🔗 Connect NEXT — Drag or link NEXT to the next node in the sequence.`;
+    }
+  } else if (isCreateStep) {
+    currentActionText = `➕ Allocate Node in RAM — Click '+ Create Node' to allocate memory for the new node.`;
+  }
 
   // Responsive scale observer to guarantee entire list is 100% visible on all screen sizes
   useEffect(() => {
     const handleResize = () => {
       if (!containerRef.current) return;
       const containerWidth = containerRef.current.clientWidth - 32;
-      const totalCount = orderedNodes.length + (orderedNodes.length > 0 ? 1 : 0);
+      const totalCount = orderedNodes.length + (orderedNodes.length > 0 ? 1 : 0) + (unlinkedNodes.length > 0 ? 1 : 0);
       if (totalCount === 0) {
         setScaleFactor(1);
         return;
       }
 
-      const nodeWidth = totalCount >= 6 ? 100 : totalCount >= 4 ? 120 : 138;
+      const nodeWidth = totalCount >= 6 ? 104 : totalCount >= 4 ? 120 : 138;
       const gapWidth = 18;
-      const requiredWidth = totalCount * (nodeWidth + gapWidth) + 60;
+      const requiredWidth = totalCount * (nodeWidth + gapWidth) + 80;
 
       if (containerWidth < requiredWidth && containerWidth > 0) {
-        const factor = Math.max(0.62, Math.min(1, containerWidth / requiredWidth));
+        const factor = Math.max(0.55, Math.min(1, containerWidth / requiredWidth));
         setScaleFactor(factor);
       } else {
         setScaleFactor(1);
@@ -126,7 +174,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, [orderedNodes.length]);
+  }, [orderedNodes.length, unlinkedNodes.length]);
 
   return (
     <div
@@ -337,6 +385,22 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                       {/* Clean Node Card: Top = ADDR, Split Bottom = DATA | NEXT */}
                       <div
                         id={`sll-node-${node.address}`}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          if (draggingFromAddr && draggingFromAddr !== node.address) {
+                            setDragOverAddr(node.address);
+                          }
+                        }}
+                        onDragLeave={() => setDragOverAddr(null)}
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          const from = Number(e.dataTransfer.getData('text/plain') || draggingFromAddr);
+                          if (from && from !== node.address) {
+                            onConnectNextDirect && onConnectNextDirect(from, node.address);
+                          }
+                          setDraggingFromAddr(null);
+                          setDragOverAddr(null);
+                        }}
                         onClick={() => {
                           if (pendingConnectFrom && pendingConnectFrom !== node.address) {
                             onConnectNextDirect && onConnectNextDirect(pendingConnectFrom, node.address);
@@ -349,7 +413,9 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                           }
                         }}
                         className={`relative flex flex-col rounded-2xl border-2 transition-all duration-200 cursor-pointer select-none overflow-hidden group shadow-xs ${
-                          guideTargetAddress === node.address
+                          dragOverAddr === node.address
+                            ? 'border-emerald-500 ring-4 ring-emerald-400/50 bg-emerald-50 dark:bg-emerald-950/40 scale-105'
+                            : guideTargetAddress === node.address
                             ? 'border-amber-400 ring-4 ring-amber-400/40 bg-amber-50/50 dark:bg-amber-950/30 scale-105'
                             : isSearchMatch
                             ? 'border-emerald-500 ring-4 ring-emerald-500/30 shadow-lg bg-emerald-50 dark:bg-emerald-950/40'
@@ -383,29 +449,48 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                             </span>
                           </div>
 
-                          {/* NEXT Column (Clickable to change NEXT directly) */}
+                          {/* NEXT Column with Visible Connector Handle */}
                           <div
                             onClick={(e) => {
                               e.stopPropagation();
                               onOpenChangeNext(node.address);
                             }}
-                            title="Click to modify NEXT pointer"
-                            className="flex-1 py-1.5 px-1 flex flex-col items-center justify-center bg-indigo-50/30 dark:bg-purple-950/20 hover:bg-indigo-100/70 dark:hover:bg-purple-900/40 transition-colors group/next"
+                            title="Drag NEXT → to the next node, or click to connect"
+                            className="flex-1 py-1 px-1 flex flex-col items-center justify-center bg-indigo-50/30 dark:bg-purple-950/20 hover:bg-indigo-100/70 dark:hover:bg-purple-900/40 transition-colors group/next relative"
                           >
                             <span className="text-[8px] font-mono uppercase font-bold text-slate-400 dark:text-slate-500 tracking-wider flex items-center gap-0.5">
                               <LinkIcon className="w-2 h-2" />
                               NEXT
                             </span>
-                            <span
-                              className={`text-[9px] font-mono font-bold mt-0.5 px-1 py-0.2 rounded flex items-center gap-0.5 ${
-                                node.nextAddress === null
-                                  ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30'
-                                  : 'bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 border border-indigo-200 dark:border-purple-500/30'
-                              }`}
-                            >
-                              <span>{node.nextAddress !== null ? node.nextAddress : 'NULL'}</span>
-                              <Edit3 className="w-2 h-2 opacity-0 group-hover/next:opacity-100 text-indigo-600" />
-                            </span>
+                            <div className="flex items-center gap-1 mt-0.5">
+                              <span
+                                className={`text-[9px] font-mono font-bold px-1 py-0.2 rounded flex items-center gap-0.5 ${
+                                  node.nextAddress === null
+                                    ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30'
+                                    : 'bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 border border-indigo-200 dark:border-purple-500/30'
+                                }`}
+                              >
+                                {node.nextAddress !== null ? node.nextAddress : 'NULL'}
+                              </span>
+
+                              {/* Visible NEXT Draggable Connector Dot */}
+                              <div
+                                draggable
+                                onDragStart={(e) => {
+                                  e.stopPropagation();
+                                  e.dataTransfer.setData('text/plain', String(node.address));
+                                  setDraggingFromAddr(node.address);
+                                }}
+                                onDragEnd={() => {
+                                  setDraggingFromAddr(null);
+                                  setDragOverAddr(null);
+                                }}
+                                title="Drag NEXT → to the next node"
+                                className="w-3.5 h-3.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-125 transition-transform shadow-xs shrink-0"
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-white block" />
+                              </div>
+                            </div>
                           </div>
                         </div>
 
@@ -426,7 +511,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                         )}
                       </div>
 
-                      {/* Next Connecting Pointer Arrow */}
+                      {/* Next Connecting Pointer Arrow / NULL Box Drop Target */}
                       <div className="flex items-center px-1 shrink-0">
                         {node.nextAddress !== null ? (
                           <div className="flex items-center text-indigo-500 dark:text-purple-400">
@@ -434,9 +519,32 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                             <ArrowRight className="w-3.5 h-3.5 -ml-1 text-indigo-500 dark:text-purple-400 shrink-0" />
                           </div>
                         ) : (
-                          <div className="flex items-center">
+                          <div
+                            onDragOver={(e) => {
+                              e.preventDefault();
+                              setIsDragOverNull(true);
+                            }}
+                            onDragLeave={() => setIsDragOverNull(false)}
+                            onDrop={(e) => {
+                              e.preventDefault();
+                              const from = Number(e.dataTransfer.getData('text/plain') || draggingFromAddr);
+                              if (from) {
+                                onConnectNextDirect && onConnectNextDirect(from, null);
+                              }
+                              setDraggingFromAddr(null);
+                              setIsDragOverNull(false);
+                            }}
+                            className="flex items-center cursor-pointer group/null"
+                            title="Drop here to set NEXT to NULL"
+                          >
                             <div className="w-2 sm:w-3 h-[2px] bg-rose-400 dark:bg-rose-500" />
-                            <div className="px-1 py-0.2 rounded-md bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-500/40 text-[9px] font-mono font-bold text-rose-600 dark:text-rose-400 shadow-2xs">
+                            <div
+                              className={`px-1.5 py-0.5 rounded-md border text-[9px] font-mono font-bold transition-all shadow-2xs ${
+                                isDragOverNull
+                                  ? 'bg-rose-500 text-white ring-4 ring-rose-400/50 scale-110'
+                                  : 'bg-rose-50 dark:bg-rose-950/60 border-rose-200 dark:border-rose-500/40 text-rose-600 dark:text-rose-400 group-hover/null:bg-rose-100'
+                              }`}
+                            >
                               NULL
                             </div>
                           </div>
@@ -502,6 +610,22 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                 return (
                   <div
                     key={node.address}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      if (draggingFromAddr && draggingFromAddr !== node.address) {
+                        setDragOverAddr(node.address);
+                      }
+                    }}
+                    onDragLeave={() => setDragOverAddr(null)}
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      const from = Number(e.dataTransfer.getData('text/plain') || draggingFromAddr);
+                      if (from && from !== node.address) {
+                        onConnectNextDirect && onConnectNextDirect(from, node.address);
+                      }
+                      setDraggingFromAddr(null);
+                      setDragOverAddr(null);
+                    }}
                     onClick={() => {
                       if (pendingConnectFrom && pendingConnectFrom !== node.address) {
                         onConnectNextDirect && onConnectNextDirect(pendingConnectFrom, node.address);
@@ -513,8 +637,10 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                         onSelectNode(node.address);
                       }
                     }}
-                    className={`relative flex flex-col rounded-xl border-2 cursor-pointer bg-white dark:bg-[#0E1736] shadow-sm overflow-hidden min-w-[105px] transition-all hover:scale-105 ${
-                      isTarget
+                    className={`relative flex flex-col rounded-xl border-2 cursor-pointer bg-white dark:bg-[#0E1736] shadow-sm overflow-hidden min-w-[110px] transition-all hover:scale-105 ${
+                      dragOverAddr === node.address
+                        ? 'border-emerald-500 ring-4 ring-emerald-400/50 bg-emerald-50 dark:bg-emerald-950/40 scale-105'
+                        : isTarget
                         ? 'border-amber-400 ring-4 ring-amber-400/50 bg-amber-50'
                         : selectedAddress === node.address
                         ? 'border-indigo-600 ring-2 ring-indigo-500/30'
@@ -536,7 +662,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                       <span className="font-bold text-indigo-700 dark:text-purple-300">{node.address}</span>
                     </div>
                     <div className="flex items-center text-center">
-                      <div className="px-2 py-0.5 font-display font-bold text-slate-900 dark:text-white border-r border-slate-200 dark:border-purple-500/30 flex-1 text-xs">
+                      <div className="px-2 py-1 font-display font-bold text-slate-900 dark:text-white border-r border-slate-200 dark:border-purple-500/30 flex-1 text-xs">
                         {node.data}
                       </div>
                       <div
@@ -544,9 +670,25 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                           e.stopPropagation();
                           onOpenChangeNext(node.address);
                         }}
-                        className="px-2 py-0.5 font-mono text-[9px] font-bold text-indigo-600 dark:text-purple-400 hover:bg-indigo-50 flex-1"
+                        title="Drag NEXT → to the next node"
+                        className="px-2 py-1 font-mono text-[9px] font-bold text-indigo-600 dark:text-purple-400 hover:bg-indigo-50 flex-1 flex items-center justify-center gap-1"
                       >
-                        {node.nextAddress !== null ? node.nextAddress : 'NULL'}
+                        <span>{node.nextAddress !== null ? node.nextAddress : 'NULL'}</span>
+                        <div
+                          draggable
+                          onDragStart={(e) => {
+                            e.stopPropagation();
+                            e.dataTransfer.setData('text/plain', String(node.address));
+                            setDraggingFromAddr(node.address);
+                          }}
+                          onDragEnd={() => {
+                            setDraggingFromAddr(null);
+                            setDragOverAddr(null);
+                          }}
+                          className="w-3 h-3 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white cursor-grab active:cursor-grabbing shrink-0 flex items-center justify-center"
+                        >
+                          <span className="w-1 h-1 rounded-full bg-white block" />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -19,12 +19,15 @@ import {
   Search,
 } from 'lucide-react';
 import { SLLTaskDef, SLLNode, SLLPointerState, SLLFeedback } from '../../types/sllGame';
+import { getAllTaskSteps } from '../../utils/sllStepAssistant';
 
 interface SLLTaskPanelProps {
   task: SLLTaskDef;
   nodes: SLLNode[];
   pointers: SLLPointerState;
   selectedNode: SLLNode | null;
+  currentStep?: number;
+  completedSteps?: number[];
   onOpenCreateNode: () => void;
   onOpenChangeNext: (address?: number) => void;
   onOpenSetHead: () => void;
@@ -33,8 +36,8 @@ interface SLLTaskPanelProps {
   onOpenHint: () => void;
   onCheckAnswer: () => void;
   onOpenHowItWorks?: () => void;
-  assistanceMode?: 'guide' | 'play' | 'solve';
-  onSelectAssistanceMode?: (mode: 'guide' | 'play' | 'solve') => void;
+  assistanceMode?: 'guide_solve' | 'play' | 'guide' | 'solve';
+  onSelectAssistanceMode?: (mode: 'guide_solve' | 'play' | 'guide' | 'solve') => void;
   feedback: SLLFeedback | null;
   isCompleted: boolean;
   onNextTask: () => void;
@@ -54,6 +57,8 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
   nodes,
   pointers,
   selectedNode,
+  currentStep = 1,
+  completedSteps = [],
   onOpenCreateNode,
   onOpenChangeNext,
   onOpenSetHead,
@@ -78,6 +83,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
   const isCountOk = target.nodeCount === undefined || nodes.length === target.nodeCount;
   const isHeadOk = target.headAddress === undefined || pointers.headAddress === target.headAddress;
   const isTailOk = target.tailAddress === undefined || pointers.tailAddress === target.tailAddress;
+  const allSteps = getAllTaskSteps(task, nodes, pointers);
 
   return (
     <div className="w-full flex flex-col gap-4 font-sans">
@@ -160,42 +166,59 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
           </div>
         </div>
 
-        {/* Step Guidance: Guide Steps if in Guide mode, or detailed instructions */}
-        {assistanceMode === 'guide' && task.guideSteps && task.guideSteps.length > 0 ? (
-          <div className="mt-3 p-3 rounded-2xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-500/30 text-xs">
-            <span className="text-[10px] font-mono font-bold text-amber-700 dark:text-amber-300 uppercase tracking-wider block mb-2 flex items-center gap-1">
+        {/* Step-by-Step State Machine Progression */}
+        <div className="mt-3 p-3 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs">
+          <div className="flex items-center justify-between mb-2">
+            <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
               <Sparkles className="w-3 h-3 text-amber-500" />
-              <span>Guided Step-by-Step Walkthrough:</span>
+              <span>Step-by-Step Task Progress:</span>
             </span>
-            <div className="space-y-2">
-              {task.guideSteps.map((step) => (
+            <span className="font-mono text-[10px] font-bold text-indigo-600 dark:text-purple-400">
+              {isCompleted ? 'ALL STEPS COMPLETED' : `STEP ${currentStep} OF ${allSteps.length}`}
+            </span>
+          </div>
+
+          <div className="space-y-1.5">
+            {allSteps.map((s) => {
+              const isDone = completedSteps.includes(s.stepNumber) || isCompleted;
+              const isCurrent = s.stepNumber === currentStep && !isCompleted;
+              return (
                 <div
-                  key={step.stepIndex}
-                  className="p-2 rounded-xl bg-white dark:bg-[#0E1736] border border-amber-200/70 dark:border-amber-500/20 shadow-2xs"
+                  key={s.stepNumber}
+                  className={`p-2 rounded-xl border transition-all flex items-start gap-2 ${
+                    isDone
+                      ? 'bg-emerald-50/80 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-500/30 text-emerald-950 dark:text-emerald-200'
+                      : isCurrent
+                      ? 'bg-amber-50/90 dark:bg-amber-950/40 border-amber-300 dark:border-amber-500/50 text-slate-950 dark:text-white shadow-xs'
+                      : 'bg-white/60 dark:bg-slate-900/40 border-slate-200/60 dark:border-slate-800 text-slate-400 dark:text-slate-500 opacity-60'
+                  }`}
                 >
-                  <div className="flex items-center gap-1.5 font-bold text-slate-800 dark:text-slate-100 text-xs">
-                    <span className="w-4 h-4 rounded-full bg-amber-500 text-white flex items-center justify-center text-[10px] shrink-0">
-                      {step.stepIndex}
-                    </span>
-                    <span>{step.instruction}</span>
+                  <div className="shrink-0 mt-0.5">
+                    {isDone ? (
+                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    ) : isCurrent ? (
+                      <span className="w-4 h-4 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center font-bold text-[10px] animate-pulse">
+                        {s.stepNumber}
+                      </span>
+                    ) : (
+                      <span className="w-4 h-4 rounded-full border border-slate-300 dark:border-slate-700 flex items-center justify-center text-[10px]">
+                        {s.stepNumber}
+                      </span>
+                    )}
                   </div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 pl-5 leading-tight">
-                    {step.visualClue}
-                  </p>
+                  <div className="flex-1 min-w-0">
+                    <p className={`text-xs font-bold leading-tight ${isCurrent ? 'text-amber-950 dark:text-amber-200' : ''}`}>
+                      {s.title}
+                    </p>
+                    <p className="text-[11px] leading-tight opacity-80 mt-0.5">
+                      {s.what}
+                    </p>
+                  </div>
                 </div>
-              ))}
-            </div>
+              );
+            })}
           </div>
-        ) : (
-          <div className="mt-3 p-3 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs">
-            <span className="text-[10px] font-mono font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
-              Instructions:
-            </span>
-            <p className="text-slate-700 dark:text-slate-300 leading-relaxed font-sans">
-              {task.detailedInstructions}
-            </p>
-          </div>
-        )}
+        </div>
 
         {/* C Code Equivalent Box */}
         <div className="mt-3 p-3 rounded-2xl bg-slate-900 text-slate-200 font-mono text-[11px] border border-slate-800">

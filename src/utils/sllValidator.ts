@@ -89,25 +89,69 @@ export function validateTaskAnswer(
   // 2. Custom Validators for specific task scenarios
   if (task.targetCondition.customValidator === 'L1_T1_NODE_CREATED') {
     const node10 = nodes.find((n) => n.data === 10 || n.address === 1001);
+    const node20 = nodes.find((n) => n.data === 20 || n.address === 1002);
+    const headCorrect = pointers.headAddress === 1001;
+    const connected = node10 && node10.nextAddress === 1002;
+
     if (!node10) {
       return {
         isValid: false,
         feedback: {
           type: 'error',
-          title: 'Node Not Created Yet',
-          message: 'Please click "+ Create Node" to allocate your first node in memory.',
+          title: 'First Node Not Created Yet',
+          message: 'Click "+ Create Node" to allocate your first node (DATA: 10, ADDR: 1001) in RAM.',
           explanation: 'Every node in a linked list must be allocated before pointers can reference it.',
         },
         ...analysis,
       };
     }
+
+    if (!headCorrect) {
+      return {
+        isValid: false,
+        feedback: {
+          type: 'error',
+          title: 'HEAD Not Set',
+          message: 'Make Node 10 (1001) the HEAD of your list.',
+          explanation: 'HEAD must point to the first node to access the list.',
+        },
+        ...analysis,
+      };
+    }
+
+    if (!node20) {
+      return {
+        isValid: false,
+        feedback: {
+          type: 'error',
+          title: 'Second Node Not Created',
+          message: 'Create the second node with DATA: 20 at Address 1002.',
+          explanation: 'Allocate the next node in memory before connecting it.',
+        },
+        ...analysis,
+      };
+    }
+
+    if (!connected) {
+      return {
+        isValid: false,
+        feedback: {
+          type: 'error',
+          title: 'Nodes Not Connected',
+          message: "Connect Node 10's NEXT pointer to Node 20 (Address 1002).",
+          explanation: 'The NEXT field holds the memory address of the following node.',
+        },
+        ...analysis,
+      };
+    }
+
     return {
       isValid: true,
       feedback: {
         type: 'success',
-        title: 'Node Created Successfully! 🎉',
-        message: `Node [ DATA: ${node10.data} | Addr: ${node10.address} | NEXT: NULL ] has been placed in Heap RAM.`,
-        explanation: 'Notice that HEAD and TAIL are still NULL. In the next step, you will point HEAD to this node!',
+        title: 'Linked List Built Successfully! 🎉',
+        message: 'You have created, initialized, and linked your first Singly Linked List: [ 10 → 20 → NULL ]!',
+        explanation: 'HEAD points to 1001, Node 10 points to Node 20, and Node 20 terminates at NULL.',
       },
       ...analysis,
     };
