@@ -73,8 +73,8 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto py-4 px-2 sm:px-4 font-sans animate-page-enter space-y-6">
       {/* 1. Header Certificate Banner */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/20 rounded-3xl p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] relative overflow-hidden">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-slate-100 dark:border-purple-500/15 pb-3 font-mono">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] relative overflow-hidden">
+        <div className="flex flex-wrap items-center justify-between gap-3 mb-4 border-b border-slate-100 dark:border-blue-900/20 pb-3 font-mono">
           <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-50 dark:bg-amber-950/50 text-amber-800 dark:text-amber-300 text-xs font-bold uppercase tracking-wider rounded-lg border border-amber-200 dark:border-amber-500/30">
             <Trophy className="w-4 h-4 text-amber-600 dark:text-amber-400" />
             <span>Game Level 06 // Single Linked List Mastery Milestone</span>
@@ -90,19 +90,19 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
               Single Linked List Mastered!
             </h1>
             <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed max-w-2xl font-normal">
-              Congratulations! You have completed all 5 progressive Single Linked List levels. You have verified how non-contiguous dynamic nodes in RAM memory connect via <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">NEXT</code> pointers and how <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">HEAD</code> and <code className="font-bold text-indigo-600 dark:text-cyan-400 font-mono">TAIL</code> pointers govern insertions and deletions.
+              Congratulations! You have completed all 5 progressive Single Linked List levels. You have verified how non-contiguous dynamic nodes in RAM memory connect via <code className="font-bold text-blue-600 dark:text-blue-400 font-mono">NEXT</code> pointers and how <code className="font-bold text-blue-600 dark:text-blue-400 font-mono">HEAD</code> and <code className="font-bold text-blue-600 dark:text-blue-400 font-mono">TAIL</code> pointers govern insertions and deletions.
             </p>
           </div>
 
           {/* Quick Mastery Status Card */}
-          <div className="lg:col-span-4 bg-indigo-50/70 dark:bg-purple-950/40 border border-indigo-100 dark:border-purple-500/30 rounded-2xl p-5 text-center shadow-2xs space-y-2">
-            <span className="text-[10px] font-bold text-indigo-600 dark:text-purple-300 uppercase font-mono tracking-widest block">
+          <div className="lg:col-span-4 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/40 rounded-2xl p-5 text-center shadow-2xs space-y-2">
+            <span className="text-[10px] font-bold text-blue-600 dark:text-blue-300 uppercase font-mono tracking-widest block">
               Quest Mastery
             </span>
-            <div className="text-4xl sm:text-5xl font-bold font-mono text-indigo-700 dark:text-cyan-300">
+            <div className="text-4xl sm:text-5xl font-bold font-mono text-blue-700 dark:text-blue-300">
               5 / 5 <span className="text-xl">Levels</span>
             </div>
-            <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 pt-2 border-t border-indigo-200 dark:border-purple-500/20 font-mono">
+            <div className="text-xs font-semibold text-slate-600 dark:text-slate-300 pt-2 border-t border-blue-200 dark:border-blue-900/30 font-mono">
               Accuracy Streak: {pState.streak ?? 0} Keys
             </div>
           </div>
@@ -111,9 +111,9 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
 
       {/* 2. Mastered Algorithm Cards Grid */}
       <div className="space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-200 dark:border-purple-500/20 pb-2">
+        <div className="flex items-center justify-between border-b border-slate-200 dark:border-blue-900/30 pb-2">
           <span className="text-xs font-bold text-slate-900 dark:text-white uppercase font-mono tracking-wider flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+            <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>5 Completed Algorithm Modules</span>
           </span>
           <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">Click any level to replay</span>
@@ -127,19 +127,19 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
                 soundManager.playSelect();
                 onReplayLevel(algo.id);
               }}
-              className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/20 rounded-2xl p-5 shadow-2xs hover:shadow-md hover:border-indigo-200 dark:hover:border-purple-500/40 transition-all cursor-pointer flex flex-col justify-between group select-none"
+              className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-2xl p-5 shadow-2xs hover:shadow-md hover:border-blue-200 dark:hover:border-blue-700 transition-all cursor-pointer flex flex-col justify-between group select-none"
             >
               <div>
                 <div className="flex items-center justify-between mb-3 font-mono">
-                  <span className="px-2.5 py-1 bg-indigo-600 dark:bg-purple-600 text-white rounded-md text-xs font-bold shadow-xs">
+                  <span className="px-2.5 py-1 bg-blue-600 text-white rounded-md text-xs font-bold shadow-xs">
                     Lvl {algo.code}
                   </span>
-                  <span className="text-[10px] font-bold text-indigo-600 dark:text-purple-300 uppercase tracking-wider">
+                  <span className="text-[10px] font-bold text-blue-600 dark:text-blue-300 uppercase tracking-wider">
                     {algo.tag}
                   </span>
                 </div>
 
-                <h3 className="font-bold text-base text-slate-900 dark:text-white tracking-tight mb-1.5 group-hover:text-indigo-600 dark:group-hover:text-cyan-300 transition-colors">
+                <h3 className="font-bold text-base text-slate-900 dark:text-white tracking-tight mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                   {algo.title}
                 </h3>
                 <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
@@ -147,7 +147,7 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
                 </p>
               </div>
 
-              <div className="mt-5 pt-3 border-t border-slate-100 dark:border-purple-500/15 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-purple-400 font-mono">
+              <div className="mt-5 pt-3 border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400 font-mono">
                 <span>Replay Level {algo.code}</span>
                 <RotateCcw className="w-3.5 h-3.5 group-hover:-rotate-45 transition-transform" />
               </div>
@@ -160,19 +160,19 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
               soundManager.playSelect();
               onOpenSandbox();
             }}
-            className="bg-indigo-50/50 dark:bg-purple-950/30 border border-indigo-100 dark:border-purple-500/25 rounded-2xl p-5 shadow-2xs hover:shadow-md hover:border-indigo-300 dark:hover:border-purple-500/40 transition-all cursor-pointer flex flex-col justify-between group select-none"
+            className="bg-blue-50/50 dark:bg-blue-950/30 border border-blue-100 dark:border-blue-900/30 rounded-2xl p-5 shadow-2xs hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all cursor-pointer flex flex-col justify-between group select-none"
           >
             <div>
               <div className="flex items-center justify-between mb-3 font-mono">
-                <span className="px-2.5 py-1 bg-indigo-600 dark:bg-purple-600 text-white rounded-md text-xs font-bold">
+                <span className="px-2.5 py-1 bg-blue-600 text-white rounded-md text-xs font-bold">
                   Sandbox
                 </span>
-                <span className="text-[10px] font-bold text-indigo-800 dark:text-purple-200 uppercase tracking-wider">
+                <span className="text-[10px] font-bold text-blue-800 dark:text-blue-200 uppercase tracking-wider">
                   Unlimited Keys
                 </span>
               </div>
 
-              <h3 className="font-bold text-base text-slate-900 dark:text-white tracking-tight mb-1.5 group-hover:text-indigo-600 dark:group-hover:text-cyan-300 transition-colors">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white tracking-tight mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                 Interactive Lab
               </h3>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-normal">
@@ -180,18 +180,18 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
               </p>
             </div>
 
-            <div className="mt-5 pt-3 border-t border-indigo-100 dark:border-purple-500/20 flex items-center justify-between text-xs font-semibold text-indigo-600 dark:text-purple-400 font-mono">
+            <div className="mt-5 pt-3 border-t border-blue-100 dark:border-blue-900/30 flex items-center justify-between text-xs font-semibold text-blue-600 dark:text-blue-400 font-mono">
               <span>Open Sandbox Lab</span>
-              <Layers className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+              <Layers className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
         </div>
       </div>
 
       {/* 3. Next Steps & Certification Actions */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/20 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-2xl p-5 sm:p-6 shadow-xs flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
         <div className="space-y-1">
-          <span className="text-xs font-bold text-indigo-600 dark:text-purple-400 uppercase font-mono tracking-widest block">
+          <span className="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase font-mono tracking-widest block">
             Next Recommended Milestones
           </span>
           <p className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -208,7 +208,7 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
             }}
             className="btn-modern-secondary px-4 sm:px-5 py-2.5 text-xs font-semibold flex items-center gap-2 cursor-pointer select-none"
           >
-            <Layers className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+            <Layers className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>Open Lab</span>
           </button>
 
@@ -232,7 +232,7 @@ export const QuestCompletionView: React.FC<QuestCompletionViewProps> = ({
             }}
             className="btn-modern-secondary px-4 sm:px-5 py-2.5 text-xs font-semibold flex items-center gap-2 cursor-pointer select-none"
           >
-            <Award className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+            <Award className="w-4 h-4 text-blue-600 dark:text-blue-400" />
             <span>View Progress</span>
           </button>
         </div>

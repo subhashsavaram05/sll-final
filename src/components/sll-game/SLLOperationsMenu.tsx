@@ -170,7 +170,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                     : 'border-slate-200 dark:border-purple-500/25 hover:border-indigo-500 dark:hover:border-purple-400'
                 }`}
               >
-                <div>
+                <div className="flex-1">
                   {/* Card Header: Icon & Task Badge */}
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
@@ -198,14 +198,9 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                   <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1.5 leading-snug">
                     {task.title}
                   </h4>
-                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium mb-3">
+                  <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                     {task.objective}
                   </p>
-
-                  {/* Code snippet badge */}
-                  <div className="p-2 rounded-xl bg-slate-900 text-emerald-400 font-mono text-[10px] truncate border border-slate-800 mb-4">
-                    {task.codeEquivalent.split('\n')[0]}
-                  </div>
                 </div>
 
                 {/* PLAY TASK BUTTON */}
@@ -215,7 +210,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                     soundManager.play('click');
                     onSelectTask(task.id);
                   }}
-                  className={`w-full py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md ${
+                  className={`w-full mt-4 py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md ${
                     isCompleted
                       ? 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100'
                       : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-600/20'

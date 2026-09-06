@@ -17,7 +17,7 @@ interface SLLTeacherBannerProps {
   isTaskComplete: boolean;
   completedSteps?: number[];
   onExecuteStep: () => void;
-  onSwitchToPlay: () => void;
+  onSwitchToPlay?: () => void;
   onNextTask: () => void;
   hasNextTask: boolean;
 }
@@ -28,7 +28,6 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
   isTaskComplete,
   completedSteps = [],
   onExecuteStep,
-  onSwitchToPlay,
   onNextTask,
   hasNextTask,
 }) => {
@@ -36,19 +35,19 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
     <motion.div
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full rounded-3xl p-4 sm:p-5 bg-amber-500/10 dark:bg-amber-500/15 border-2 border-amber-400 dark:border-amber-500/40 shadow-xs relative overflow-hidden font-sans mb-3"
+      className="w-full rounded-3xl p-4 sm:p-5 bg-[#FFF3E0] dark:bg-[#1E150B] border-2 border-[#FDBA5A] dark:border-[#FDBA5A]/50 shadow-xs relative overflow-hidden font-sans mb-3"
     >
       {/* Decorative subtle background icon */}
-      <Lightbulb className="absolute -right-4 -bottom-4 w-28 h-28 text-amber-500/10 dark:text-amber-400/10 pointer-events-none" />
+      <Lightbulb className="absolute -right-4 -bottom-4 w-28 h-28 text-[#F59E0B]/10 dark:text-[#F59E0B]/10 pointer-events-none" />
 
       {/* Header Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-amber-300/40 dark:border-amber-500/25 relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-2 pb-2.5 mb-2.5 border-b border-[#FDBA5A]/40 dark:border-[#FDBA5A]/25 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center font-bold shadow-xs">
-            <Lightbulb className="w-4 h-4 fill-slate-950" />
+          <div className="w-7 h-7 rounded-xl bg-white dark:bg-[#2A1D0D] border border-[#FDBA5A] flex items-center justify-center font-bold shadow-xs">
+            <Lightbulb className="w-4 h-4 text-[#F59E0B] fill-[#F59E0B]" />
           </div>
           <div>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 dark:text-amber-300">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#7C3F00] dark:text-[#FDBA5A]">
               TEACHING ASSISTANT
             </span>
             <div className="flex items-center gap-2">
@@ -72,8 +71,8 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
                           isDone
                             ? 'w-3.5 bg-emerald-500'
                             : isCurr
-                            ? 'w-5 bg-amber-500 animate-pulse'
-                            : 'w-2 bg-amber-300/60 dark:bg-amber-900/60'
+                            ? 'w-5 bg-[#F59E0B] animate-pulse'
+                            : 'w-2 bg-[#FDBA5A]/60 dark:bg-amber-900/60'
                         }`}
                         title={`Step ${stepNum}`}
                       />
@@ -83,18 +82,6 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
               )}
             </div>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={onSwitchToPlay}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-[#0E1736] border border-amber-300 dark:border-amber-500/30 text-amber-900 dark:text-amber-200 text-xs font-bold hover:bg-amber-100/60 transition-all cursor-pointer shadow-2xs"
-            title="Switch to interactive play mode"
-          >
-            <Play className="w-3.5 h-3.5" />
-            <span>Try in PLAY Mode</span>
-          </button>
         </div>
       </div>
 
@@ -124,7 +111,7 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
         <div className="space-y-3 relative z-10">
           {/* WHAT WE ARE DOING */}
           <div className="flex items-start gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-amber-500 text-slate-950 font-mono text-[10px] font-bold shrink-0 mt-0.5">
+            <span className="px-2 py-0.5 rounded-md bg-white dark:bg-[#2A1D0D] border border-[#FDBA5A] text-[#7C3F00] dark:text-[#FDBA5A] font-mono text-[10px] font-bold shrink-0 mt-0.5">
               WHAT
             </span>
             <p className="text-xs sm:text-sm font-semibold text-slate-900 dark:text-white leading-snug">
@@ -134,7 +121,7 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
 
           {/* WHY WE ARE DOING IT */}
           <div className="flex items-start gap-2">
-            <span className="px-2 py-0.5 rounded-md bg-white/80 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-500/30 text-amber-800 dark:text-amber-300 font-mono text-[10px] font-bold shrink-0 mt-0.5">
+            <span className="px-2 py-0.5 rounded-md bg-white/90 dark:bg-[#2A1D0D] border border-[#FDBA5A]/70 text-[#7C3F00] dark:text-[#FDBA5A] font-mono text-[10px] font-bold shrink-0 mt-0.5">
               WHY
             </span>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
@@ -163,13 +150,13 @@ export const SLLTeacherBanner: React.FC<SLLTeacherBannerProps> = ({
               type="button"
               id="guide-solve-perform-step-btn"
               onClick={onExecuteStep}
-              className="py-2.5 px-4 rounded-2xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-md shadow-amber-500/25 flex items-center gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95"
+              className="py-2.5 px-4 rounded-2xl bg-[#FFF3E0] hover:bg-[#FFE7C4] dark:bg-[#2A1D0D] dark:hover:bg-[#382611] border-2 border-[#FDBA5A] text-[#7C3F00] dark:text-[#FDBA5A] font-bold text-xs shadow-xs flex items-center gap-2 cursor-pointer transition-transform hover:scale-105 active:scale-95"
             >
-              <Zap className="w-4 h-4 fill-slate-950" />
+              <Zap className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
               <span>GUIDE & SOLVE: Perform Step {step.stepNumber}</span>
             </button>
 
-            <span className="text-[11px] text-amber-900/80 dark:text-amber-300/80 font-medium">
+            <span className="text-[11px] text-[#7C3F00]/90 dark:text-[#FDBA5A]/90 font-medium">
               One click = One step. Never auto-finishes entire level.
             </span>
           </div>

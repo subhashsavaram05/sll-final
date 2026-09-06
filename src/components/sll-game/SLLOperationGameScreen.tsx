@@ -23,6 +23,7 @@ import {
   Search,
   BookOpen,
   Award,
+  Code2,
 } from 'lucide-react';
 import {
   SLLNode,
@@ -94,6 +95,8 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
   const [pendingConnectFrom, setPendingConnectFrom] = useState<number | null>(null);
   const [isSettingHeadMode, setIsSettingHeadMode] = useState<boolean>(false);
   const [isSettingTailMode, setIsSettingTailMode] = useState<boolean>(false);
+  const [isDeletingNodeMode, setIsDeletingNodeMode] = useState<boolean>(false);
+  const [isConnectingNextMode, setIsConnectingNextMode] = useState<boolean>(false);
 
   // Local RAM State
   const [nodes, setNodes] = useState<SLLNode[]>(() => JSON.parse(JSON.stringify(activeTask.initialNodes)));
@@ -147,6 +150,8 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
     setPendingConnectFrom(null);
     setIsSettingHeadMode(false);
     setIsSettingTailMode(false);
+    setIsDeletingNodeMode(false);
+    setIsConnectingNextMode(false);
     setFeedback(null);
     setIsCompleted(false);
     setHintLevel(0);
@@ -306,18 +311,40 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
 
   const handleDeleteNode = (address: number) => {
     pushSnapshot();
-    setNodes((prev) => prev.filter((n) => n.address !== address));
+    setNodes((prev) =>
+      prev
+        .filter((n) => n.address !== address)
+        .map((n) => (n.nextAddress === address ? { ...n, nextAddress: null } : n))
+    );
     if (selectedAddress === address) setSelectedAddress(null);
     if (pointers.headAddress === address) setPointers((prev) => ({ ...prev, headAddress: null }));
     if (pointers.tailAddress === address) setPointers((prev) => ({ ...prev, tailAddress: null }));
+    if (pendingConnectFrom === address) setPendingConnectFrom(null);
+    setIsDeletingNodeMode(false);
 
     soundManager.play('free');
     setFeedback({
       type: 'info',
       title: 'Node Memory Deallocated (free)',
-      message: `Node at Address ${address} has been freed from memory.`,
+      message: `Node at Address ${address} has been freed from memory and all incoming pointers cleared.`,
     });
     advanceStepIfActionMatches('delete_node', address);
+  };
+
+  const handleNodeClickDirect = (address: number) => {
+    if (isDeletingNodeMode) {
+      handleDeleteNode(address);
+    } else if (pendingConnectFrom && pendingConnectFrom !== address) {
+      handleConnectNextDirect(pendingConnectFrom, address);
+    } else if (isConnectingNextMode && pendingConnectFrom === null) {
+      setPendingConnectFrom(address);
+    } else if (isSettingHeadMode) {
+      handleSetHeadDirect(address);
+    } else if (isSettingTailMode) {
+      handleSetTailDirect(address);
+    } else {
+      setSelectedAddress(address);
+    }
   };
 
   // Direct Workspace Pointer Actions (No typing required)
@@ -353,6 +380,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       prev.map((n) => (n.address === fromAddr ? { ...n, nextAddress: toAddr } : n))
     );
     setPendingConnectFrom(null);
+    setIsConnectingNextMode(false);
     soundManager.play('link');
     setFeedback({
       type: 'info',
@@ -365,6 +393,97 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
   const handleInsertBetween = (prevAddr: number | null, nextAddr: number | null) => {
     setSelectedAddress(prevAddr);
     setActiveModal('CREATE_NODE');
+  };
+
+  // Quick Create Node handler for toolbar in RAM Heap Workspace
+  const handleQuickCreateNode = () => {
+    // 1. Determine next data value compatible with task
+    let nextData = 10;
+    if (activeTask.id === 'L1_T1') {
+      if (!nodes.some((n) => n.data === 10)) {
+        nextData = 10;
+      } else if (!nodes.some((n) => n.data === 20)) {
+        nextData = 20;
+      } else {
+        nextData = Math.max(...nodes.map((n) => n.data), 20) + 10;
+      }
+    } else if (
+      activeTask.defaultInputValues?.data !== undefined &&
+      !nodes.some((n) => n.data === Number(activeTask.defaultInputValues?.data))
+    ) {
+      nextData = Number(activeTask.defaultInputValues.data);
+    } else {
+      const existing = nodes.map((n) => n.data);
+      const standardSequence = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+      const candidate = standardSequence.find((val) => !existing.includes(val));
+      nextData = candidate !== undefined ? candidate : (existing.length > 0 ? Math.max(...existing) + 10 : 10);
+    }
+
+    // 2. Determine unique memory address
+    const existingAddrs = new Set(nodes.map((n) => n.address));
+    let nextAddress = 1001;
+    while (existingAddrs.has(nextAddress)) {
+      nextAddress++;
+    }
+
+    handleCreateNode(nextData, nextAddress, null);
+  };
+
+  const handleToggleHeadMode = () => {
+    setIsDeletingNodeMode(false);
+    setIsConnectingNextMode(false);
+    setPendingConnectFrom(null);
+    setIsSettingTailMode(false);
+    setIsSettingHeadMode((prev) => !prev);
+  };
+
+  const handleToggleTailMode = () => {
+    setIsDeletingNodeMode(false);
+    setIsConnectingNextMode(false);
+    setPendingConnectFrom(null);
+    setIsSettingHeadMode(false);
+    setIsSettingTailMode((prev) => !prev);
+  };
+
+  const handleToggleNextMode = () => {
+    setIsDeletingNodeMode(false);
+    setIsSettingHeadMode(false);
+    setIsSettingTailMode(false);
+    if (isConnectingNextMode || pendingConnectFrom !== null) {
+      setIsConnectingNextMode(false);
+      setPendingConnectFrom(null);
+    } else {
+      setIsConnectingNextMode(true);
+      if (selectedAddress !== null) {
+        setPendingConnectFrom(selectedAddress);
+      } else {
+        setPendingConnectFrom(null);
+      }
+    }
+  };
+
+  const handleToggleDeleteMode = () => {
+    setIsSettingHeadMode(false);
+    setIsSettingTailMode(false);
+    setIsConnectingNextMode(false);
+    setPendingConnectFrom(null);
+    setIsDeletingNodeMode((prev) => !prev);
+  };
+
+  const handleCancelDirectMode = () => {
+    setIsSettingHeadMode(false);
+    setIsSettingTailMode(false);
+    setIsConnectingNextMode(false);
+    setPendingConnectFrom(null);
+    setIsDeletingNodeMode(false);
+  };
+
+  const handleSetNextToNull = () => {
+    if (pendingConnectFrom !== null) {
+      handleConnectNextDirect(pendingConnectFrom, null);
+      setPendingConnectFrom(null);
+      setIsConnectingNextMode(false);
+    }
   };
 
   // Assistance Mode switcher: GUIDE & SOLVE vs PLAY
@@ -662,57 +781,40 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
           </div>
         </div>
 
-        {/* Center: Assistance Mode Switcher & Concept Guide Button */}
+        {/* Center: Assistance Mode Switcher (Guide & Solve, Concept, Play) */}
         <div className="flex items-center gap-2">
-          {/* 2-Mode Segmented Control: [ 💡 GUIDE & SOLVE ]   [ ▶ PLAY ] */}
+          {/* Segmented Mode Switcher: GUIDE & SOLVE | CONCEPT */}
           <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs font-bold shadow-2xs">
             <button
               type="button"
               id="mode-guide-solve-btn"
-              onClick={() => {
-                if (assistanceMode !== 'guide_solve' && assistanceMode !== 'guide') {
-                  handleSelectAssistanceMode('guide_solve');
-                } else {
-                  handleExecuteTeacherStep();
-                }
-              }}
+              onClick={() => handleSelectAssistanceMode('guide_solve')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
                 assistanceMode === 'guide_solve' || assistanceMode === 'guide'
-                  ? 'bg-amber-500 text-slate-950 font-bold shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  ? 'bg-[#FFF3E0] dark:bg-[#2A1D0D] border border-[#FDBA5A] dark:border-[#FDBA5A]/60 text-[#7C3F00] dark:text-[#FDBA5A] font-bold shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent'
               }`}
-              title="Guide & Solve: Teaches the current step and automatically performs ONE step"
+              title="Guide & Solve: Teaching instructions and step-by-step guidance"
             >
-              <Lightbulb className="w-3.5 h-3.5 fill-current" />
+              <Lightbulb className="w-3.5 h-3.5 text-[#F59E0B] fill-[#F59E0B]" />
               <span>GUIDE & SOLVE</span>
             </button>
+
             <button
               type="button"
-              id="mode-play-btn"
-              onClick={() => handleSelectAssistanceMode('play')}
+              id="sll-concept-btn"
+              onClick={() => handleSelectAssistanceMode('concept')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
-                assistanceMode === 'play'
+                assistanceMode === 'concept'
                   ? 'bg-indigo-600 text-white font-bold shadow-xs'
-                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent'
               }`}
-              title="Play Mode: Direct interactive game mode"
+              title="Concept: Current Objective, Pointer Tools info, Pointer Rule, RAM Memory State"
             >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>PLAY</span>
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>CONCEPT</span>
             </button>
           </div>
-
-          {/* Visual Concept Modal Trigger: [ 📖 CONCEPT ] */}
-          <button
-            type="button"
-            id="sll-concept-btn"
-            onClick={() => setIsHowItWorksOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
-            title="Learn how this linked list operation works visually"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>CONCEPT</span>
-          </button>
 
           {/* Level 5 Master Mission Board Button */}
           {currentLevelId === 5 && (
@@ -750,29 +852,147 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
         </div>
       </div>
 
-      {/* 2. FOUR INFORMATION PANELS */}
-      <SLLInfoPanels
-        task={activeTask}
-        nodes={nodes}
-        pointers={pointers}
-        onOpenCreateNode={() => setActiveModal('CREATE_NODE')}
-        onOpenChangeNext={() => setActiveModal('CHANGE_NEXT')}
-        onOpenSetHead={() => setActiveModal('SET_HEAD')}
-        onOpenSetTail={() => setActiveModal('SET_TAIL')}
-        onOpenDeleteNode={() => setActiveModal('DELETE_NODE')}
-      />
+      {/* 2. CONDITIONAL VIEW: CONCEPT SECTION vs MAIN GAMEPLAY BODY */}
+      {assistanceMode === 'concept' ? (
+        <div id="sll-concept-section" className="flex flex-col gap-5 font-sans">
+          {/* Concept Header Banner */}
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 rounded-3xl bg-indigo-50/70 dark:bg-[#0B1228] border border-indigo-200 dark:border-purple-500/30 shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+                <BookOpen className="w-5 h-5" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-300">
+                    Concept & Educational Reference
+                  </span>
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white dark:bg-purple-950/80 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-purple-500/30">
+                    Task #{activeTask.taskIndex}
+                  </span>
+                </div>
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-0.5">
+                  {activeTask.title} — Conceptual Foundations
+                </h3>
+              </div>
+            </div>
 
-      {/* 3. MAIN GAMEPLAY BODY (Workspace + Task Panel) */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-        {/* Left Column: Interactive RAM Workspace + Teacher Assistant + Bottom Controls */}
-        <div className="lg:col-span-8 flex flex-col gap-4">
-          {/* GUIDE & SOLVE TEACHER BANNER: Teaches step & performs ONE step */}
-          {(assistanceMode === 'guide_solve' || assistanceMode === 'guide') && (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => handleSelectAssistanceMode('guide_solve')}
+                className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#FFF3E0] hover:bg-[#FFE8C2] dark:bg-[#2A1D0D] dark:hover:bg-[#382611] border-2 border-[#FDBA5A] text-[#7C3F00] dark:text-[#FDBA5A] text-xs font-bold shadow-xs cursor-pointer transition-all"
+              >
+                <Lightbulb className="w-3.5 h-3.5 text-[#F59E0B] fill-[#F59E0B]" />
+                <span>Guide & Solve</span>
+              </button>
+            </div>
+          </div>
+
+          {/* THE FOUR MOVED SECTIONS (Reference Only Mode) */}
+          <SLLInfoPanels
+            task={activeTask}
+            nodes={nodes}
+            pointers={pointers}
+            isReferenceOnly={true}
+          />
+
+          {/* DEEP-DIVE CONCEPT: Visual Flow & Algorithm */}
+          {activeTask.howItWorks && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
+              {/* ASCII Diagram & Visual Pointer Flow */}
+              <div className="lg:col-span-7 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 shadow-xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-purple-500/20">
+                    <div className="flex items-center gap-2">
+                      <Code2 className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
+                        Memory Pointer Flow Architecture
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400">RAM Pointer Trace</span>
+                  </div>
+
+                  <div className="mt-3 p-3.5 rounded-2xl bg-slate-900 text-emerald-400 font-mono text-xs overflow-x-auto border border-slate-800 shadow-inner">
+                    <pre className="whitespace-pre leading-relaxed font-semibold">
+                      {activeTask.howItWorks.diagram}
+                    </pre>
+                  </div>
+
+                  <div className="mt-4 p-3.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/30 text-amber-900 dark:text-amber-200">
+                    <div className="flex items-center gap-1.5 text-xs font-bold mb-1">
+                      <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                      <span>Golden Rule to Remember</span>
+                    </div>
+                    <p className="text-xs leading-relaxed font-medium">
+                      {activeTask.howItWorks.keyRule}
+                    </p>
+                  </div>
+                </div>
+
+                <p className="mt-4 text-[11px] text-slate-500 dark:text-slate-400">
+                  Linked lists require explicit sequential pointer traversal. Breaking a link before updating it causes immediate memory disconnect.
+                </p>
+              </div>
+
+              {/* Step-by-Step Algorithmic Logic */}
+              <div className="lg:col-span-5 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 shadow-xs flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-purple-500/20">
+                    <div className="flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
+                        Execution Steps Breakdown
+                      </span>
+                    </div>
+                    <span className="text-[10px] font-mono font-bold text-indigo-600 dark:text-purple-300">
+                      {activeTask.howItWorks.steps.length} Steps
+                    </span>
+                  </div>
+
+                  <div className="mt-3 space-y-2">
+                    {activeTask.howItWorks.steps.map((stepText, idx) => (
+                      <div
+                        key={idx}
+                        className="p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 flex items-start gap-2.5"
+                      >
+                        <span className="w-5 h-5 rounded-lg bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 font-mono text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                          {idx + 1}
+                        </span>
+                        <div className="text-xs">
+                          <p className="font-semibold text-slate-800 dark:text-slate-200 leading-relaxed">{stepText}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-purple-500/20 flex items-center justify-between">
+                  <span className="text-xs font-mono text-slate-500">Practice Now:</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSelectAssistanceMode('guide_solve')}
+                      className="px-3 py-1.5 rounded-xl bg-[#FFF3E0] hover:bg-[#FFE8C2] dark:bg-[#2A1D0D] dark:hover:bg-[#382611] border border-[#FDBA5A] text-[#7C3F00] dark:text-[#FDBA5A] text-xs font-bold cursor-pointer transition-all shadow-xs"
+                    >
+                      Return to Workspace
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* MAIN GAMEPLAY BODY: Reflowed directly without the 4 cards */
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          {/* Left Column: Interactive RAM Workspace + Teacher Assistant + Bottom Controls */}
+          <div className="lg:col-span-8 flex flex-col gap-4">
+            {/* GUIDE & SOLVE TEACHER BANNER: Teaches step & performs ONE step */}
+            {(assistanceMode === 'guide_solve' || assistanceMode === 'guide') && (
             <SLLTeacherBanner
               step={currentTeacherStep}
               lastActionResult={teacherLastActionResult}
               onExecuteStep={handleExecuteTeacherStep}
-              onSwitchToPlay={() => handleSelectAssistanceMode('play')}
               isTaskComplete={isCompleted || taskStatus === 'completed'}
               completedSteps={completedSteps}
               onNextTask={handleNextTaskClick}
@@ -800,12 +1020,24 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
             pendingConnectFrom={pendingConnectFrom}
             isSettingHeadMode={isSettingHeadMode}
             isSettingTailMode={isSettingTailMode}
+            isDeletingNodeMode={isDeletingNodeMode}
+            isConnectingNextMode={isConnectingNextMode}
             onSetHeadDirect={handleSetHeadDirect}
             onSetTailDirect={handleSetTailDirect}
             onConnectNextDirect={handleConnectNextDirect}
             onDeleteNodeDirect={handleDeleteNode}
+            onNodeClickDirect={handleNodeClickDirect}
             onInsertBetween={handleInsertBetween}
             guideTargetAddress={currentTeacherStep?.targetAddress ?? activeTask.targetCondition.expectedHead ?? undefined}
+            // Integrated Workspace Pointer Toolbar props
+            onCreateNode={handleQuickCreateNode}
+            onOpenCreateNodeModal={() => setActiveModal('CREATE_NODE')}
+            onToggleHeadMode={handleToggleHeadMode}
+            onToggleTailMode={handleToggleTailMode}
+            onToggleNextMode={handleToggleNextMode}
+            onToggleDeleteMode={handleToggleDeleteMode}
+            onCancelDirectMode={handleCancelDirectMode}
+            onSetNextToNull={handleSetNextToNull}
           />
 
           {/* Bottom Interactive Controls */}
@@ -884,6 +1116,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
             />
           </div>
         </div>
+      )}
 
       {/* 4. MODAL DIALOGS FOR CREATING, EDITING & HINTS */}
       <SLLActionModal

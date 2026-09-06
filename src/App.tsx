@@ -533,7 +533,7 @@ export default function App() {
   const h2Val = currentKey !== null ? calculateH2(currentKey) : 1;
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#050816] text-slate-900 dark:text-[#F8FAFC] font-sans flex antialiased selection:bg-indigo-600 dark:selection:bg-purple-600 selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-[#070B19] text-slate-900 dark:text-[#F8FAFC] font-sans flex antialiased selection:bg-blue-600 dark:selection:bg-blue-600 selection:text-white transition-colors duration-300">
       {/* Sticky Left Sidebar Navigation */}
       <SidebarNav
         activeTab={activeTab}

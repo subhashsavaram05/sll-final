@@ -110,106 +110,18 @@ export const SLLBottomControls: React.FC<SLLBottomControlsProps> = ({
             <button
               id="guide-solve-bottom-btn"
               onClick={onExecuteTeacherStep}
-              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 text-xs font-bold shadow-xs cursor-pointer transition-all hover:scale-105"
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#FFF3E0] hover:bg-[#FFE7C4] dark:bg-[#2A1D0D] dark:hover:bg-[#382611] border-2 border-[#FDBA5A] text-[#7C3F00] dark:text-[#FDBA5A] text-xs font-bold shadow-xs cursor-pointer transition-all hover:scale-105"
             >
-              <Zap className="w-4 h-4 fill-slate-950" />
+              <Zap className="w-4 h-4 fill-[#F59E0B] text-[#F59E0B]" />
               <span>Perform Step {currentStep}</span>
             </button>
           ) : (
-            /* PLAY MODE: Contextual Tools based on what student needs right now */
-            <>
-              {/* If advice is create_node: show prominent create button */}
-              {playAdvice?.recommendedAction === 'create_node' && (
-                <button
-                  id="tool-create-node"
-                  onClick={onOpenCreateNode}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm cursor-pointer transition-all hover:-translate-y-0.5 animate-pulse"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Create Node (DATA: {playAdvice.targetData ?? 10})</span>
-                </button>
-              )}
-
-              {/* If advice is connect_next: show connect button or drag guidance */}
-              {playAdvice?.recommendedAction === 'connect_next' && (
-                <button
-                  id="tool-change-next"
-                  onClick={onOpenChangeNext}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm cursor-pointer transition-all hover:-translate-y-0.5"
-                >
-                  <LinkIcon className="w-3.5 h-3.5" />
-                  <span>Connect NEXT Link</span>
-                </button>
-              )}
-
-              {/* If advice is set_head: highlight set HEAD */}
-              {playAdvice?.recommendedAction === 'set_head' && (
-                <button
-                  id="tool-set-head"
-                  onClick={onToggleSetHeadMode || onOpenSetHead}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                    isSettingHeadMode
-                      ? 'bg-cyan-600 text-white border-cyan-600 ring-2 ring-cyan-400/40'
-                      : 'bg-cyan-600 hover:bg-cyan-700 text-white border-cyan-500 shadow-sm'
-                  }`}
-                >
-                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                  <span>{isSettingHeadMode ? 'Click Node in Workspace...' : `Make Node ${playAdvice.targetAddress ?? ''} HEAD`}</span>
-                </button>
-              )}
-
-              {/* If advice is set_tail: highlight set TAIL */}
-              {playAdvice?.recommendedAction === 'set_tail' && (
-                <button
-                  id="tool-set-tail"
-                  onClick={onToggleSetTailMode || onOpenSetTail}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                    isSettingTailMode
-                      ? 'bg-amber-500 text-white border-amber-500 ring-2 ring-amber-400/40'
-                      : 'bg-amber-500 hover:bg-amber-600 text-white border-amber-400 shadow-sm'
-                  }`}
-                >
-                  <span className="w-2 h-2 rounded-full bg-white animate-ping" />
-                  <span>{isSettingTailMode ? 'Click Node in Workspace...' : `Make Node ${playAdvice.targetAddress ?? ''} TAIL`}</span>
-                </button>
-              )}
-
-              {/* If advice is delete_node: highlight delete */}
-              {playAdvice?.recommendedAction === 'delete_node' && (
-                <button
-                  id="tool-delete-node"
-                  onClick={onOpenDeleteNode}
-                  className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-sm cursor-pointer transition-all"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Delete Detached Node</span>
-                </button>
-              )}
-
-              {/* General Fallback Buttons when not covered by single specific advice */}
-              {!playAdvice || playAdvice.recommendedAction === 'check_answer' ? (
-                <>
-                  <button
-                    id="tool-create-node-general"
-                    onClick={onOpenCreateNode}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-xs cursor-pointer transition-all hover:-translate-y-0.5"
-                  >
-                    <Plus className="w-4 h-4" />
-                    <span>Create Node</span>
-                  </button>
-
-                  <button
-                    id="tool-change-next-general"
-                    onClick={onOpenChangeNext}
-                    disabled={nodeCount === 0}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 disabled:opacity-40 text-xs font-bold hover:bg-purple-100 transition-all cursor-pointer"
-                  >
-                    <LinkIcon className="w-3.5 h-3.5" />
-                    <span>Connect NEXT</span>
-                  </button>
-                </>
-              ) : null}
-            </>
+            /* Workspace clear status indication */
+            <div className="flex items-center gap-2 text-xs font-mono text-slate-600 dark:text-slate-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="font-bold text-slate-700 dark:text-slate-200">Interactive Workspace</span>
+              <span className="text-slate-400 hidden sm:inline">• Pointer Tools active above</span>
+            </div>
           )}
         </div>
 

@@ -730,16 +730,16 @@ const MultiLanguageCodeBlock: React.FC<CodeBlockProps> = ({
   };
 
   return (
-    <div className="bg-slate-900 dark:bg-[#080D1F] border border-slate-700/60 dark:border-purple-500/25 rounded-xl overflow-hidden shadow-xs font-mono text-xs my-4">
+    <div className="bg-slate-900 dark:bg-[#080D1F] border border-slate-700/60 dark:border-blue-900/40 rounded-xl overflow-hidden shadow-xs font-mono text-xs my-4">
       {/* Tab bar header */}
-      <div className="flex items-center justify-between px-3 py-2 bg-slate-800/90 dark:bg-[#050816] border-b border-slate-700/50 dark:border-purple-500/20">
+      <div className="flex items-center justify-between px-3 py-2 bg-slate-800/90 dark:bg-[#050816] border-b border-slate-700/50 dark:border-blue-900/30">
         <div className="flex items-center gap-1.5">
           {cCode && (
             <button
               onClick={() => setSelectedLang('c')}
               className={`px-3 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
                 selectedLang === 'c'
-                  ? 'bg-indigo-600 dark:bg-purple-600 text-white shadow-xs'
+                  ? 'bg-blue-600 dark:bg-blue-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 dark:hover:bg-[#0F1733]'
               }`}
             >
@@ -751,7 +751,7 @@ const MultiLanguageCodeBlock: React.FC<CodeBlockProps> = ({
               onClick={() => setSelectedLang('java')}
               className={`px-3 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
                 selectedLang === 'java'
-                  ? 'bg-indigo-600 dark:bg-purple-600 text-white shadow-xs'
+                  ? 'bg-blue-600 dark:bg-blue-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 dark:hover:bg-[#0F1733]'
               }`}
             >
@@ -763,7 +763,7 @@ const MultiLanguageCodeBlock: React.FC<CodeBlockProps> = ({
               onClick={() => setSelectedLang('python')}
               className={`px-3 py-1 rounded-md text-xs font-semibold transition-all cursor-pointer ${
                 selectedLang === 'python'
-                  ? 'bg-indigo-600 dark:bg-purple-600 text-white shadow-xs'
+                  ? 'bg-blue-600 dark:bg-blue-600 text-white shadow-xs'
                   : 'text-slate-400 hover:text-slate-200 hover:bg-slate-700/50 dark:hover:bg-[#0F1733]'
               }`}
             >
@@ -889,18 +889,18 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
       {/* =========================================================================
           1. HEADER SECTION
           ========================================================================= */}
-      <div className="border border-slate-200 dark:border-purple-500/20 rounded-2xl pt-5 pb-6 px-6 sm:px-8 bg-white dark:bg-[#0B1228] shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
+      <div className="border border-slate-200 dark:border-blue-900/30 rounded-2xl pt-5 pb-6 px-6 sm:px-8 bg-white dark:bg-[#0B1228] shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
           <div className="flex items-center gap-3">
-            <span className="px-2.5 py-0.5 bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 border border-indigo-100 dark:border-purple-500/30 rounded-md text-xs font-semibold uppercase tracking-wider font-mono">
+            <span className="px-2.5 py-0.5 bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-100 dark:border-blue-900/40 rounded-md text-xs font-semibold uppercase tracking-wider font-mono">
               CURRICULUM // VOL. 01
             </span>
             <span className="text-xs font-medium text-slate-500 dark:text-slate-400 font-sans">
               Data Structures & Linked Lists
             </span>
           </div>
-          <div className="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-[#080D1F] px-3 py-1 rounded-lg border border-slate-200 dark:border-purple-500/20">
-            Progress: <span className="text-indigo-600 dark:text-purple-400 font-bold">{totalCompletedCount}</span> / 15 Sections ({theoryPercentage}%)
+          <div className="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-[#080D1F] px-3 py-1 rounded-lg border border-slate-200 dark:border-blue-900/25">
+            Progress: <span className="text-blue-600 dark:text-blue-400 font-bold">{totalCompletedCount}</span> / 15 Sections ({theoryPercentage}%)
           </div>
         </div>
 
@@ -921,9 +921,9 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
         {/* =========================================================================
             LEFT COLUMN: CHAPTER DIRECTORY (15 CHAPTERS)
             ========================================================================= */}
-        <aside className="lg:col-span-4 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/20 rounded-2xl shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] overflow-hidden">
+        <aside className="lg:col-span-4 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-2xl shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] overflow-hidden">
           {/* Directory Header */}
-          <div className="px-4 py-3 border-b border-slate-100 dark:border-purple-500/15 bg-slate-50/70 dark:bg-[#080D1F] flex items-center justify-between">
+          <div className="px-4 py-3 border-b border-slate-100 dark:border-blue-900/20 bg-slate-50/70 dark:bg-[#080D1F] flex items-center justify-between">
             <span className="text-xs font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider font-mono">
               Table of Contents
             </span>
@@ -933,7 +933,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           </div>
 
           {/* List of 15 Selectable Chapter Rows */}
-          <nav className="divide-y divide-slate-100 dark:divide-purple-500/10 max-h-[680px] overflow-y-auto" aria-label="Table of Contents">
+          <nav className="divide-y divide-slate-100 dark:divide-blue-900/15 max-h-[680px] overflow-y-auto" aria-label="Table of Contents">
             {THEORY_CHAPTERS.map((chap) => {
               const isSelected = activeChapter.id === chap.id;
               const isCompleted = completedChapters.includes(chap.id);
@@ -945,14 +945,14 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                   onClick={() => handleSelectChapter(chap.id)}
                   className={`w-full text-left px-4 py-3 transition-all flex items-center justify-between gap-2 cursor-pointer group select-none ${
                     isSelected
-                      ? 'bg-indigo-50/80 dark:bg-purple-950/60 text-indigo-700 dark:text-cyan-300 font-semibold border-l-4 border-l-indigo-600 dark:border-l-purple-500'
+                      ? 'bg-blue-50/80 dark:bg-blue-950/60 text-blue-700 dark:text-cyan-300 font-semibold border-l-4 border-l-blue-600 dark:border-l-blue-500'
                       : 'bg-white dark:bg-[#0B1228] text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#0F1733] font-medium'
                   }`}
                 >
                   <div className="flex items-center gap-3 min-w-0 flex-1">
                     <span
                       className={`text-xs font-mono font-bold shrink-0 ${
-                        isSelected ? 'text-indigo-600 dark:text-purple-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200'
+                        isSelected ? 'text-blue-600 dark:text-blue-400' : 'text-slate-400 dark:text-slate-500 group-hover:text-slate-700 dark:group-hover:text-slate-200'
                       }`}
                     >
                       {chap.number}
@@ -968,7 +968,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                         ✓
                       </span>
                     ) : isSelected ? (
-                      <span className="text-indigo-600 dark:text-purple-400 text-xs font-bold" title="Current">
+                      <span className="text-blue-600 dark:text-blue-400 text-xs font-bold" title="Current">
                         ●
                       </span>
                     ) : (
@@ -983,7 +983,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           </nav>
 
           {/* Sidebar Footer Progress Summary */}
-          <div className="p-3.5 bg-slate-50 dark:bg-[#080D1F] border-t border-slate-100 dark:border-purple-500/15 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-sans">
+          <div className="p-3.5 bg-slate-50 dark:bg-[#080D1F] border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-sans">
             <span>Status:</span>
             <span className="font-semibold text-slate-900 dark:text-white font-mono">
               {totalCompletedCount} / 15 Completed
@@ -996,12 +996,12 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
             ========================================================================= */}
         <main
           key={activeChapter.id}
-          className="lg:col-span-8 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/20 rounded-2xl p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] space-y-6 animate-chapter-switch"
+          className="lg:col-span-8 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-2xl p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] space-y-6 animate-chapter-switch"
         >
           {/* Chapter Metadata Header Tag & Read Time */}
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-purple-500/15 pb-4">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-blue-900/20 pb-4">
             <div className="flex items-center gap-2">
-              <span className="px-2.5 py-0.5 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 rounded-md text-xs font-semibold uppercase tracking-wider font-mono">
+              <span className="px-2.5 py-0.5 bg-blue-50 dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/40 text-blue-700 dark:text-blue-300 rounded-md text-xs font-semibold uppercase tracking-wider font-mono">
                 Section {activeChapter.number} // {activeChapter.category}
               </span>
               {isCurrentChapterCompleted && (
@@ -1012,7 +1012,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               )}
             </div>
             <div className="text-xs font-sans text-slate-500 dark:text-slate-400 font-medium flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+              <Clock className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               <span>Est. Read: {activeChapter.readTime}</span>
             </div>
           </div>
@@ -1035,8 +1035,8 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
 
           {/* ASCII Node Diagram if present */}
           {activeChapter.diagramAscii && (
-            <div className="bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl p-4 font-mono shadow-xs reveal-on-scroll">
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-lg text-xs sm:text-sm font-bold overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20 border-l-4 border-l-[#4F46E5] dark:border-l-purple-500">
+            <div className="bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl p-4 font-mono shadow-xs reveal-on-scroll">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-lg text-xs sm:text-sm font-bold overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                 <pre>{activeChapter.diagramAscii}</pre>
               </div>
             </div>
@@ -1051,7 +1051,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <ul className="space-y-2 text-sm sm:text-base text-slate-700 dark:text-slate-300">
                 {activeChapter.bullets.map((bullet, bIdx) => (
                   <li key={bIdx} className="flex items-start gap-3 leading-relaxed whitespace-pre-line">
-                    <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-purple-400 mt-2 shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 mt-2 shrink-0" />
                     <span>{bullet}</span>
                   </li>
                 ))}
@@ -1065,7 +1065,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20 border-l-4 border-l-[#4F46E5] dark:border-l-purple-500">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                 <pre>{activeChapter.exampleAscii}</pre>
               </div>
             </div>
@@ -1073,7 +1073,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
 
           {/* Analogy Card */}
           {activeChapter.analogy && (
-            <div className="bg-indigo-50/60 dark:bg-purple-950/30 border-l-4 border-l-indigo-600 dark:border-l-purple-500 border border-indigo-100 dark:border-purple-500/20 rounded-r-xl p-4 sm:p-5 text-slate-800 dark:text-slate-200 leading-relaxed space-y-1.5 shadow-xs reveal-on-scroll">
+            <div className="bg-blue-50/60 dark:bg-blue-950/30 border-l-4 border-l-blue-600 dark:border-l-blue-500 border border-blue-100 dark:border-blue-900/30 rounded-r-xl p-4 sm:p-5 text-slate-800 dark:text-slate-200 leading-relaxed space-y-1.5 shadow-xs reveal-on-scroll">
               <p className="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed italic">
                 "{activeChapter.analogy}"
               </p>
@@ -1086,7 +1086,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               {activeChapter.operationsGroups.map((grp, gIdx) => (
                 <div
                   key={gIdx}
-                  className="p-5 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-3"
+                  className="p-5 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-3"
                 >
                   <div>
                     <h3 className="text-base font-bold text-slate-900 dark:text-white">
@@ -1101,7 +1101,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                   <ul className="space-y-2 text-sm text-slate-700 dark:text-slate-300">
                     {grp.items.map((item, iIdx) => (
                       <li key={iIdx} className="flex items-center gap-2.5 font-mono">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-600 dark:bg-purple-400 shrink-0" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400 shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -1121,7 +1121,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                 {activeChapter.steps.map((step, sIdx) => (
                   <div
                     key={sIdx}
-                    className="p-3 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl text-sm text-slate-700 dark:text-slate-300 font-sans"
+                    className="p-3 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl text-sm text-slate-700 dark:text-slate-300 font-sans"
                   >
                     {step}
                   </div>
@@ -1136,7 +1136,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Result:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20 border-l-4 border-l-[#10B981] dark:border-l-emerald-500">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-[#10B981] dark:border-l-emerald-500">
                 <pre>{activeChapter.resultAscii}</pre>
               </div>
             </div>
@@ -1148,11 +1148,11 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example Walkthrough:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
                 <pre>{activeChapter.searchExample.listAscii}</pre>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-2 text-sm font-mono">
-                <div className="text-indigo-600 dark:text-purple-400 font-bold">
+              <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-2 text-sm font-mono">
+                <div className="text-blue-600 dark:text-blue-400 font-bold">
                   {activeChapter.searchExample.query}
                 </div>
                 <div className="space-y-1 text-xs">
@@ -1181,12 +1181,12 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example Traversal:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
                 <pre>{activeChapter.displayExample.listAscii}</pre>
               </div>
-              <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-1.5 text-sm font-mono">
+              <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-1.5 text-sm font-mono">
                 <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Output:</span>
-                <div className="text-base font-black text-indigo-600 dark:text-cyan-300">
+                <div className="text-base font-black text-blue-600 dark:text-cyan-300">
                   {activeChapter.displayExample.output}
                 </div>
               </div>
@@ -1209,12 +1209,12 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
 
           {/* Time Complexity Badge / Card */}
           {activeChapter.timeComplexity && (
-            <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl flex items-center justify-between gap-3 font-mono shadow-xs reveal-on-scroll">
+            <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl flex items-center justify-between gap-3 font-mono shadow-xs reveal-on-scroll">
               <span className="text-xs font-bold uppercase text-slate-600 dark:text-slate-400">
                 Time Complexity:
               </span>
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 bg-indigo-50 dark:bg-purple-950/70 border border-indigo-200 dark:border-purple-500/40 text-indigo-700 dark:text-cyan-300 rounded-lg font-black text-sm">
+                <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-900/40 text-blue-700 dark:text-cyan-300 rounded-lg font-black text-sm">
                   {activeChapter.timeComplexity}
                 </span>
                 {activeChapter.timeComplexityNote && (
@@ -1229,21 +1229,21 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           {/* Time Complexities Table (Section 11) */}
           {activeChapter.tableData && (
             <div className="space-y-3 reveal-on-scroll">
-              <div className="overflow-x-auto border border-slate-200 dark:border-purple-500/20 rounded-xl overflow-hidden shadow-xs">
+              <div className="overflow-x-auto border border-slate-200 dark:border-blue-900/25 rounded-xl overflow-hidden shadow-xs">
                 <table className="w-full text-left font-mono text-xs sm:text-sm">
-                  <thead className="bg-slate-100 dark:bg-[#050816] text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-purple-500/20 uppercase text-[11px] font-bold">
+                  <thead className="bg-slate-100 dark:bg-[#050816] text-slate-800 dark:text-slate-200 border-b border-slate-200 dark:border-blue-900/25 uppercase text-[11px] font-bold">
                     <tr>
                       <th className="px-4 py-3">Operation</th>
                       <th className="px-4 py-3 text-right">Time Complexity</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-100 dark:divide-purple-500/10 bg-white dark:bg-[#0B1228]">
+                  <tbody className="divide-y divide-slate-100 dark:divide-blue-900/15 bg-white dark:bg-[#0B1228]">
                     {activeChapter.tableData.map((row, rIdx) => (
                       <tr key={rIdx} className="hover:bg-slate-50 dark:hover:bg-[#0F1733] transition-colors">
                         <td className="px-4 py-3 text-slate-800 dark:text-slate-200 font-sans font-medium">
                           {row.operation}
                         </td>
-                        <td className="px-4 py-3 text-right font-black text-indigo-600 dark:text-cyan-300">
+                        <td className="px-4 py-3 text-right font-black text-blue-600 dark:text-cyan-300">
                           {row.complexity}
                         </td>
                       </tr>
@@ -1260,7 +1260,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               {activeChapter.advantages.map((adv) => (
                 <div
                   key={adv.num}
-                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-1"
+                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-1"
                 >
                   <h4 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 flex items-center justify-center text-xs font-mono font-bold">
@@ -1282,7 +1282,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               {activeChapter.disadvantages.map((dis) => (
                 <div
                   key={dis.num}
-                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-1.5"
+                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-1.5"
                 >
                   <h4 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
                     <span className="w-6 h-6 rounded-full bg-rose-100 dark:bg-rose-950/70 text-rose-700 dark:text-rose-300 flex items-center justify-center text-xs font-mono font-bold">
@@ -1294,7 +1294,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                     {dis.desc}
                   </p>
                   {dis.diagram && (
-                    <div className="ml-8 mt-2 p-3 bg-white dark:bg-[#050816] rounded-lg border border-slate-200 dark:border-purple-500/20 font-mono text-xs text-rose-600 dark:text-rose-300">
+                    <div className="ml-8 mt-2 p-3 bg-white dark:bg-[#050816] rounded-lg border border-slate-200 dark:border-blue-900/25 font-mono text-xs text-rose-600 dark:text-rose-300">
                       {dis.diagram}
                     </div>
                   )}
@@ -1309,10 +1309,10 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               {activeChapter.applications.map((app) => (
                 <div
                   key={app.num}
-                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-purple-500/20 rounded-xl space-y-2"
+                  className="p-4 bg-slate-50/80 dark:bg-[#0F1733] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-2"
                 >
                   <h4 className="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-full bg-indigo-100 dark:bg-purple-950/70 text-indigo-700 dark:text-purple-300 flex items-center justify-center text-xs font-mono font-bold">
+                    <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-950/70 text-blue-700 dark:text-blue-300 flex items-center justify-center text-xs font-mono font-bold">
                       {app.num}
                     </span>
                     <span>{app.title}</span>
@@ -1321,7 +1321,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                     {app.desc}
                   </p>
                   {app.diagram && (
-                    <div className="ml-8 p-3 bg-white dark:bg-[#050816] text-[#111827] dark:text-cyan-300 rounded-lg border border-slate-200 dark:border-purple-500/20 font-mono text-xs overflow-x-auto">
+                    <div className="ml-8 p-3 bg-white dark:bg-[#050816] text-[#111827] dark:text-cyan-300 rounded-lg border border-slate-200 dark:border-blue-900/25 font-mono text-xs overflow-x-auto">
                       <pre>{app.diagram}</pre>
                     </div>
                   )}
@@ -1337,9 +1337,9 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                 {activeChapter.quickRevisionPoints.map((point, pIdx) => (
                   <div
                     key={pIdx}
-                    className="p-3 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/20 rounded-xl flex items-center gap-2 font-bold text-slate-800 dark:text-slate-200"
+                    className="p-3 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl flex items-center gap-2 font-bold text-slate-800 dark:text-slate-200"
                   >
-                    <span className="w-2 h-2 rounded-full bg-indigo-600 dark:bg-purple-400 shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 shrink-0" />
                     <span>{point}</span>
                   </div>
                 ))}
@@ -1350,14 +1350,14 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                     And the basic structure is always:
                   </span>
-                  <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-purple-500/20 border-l-4 border-l-[#4F46E5] dark:border-l-purple-500">
+                  <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                     <pre>{activeChapter.quickRevisionDiagram}</pre>
                   </div>
                 </div>
               )}
 
               {activeChapter.quickRevisionConclusion && (
-                <div className="p-4 bg-indigo-50/70 dark:bg-purple-950/40 border border-indigo-200 dark:border-purple-500/30 rounded-xl text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans">
+                <div className="p-4 bg-blue-50/70 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/40 rounded-xl text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed font-sans">
                   <strong>The most important thing to understand:</strong> a singly linked list is simply a sequence of nodes where <strong>each node knows the address/reference of the next node</strong>.
                 </div>
               )}
@@ -1367,7 +1367,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           {/* =========================================================================
               BOTTOM NAVIGATION AND IDEMPOTENT COMPLETION ACTIONS
               ========================================================================= */}
-          <div className="border-t border-slate-100 dark:border-purple-500/15 pt-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+          <div className="border-t border-slate-100 dark:border-blue-900/20 pt-5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
             <div className="flex flex-wrap items-center gap-2.5">
               {/* Prev Button */}
               <button

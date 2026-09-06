@@ -18,7 +18,7 @@ import {
   Eye,
   Search,
 } from 'lucide-react';
-import { SLLTaskDef, SLLNode, SLLPointerState, SLLFeedback } from '../../types/sllGame';
+import { SLLTaskDef, SLLNode, SLLPointerState, SLLFeedback, AssistanceMode } from '../../types/sllGame';
 import { getAllTaskSteps } from '../../utils/sllStepAssistant';
 
 interface SLLTaskPanelProps {
@@ -36,8 +36,8 @@ interface SLLTaskPanelProps {
   onOpenHint: () => void;
   onCheckAnswer: () => void;
   onOpenHowItWorks?: () => void;
-  assistanceMode?: 'guide_solve' | 'play' | 'guide' | 'solve';
-  onSelectAssistanceMode?: (mode: 'guide_solve' | 'play' | 'guide' | 'solve') => void;
+  assistanceMode?: AssistanceMode;
+  onSelectAssistanceMode?: (mode: AssistanceMode) => void;
   feedback: SLLFeedback | null;
   isCompleted: boolean;
   onNextTask: () => void;

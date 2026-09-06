@@ -1,4 +1,4 @@
-export type AssistanceMode = 'guide_solve' | 'play' | 'guide' | 'solve';
+export type AssistanceMode = 'guide_solve' | 'play' | 'concept' | 'guide' | 'solve';
 
 export interface SLLTeacherStep {
   stepNumber: number;

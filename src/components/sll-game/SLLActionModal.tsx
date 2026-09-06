@@ -72,9 +72,16 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
   useEffect(() => {
     setFormError(null);
     if (modalType === 'CREATE_NODE') {
-      const defData = activeTask.defaultInputValues?.data !== undefined ? String(activeTask.defaultInputValues.data) : '';
-      const defAddr = activeTask.defaultInputValues?.address !== undefined ? String(activeTask.defaultInputValues.address) : String(defaultAddr);
-      const defNext = activeTask.defaultInputValues?.next !== undefined ? String(activeTask.defaultInputValues.next) : 'NULL';
+      let defData = activeTask.defaultInputValues?.data !== undefined ? String(activeTask.defaultInputValues.data) : '';
+      if (activeTask.id === 'L1_T1') {
+        if (nodes.some((n) => n.data === 10)) {
+          defData = '20';
+        } else {
+          defData = '10';
+        }
+      }
+      const defAddr = String(defaultAddr);
+      const defNext = 'NULL';
       setDataInput(defData);
       setAddressInput(defAddr);
       setNextInput(defNext);

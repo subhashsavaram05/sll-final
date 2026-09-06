@@ -10,14 +10,14 @@ interface IntroModalProps {
 export const IntroModal: React.FC<IntroModalProps> = ({ onStartGame, onOpenLearn }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-editorial-fade font-sans">
-      <div className="bg-white dark:bg-[#0B1228] w-full max-w-md border border-slate-200 dark:border-purple-500/30 rounded-2xl shadow-xl dark:shadow-[0_0_30px_rgba(124,58,237,0.3)] overflow-hidden p-6 sm:p-8 flex flex-col items-center text-center">
+      <div className="bg-white dark:bg-[#0B1228] w-full max-w-md border border-slate-200 dark:border-blue-900/40 rounded-2xl shadow-xl dark:shadow-[0_0_30px_rgba(37,99,235,0.25)] overflow-hidden p-6 sm:p-8 flex flex-col items-center text-center">
         {/* App Icon */}
-        <div className="w-14 h-14 bg-indigo-600 dark:bg-purple-600 text-white rounded-2xl flex items-center justify-center font-bold text-3xl mb-3 shadow-md shadow-indigo-200 dark:shadow-[0_0_20px_rgba(124,58,237,0.5)]">
+        <div className="w-14 h-14 bg-blue-600 dark:bg-blue-600 text-white rounded-2xl flex items-center justify-center font-bold text-3xl mb-3 shadow-md shadow-blue-200 dark:shadow-[0_0_20px_rgba(37,99,235,0.5)]">
           #
         </div>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-purple-950/50 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 text-xs font-semibold rounded-lg font-sans mb-2">
-          <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-800/40 text-blue-700 dark:text-blue-300 text-xs font-semibold rounded-lg font-sans mb-2">
+          <Sparkles className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
           <span>INTERACTIVE HASHING ENGINE</span>
         </div>
 
@@ -30,11 +30,11 @@ export const IntroModal: React.FC<IntroModalProps> = ({ onStartGame, onOpenLearn
         </p>
 
         {/* Fundamental Hash Formula Card */}
-        <div className="w-full bg-slate-50 dark:bg-[#050816] border border-slate-200 dark:border-purple-500/25 rounded-xl p-4 mb-6 text-left shadow-xs">
+        <div className="w-full bg-slate-50 dark:bg-[#050816] border border-slate-200 dark:border-blue-900/30 rounded-xl p-4 mb-6 text-left shadow-xs">
           <div className="text-[10px] uppercase font-bold text-slate-400 dark:text-slate-500 mb-1 font-mono">
             Core Mathematical Law
           </div>
-          <div className="text-xl font-bold font-mono text-indigo-600 dark:text-cyan-400">
+          <div className="text-xl font-bold font-mono text-blue-600 dark:text-blue-400">
             h(k) = k mod m
           </div>
           <div className="text-xs text-slate-500 dark:text-slate-400 mt-1">
@@ -66,7 +66,7 @@ export const IntroModal: React.FC<IntroModalProps> = ({ onStartGame, onOpenLearn
               }}
               className="w-full btn-modern-secondary py-2.5 px-4 text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer"
             >
-              <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+              <BookOpen className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               <span>Explore Theory Curriculum</span>
             </button>
           )}

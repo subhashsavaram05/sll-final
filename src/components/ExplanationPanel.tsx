@@ -25,12 +25,12 @@ export const ExplanationPanel: React.FC<ExplanationPanelProps> = ({
 }) => {
   let title = 'STEP 1: COMPUTE MODULO REMAINDER';
   let message = 'Calculate the remainder formula to find the target array index for this key.';
-  let icon = <Info className="w-4 h-4 text-indigo-600" />;
+  let icon = <Info className="w-4 h-4 text-blue-600 dark:text-blue-400" />;
 
   if (gameState === 'INDEX_FOUND' || (calculatedIndex !== null && !isProbing)) {
     title = `Target Found: Slot [${calculatedIndex < 10 ? `0${calculatedIndex}` : calculatedIndex}]`;
     message = `Key ${currentKey} maps to Index ${calculatedIndex}. Drag the key card or click the slot to complete insertion!`;
-    icon = <ArrowRight className="w-4 h-4 text-indigo-600" />;
+    icon = <ArrowRight className="w-4 h-4 text-blue-600 dark:text-blue-400" />;
   } else if (gameState === 'COLLISION_PAUSE') {
     title = 'Collision Encountered!';
     message = `Index ${calculatedIndex} already contains a value. Both keys resolve to the exact same memory bucket.`;
@@ -44,7 +44,7 @@ export const ExplanationPanel: React.FC<ExplanationPanelProps> = ({
     } else if (level.technique === 'double_hashing') {
       message = `Slot occupied. Double hashing computes a unique non-zero jump interval h2(k) for this key.`;
     }
-    icon = <Sparkles className="w-4 h-4 text-indigo-600" />;
+    icon = <Sparkles className="w-4 h-4 text-blue-600 dark:text-blue-400" />;
   } else if (gameState === 'CHAIN_CONNECTING') {
     title = 'Separate Chaining Attachment';
     message = `Both keys share Index ${calculatedIndex}. They are linked sequentially into the slot's chain bucket.`;
@@ -53,9 +53,9 @@ export const ExplanationPanel: React.FC<ExplanationPanelProps> = ({
 
   return (
     <div className="w-full max-w-5xl mx-auto font-sans">
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-2xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-2xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
         <div className="flex items-start gap-3.5">
-          <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-purple-950/50 border border-indigo-100 dark:border-purple-500/30 flex items-center justify-center shrink-0 mt-0.5">
+          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-950/50 border border-blue-100 dark:border-blue-800/40 flex items-center justify-center shrink-0 mt-0.5">
             {icon}
           </div>
           <div className="flex-1">
