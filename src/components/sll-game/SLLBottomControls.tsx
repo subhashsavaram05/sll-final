@@ -80,9 +80,9 @@ export const SLLBottomControls: React.FC<SLLBottomControlsProps> = ({
     <div className="w-full flex flex-col gap-2 font-sans">
       {/* Active Direct Click / Drag Action Prompt */}
       {isAnyDirectMode && (
-        <div className="w-full p-2.5 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 flex items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 font-medium text-indigo-900 dark:text-indigo-200">
-            <span className="w-2 h-2 rounded-full bg-indigo-600 animate-ping shrink-0" />
+        <div className="w-full p-2.5 rounded-2xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 flex items-center justify-between gap-2 text-xs">
+          <div className="flex items-center gap-2 font-medium text-blue-900 dark:text-blue-200">
+            <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-ping shrink-0" />
             <span>
               {isSettingHeadMode && '👉 Click any node in the workspace above to point HEAD to it.'}
               {isSettingTailMode && '👉 Click any node in the workspace above to point TAIL to it.'}
@@ -102,7 +102,7 @@ export const SLLBottomControls: React.FC<SLLBottomControlsProps> = ({
       )}
 
       {/* Main Controls Card */}
-      <div className="w-full bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2.5 font-sans">
+      <div className="w-full bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-3 sm:p-4 shadow-xs flex flex-wrap items-center justify-between gap-2.5 font-sans">
         {/* Left Side: Contextual Controls in PLAY mode OR Teacher trigger in GUIDE & SOLVE */}
         <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {assistanceMode === 'guide_solve' || assistanceMode === 'guide' ? (
@@ -165,7 +165,7 @@ export const SLLBottomControls: React.FC<SLLBottomControlsProps> = ({
           {onOpenHowToPlay && (
             <button
               onClick={onOpenHowToPlay}
-              className="flex items-center gap-1 px-2.5 py-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
+              className="flex items-center gap-1 px-2.5 py-2 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 text-[#2563EB] dark:text-blue-300 text-xs font-bold hover:bg-[#DBEAFE] transition-colors cursor-pointer"
               title="How to Play"
             >
               <HelpCircle className="w-3.5 h-3.5" />

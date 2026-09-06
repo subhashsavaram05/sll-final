@@ -59,9 +59,9 @@ export const MasterChallengeView: React.FC<MasterChallengeViewProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto py-6 px-4 animate-page-enter font-sans">
       {/* Hero Header */}
-      <div className="border-b border-slate-200 dark:border-purple-500/20 pb-6 mb-8 text-center sm:text-left">
+      <div className="border-b border-slate-200 dark:border-blue-900/20 pb-6 mb-8 text-center sm:text-left">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-2">
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 border border-indigo-100 dark:border-purple-500/30 text-xs font-semibold rounded-md font-mono">
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 bg-[#EFF6FF] dark:bg-blue-950/60 text-[#2563EB] dark:text-blue-300 border border-blue-100 dark:border-blue-900/40 text-xs font-semibold rounded-md font-mono">
             EXAMINATION // LEVEL 06
           </span>
           <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
@@ -92,17 +92,17 @@ export const MasterChallengeView: React.FC<MasterChallengeViewProps> = ({
               }}
               className={`p-6 modern-card border transition-all duration-200 cursor-pointer flex flex-col justify-between group ${
                 isDone
-                  ? 'bg-slate-50/70 dark:bg-[#0B1228] border-indigo-200 dark:border-purple-500/40 shadow-xs'
-                  : 'bg-white dark:bg-[#0B1228] border-slate-200 dark:border-purple-500/20 hover:border-slate-300 dark:hover:border-purple-500/45 hover:-translate-y-0.5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]'
+                  ? 'bg-slate-50/70 dark:bg-[#0B1228] border-blue-200 dark:border-blue-900/40 shadow-xs'
+                  : 'bg-white dark:bg-[#0B1228] border-slate-200 dark:border-blue-900/20 hover:border-slate-300 dark:hover:border-blue-700/45 hover:-translate-y-0.5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs font-bold font-mono bg-indigo-600 dark:bg-purple-600 text-white px-2 py-0.5 rounded-md">
+                    <span className="text-xs font-bold font-mono bg-[#2563EB] dark:bg-blue-600 text-white px-2 py-0.5 rounded-md">
                       {chal.code}
                     </span>
-                    <span className="text-[11px] font-semibold text-indigo-600 dark:text-purple-300 uppercase tracking-wider font-mono">
+                    <span className="text-[11px] font-semibold text-[#2563EB] dark:text-blue-300 uppercase tracking-wider font-mono">
                       {chal.difficulty}
                     </span>
                   </div>
@@ -121,11 +121,11 @@ export const MasterChallengeView: React.FC<MasterChallengeViewProps> = ({
                 </p>
               </div>
 
-              <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-purple-500/15 flex items-center justify-between">
+              <div className="mt-5 pt-3.5 border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between">
                 <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">
                   KEYS: [{chal.keys.join(', ')}]
                 </span>
-                <span className="text-xs font-semibold text-indigo-600 dark:text-purple-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
+                <span className="text-xs font-semibold text-[#2563EB] dark:text-blue-400 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
                   {isDone ? 'Replay' : 'Start'} <ArrowRight className="w-3.5 h-3.5" />
                 </span>
               </div>
@@ -144,7 +144,7 @@ export const MasterChallengeView: React.FC<MasterChallengeViewProps> = ({
           }}
           className="btn-modern-secondary py-2.5 px-5 text-sm font-semibold flex items-center gap-2 cursor-pointer"
         >
-          <Sparkles className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+          <Sparkles className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
           <span>Open Lab Workbench</span>
         </button>
         <button

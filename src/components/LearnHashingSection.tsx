@@ -774,7 +774,7 @@ const MultiLanguageCodeBlock: React.FC<CodeBlockProps> = ({
 
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-700/60 dark:bg-[#0F1733] hover:bg-slate-600 dark:hover:bg-[#152044] text-slate-300 dark:text-cyan-300 text-[11px] transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-slate-700/60 dark:bg-[#0F1733] hover:bg-slate-600 dark:hover:bg-[#152044] text-slate-300 dark:text-blue-300 text-[11px] transition-colors cursor-pointer"
           title="Copy to Clipboard"
         >
           {copied ? (
@@ -792,7 +792,7 @@ const MultiLanguageCodeBlock: React.FC<CodeBlockProps> = ({
       </div>
 
       {/* Code viewport */}
-      <div className="p-4 overflow-x-auto text-slate-100 dark:text-cyan-200 leading-relaxed font-mono">
+      <div className="p-4 overflow-x-auto text-slate-100 dark:text-blue-100 leading-relaxed font-mono">
         <pre>
           <code>{currentCode}</code>
         </pre>
@@ -945,7 +945,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                   onClick={() => handleSelectChapter(chap.id)}
                   className={`w-full text-left px-4 py-3 transition-all flex items-center justify-between gap-2 cursor-pointer group select-none ${
                     isSelected
-                      ? 'bg-blue-50/80 dark:bg-blue-950/60 text-blue-700 dark:text-cyan-300 font-semibold border-l-4 border-l-blue-600 dark:border-l-blue-500'
+                      ? 'bg-blue-50/80 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-semibold border-l-4 border-l-blue-600 dark:border-l-blue-500'
                       : 'bg-white dark:bg-[#0B1228] text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-[#0F1733] font-medium'
                   }`}
                 >
@@ -983,10 +983,13 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           </nav>
 
           {/* Sidebar Footer Progress Summary */}
-          <div className="p-3.5 bg-slate-50 dark:bg-[#080D1F] border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-sans">
-            <span>Status:</span>
-            <span className="font-semibold text-slate-900 dark:text-white font-mono">
-              {totalCompletedCount} / 15 Completed
+          <div
+            id="learn-topics-sidebar-footer"
+            className="p-3.5 bg-slate-50 dark:bg-[#080D1F] border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-sans"
+          >
+            <span id="learn-topics-covered-label">Topics Covered:</span>
+            <span id="learn-topics-covered-count" className="font-semibold text-slate-900 dark:text-white font-mono">
+              {totalCompletedCount} / 15
             </span>
           </div>
         </aside>
@@ -1036,7 +1039,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
           {/* ASCII Node Diagram if present */}
           {activeChapter.diagramAscii && (
             <div className="bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl p-4 font-mono shadow-xs reveal-on-scroll">
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-lg text-xs sm:text-sm font-bold overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-3.5 rounded-lg text-xs sm:text-sm font-bold overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                 <pre>{activeChapter.diagramAscii}</pre>
               </div>
             </div>
@@ -1065,7 +1068,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                 <pre>{activeChapter.exampleAscii}</pre>
               </div>
             </div>
@@ -1136,7 +1139,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Result:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-[#10B981] dark:border-l-emerald-500">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-[#10B981] dark:border-l-emerald-500">
                 <pre>{activeChapter.resultAscii}</pre>
               </div>
             </div>
@@ -1148,7 +1151,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example Walkthrough:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
                 <pre>{activeChapter.searchExample.listAscii}</pre>
               </div>
               <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-2 text-sm font-mono">
@@ -1181,12 +1184,12 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                 Example Traversal:
               </span>
-              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
+              <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-3.5 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30">
                 <pre>{activeChapter.displayExample.listAscii}</pre>
               </div>
               <div className="p-4 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl space-y-1.5 text-sm font-mono">
                 <span className="text-xs text-slate-500 dark:text-slate-400 uppercase font-bold">Output:</span>
-                <div className="text-base font-black text-blue-600 dark:text-cyan-300">
+                <div className="text-base font-black text-blue-600 dark:text-blue-300">
                   {activeChapter.displayExample.output}
                 </div>
               </div>
@@ -1214,7 +1217,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                 Time Complexity:
               </span>
               <div className="flex items-center gap-2">
-                <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-900/40 text-blue-700 dark:text-cyan-300 rounded-lg font-black text-sm">
+                <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/70 border border-blue-200 dark:border-blue-900/40 text-blue-700 dark:text-blue-300 rounded-lg font-black text-sm">
                   {activeChapter.timeComplexity}
                 </span>
                 {activeChapter.timeComplexityNote && (
@@ -1243,7 +1246,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                         <td className="px-4 py-3 text-slate-800 dark:text-slate-200 font-sans font-medium">
                           {row.operation}
                         </td>
-                        <td className="px-4 py-3 text-right font-black text-blue-600 dark:text-cyan-300">
+                        <td className="px-4 py-3 text-right font-black text-blue-600 dark:text-blue-300">
                           {row.complexity}
                         </td>
                       </tr>
@@ -1321,7 +1324,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                     {app.desc}
                   </p>
                   {app.diagram && (
-                    <div className="ml-8 p-3 bg-white dark:bg-[#050816] text-[#111827] dark:text-cyan-300 rounded-lg border border-slate-200 dark:border-blue-900/25 font-mono text-xs overflow-x-auto">
+                    <div className="ml-8 p-3 bg-white dark:bg-[#050816] text-[#111827] dark:text-blue-300 rounded-lg border border-slate-200 dark:border-blue-900/25 font-mono text-xs overflow-x-auto">
                       <pre>{app.diagram}</pre>
                     </div>
                   )}
@@ -1350,7 +1353,7 @@ export const LearnHashingSection: React.FC<LearnHashingSectionProps> = ({
                   <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block font-mono">
                     And the basic structure is always:
                   </span>
-                  <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-cyan-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
+                  <div className="bg-[#F8FAFC] dark:bg-[#050816] text-[#111827] dark:text-blue-300 p-4 rounded-xl text-xs sm:text-sm font-bold font-mono overflow-x-auto border border-[#E5E7EB] dark:border-blue-900/30 border-l-4 border-l-blue-600 dark:border-l-blue-500">
                     <pre>{activeChapter.quickRevisionDiagram}</pre>
                   </div>
                 </div>

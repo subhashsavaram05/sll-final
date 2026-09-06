@@ -37,10 +37,10 @@ export const SLLLevelCompleteModal: React.FC<SLLLevelCompleteModalProps> = ({
         initial={{ scale: 0.85, opacity: 0, y: 20 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.85, opacity: 0, y: 20 }}
-        className="bg-white dark:bg-[#0E1736] border border-slate-200 dark:border-purple-500/30 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden text-center"
+        className="bg-white dark:bg-[#0E1736] border border-slate-200 dark:border-blue-900/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl space-y-6 relative overflow-hidden text-center"
       >
         {/* Glow effect */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-20 bg-indigo-500/20 dark:bg-purple-500/20 blur-2xl rounded-full pointer-events-none" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-20 bg-blue-600/20 dark:bg-blue-500/20 blur-2xl rounded-full pointer-events-none" />
 
         {/* Trophy Icon */}
         <div className="relative mx-auto w-16 h-16 rounded-3xl bg-amber-50 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-500/40 flex items-center justify-center text-amber-500 shadow-md">
@@ -49,7 +49,7 @@ export const SLLLevelCompleteModal: React.FC<SLLLevelCompleteModalProps> = ({
 
         {/* Title & Subtitle */}
         <div className="space-y-1">
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#2563EB] dark:text-blue-400">
             Level 0{levelId} Completed!
           </span>
           <h2 className="text-2xl sm:text-3xl font-bold font-display text-slate-900 dark:text-white tracking-tight">
@@ -81,12 +81,12 @@ export const SLLLevelCompleteModal: React.FC<SLLLevelCompleteModalProps> = ({
         </div>
 
         {/* Points & Score Card */}
-        <div className="grid grid-cols-2 gap-3 p-3.5 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/25 rounded-2xl">
+        <div className="grid grid-cols-2 gap-3 p-3.5 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/30 rounded-2xl">
           <div>
             <span className="text-[10px] font-mono uppercase font-bold text-slate-400 dark:text-slate-500 block">
               Score Awarded
             </span>
-            <span className="text-lg font-mono font-bold text-indigo-600 dark:text-purple-400">
+            <span className="text-lg font-mono font-bold text-[#2563EB] dark:text-blue-400">
               +{scoreAwarded} PTS
             </span>
           </div>
@@ -109,7 +109,7 @@ export const SLLLevelCompleteModal: React.FC<SLLLevelCompleteModalProps> = ({
           <div className="space-y-1.5 pl-2">
             {conceptsLearned.map((c, i) => (
               <div key={i} className="text-xs text-slate-600 dark:text-slate-300 flex items-start gap-2">
-                <span className="text-indigo-600 dark:text-purple-400 font-bold">•</span>
+                <span className="text-[#2563EB] dark:text-blue-400 font-bold">•</span>
                 <span>{c}</span>
               </div>
             ))}
@@ -134,7 +134,7 @@ export const SLLLevelCompleteModal: React.FC<SLLLevelCompleteModalProps> = ({
               soundManager.playSelect();
               onNextLevel();
             }}
-            className="btn-modern-primary py-3 px-4 text-xs font-bold font-mono flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-indigo-600/25"
+            className="btn-modern-primary py-3 px-4 text-xs font-bold font-mono flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-blue-600/25"
           >
             <span>{levelId === 5 ? 'VIEW CERTIFICATE' : 'NEXT LEVEL'}</span>
             <ArrowRight className="w-4 h-4" />

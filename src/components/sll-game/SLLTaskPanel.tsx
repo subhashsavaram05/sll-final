@@ -88,10 +88,10 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
   return (
     <div className="w-full flex flex-col gap-4 font-sans">
       {/* Task Objective Card */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl p-4 sm:p-5 shadow-xs">
-        <div className="flex items-center justify-between gap-2 mb-2 pb-2.5 border-b border-slate-100 dark:border-purple-500/20">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-4 sm:p-5 shadow-xs">
+        <div className="flex items-center justify-between gap-2 mb-2 pb-2.5 border-b border-slate-100 dark:border-blue-900/20">
           <div className="flex items-center gap-2">
-            <span className="px-2 py-0.5 rounded-lg bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 font-mono text-[11px] font-bold">
+            <span className="px-2 py-0.5 rounded-lg bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-300 font-mono text-[11px] font-bold">
               Task #{task.taskIndex}
             </span>
             <span className="text-xs font-mono font-bold text-slate-500 dark:text-slate-400">
@@ -104,7 +104,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
               <button
                 type="button"
                 onClick={onOpenHowItWorks}
-                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold hover:bg-indigo-100 transition-colors cursor-pointer"
+                className="flex items-center gap-1 px-2.5 py-1 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 text-[#2563EB] dark:text-blue-300 text-xs font-bold hover:bg-[#DBEAFE] transition-colors cursor-pointer"
                 title="View visual step explanation"
               >
                 <HelpCircle className="w-3.5 h-3.5" />
@@ -131,7 +131,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
         </p>
 
         {/* Real-time Target Criteria Checklist */}
-        <div className="mt-3 p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20">
+        <div className="mt-3 p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20">
           <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-wider block mb-1.5">
             Target Verification Checklist:
           </span>
@@ -167,13 +167,13 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
         </div>
 
         {/* Step-by-Step State Machine Progression */}
-        <div className="mt-3 p-3 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs">
+        <div className="mt-3 p-3 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-xs">
           <div className="flex items-center justify-between mb-2">
             <span className="text-[10px] font-mono font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-1">
               <Sparkles className="w-3 h-3 text-amber-500" />
               <span>Step-by-Step Task Progress:</span>
             </span>
-            <span className="font-mono text-[10px] font-bold text-indigo-600 dark:text-purple-400">
+            <span className="font-mono text-[10px] font-bold text-[#2563EB] dark:text-blue-400">
               {isCompleted ? 'ALL STEPS COMPLETED' : `STEP ${currentStep} OF ${allSteps.length}`}
             </span>
           </div>
@@ -223,7 +223,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
         {/* C Code Equivalent Box */}
         <div className="mt-3 p-3 rounded-2xl bg-slate-900 text-slate-200 font-mono text-[11px] border border-slate-800">
           <div className="flex items-center gap-1.5 text-[10px] text-slate-400 mb-1.5 font-bold uppercase tracking-wider">
-            <Code2 className="w-3 h-3 text-indigo-400" />
+            <Code2 className="w-3 h-3 text-blue-400" />
             <span>C / C++ Pointer Equivalent:</span>
           </div>
           <code className="text-emerald-400 leading-tight block whitespace-pre-wrap">
@@ -237,26 +237,26 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
         <motion.div
           initial={{ opacity: 0, y: 5 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-[#0B1228] border border-indigo-200 dark:border-indigo-500/30 rounded-3xl p-4 shadow-xs"
+          className="bg-white dark:bg-[#0B1228] border border-blue-200 dark:border-blue-900/30 rounded-3xl p-4 shadow-xs"
         >
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
+            <span className="text-xs font-mono font-bold text-[#2563EB] dark:text-blue-400 flex items-center gap-1">
               <Layers className="w-3.5 h-3.5" />
               <span>SELECTED NODE INSPECTOR</span>
             </span>
-            <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+            <span className="text-[10px] font-mono font-bold px-1.5 py-0.2 rounded bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-300">
               ADDR: {selectedNode.address}
             </span>
           </div>
 
           <div className="grid grid-cols-2 gap-2 text-xs font-mono mb-3">
-            <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20">
+            <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20">
               <span className="text-[9px] text-slate-400 block">DATA VALUE</span>
               <span className="font-bold text-slate-900 dark:text-white text-sm">{selectedNode.data}</span>
             </div>
-            <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20">
+            <div className="p-2 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20">
               <span className="text-[9px] text-slate-400 block">NEXT POINTER</span>
-              <span className="font-bold text-indigo-600 dark:text-purple-400 text-sm">
+              <span className="font-bold text-[#2563EB] dark:text-blue-400 text-sm">
                 {selectedNode.nextAddress !== null ? selectedNode.nextAddress : 'NULL'}
               </span>
             </div>
@@ -265,7 +265,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => onOpenChangeNext(selectedNode.address)}
-              className="px-2.5 py-1.5 rounded-xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-bold hover:bg-purple-100 flex items-center justify-center gap-1"
+              className="px-2.5 py-1.5 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 text-[#2563EB] dark:text-blue-300 text-xs font-bold hover:bg-[#DBEAFE] flex items-center justify-center gap-1"
             >
               <LinkIcon className="w-3 h-3" />
               <span>Edit NEXT</span>
@@ -387,7 +387,7 @@ export const SLLTaskPanel: React.FC<SLLTaskPanelProps> = ({
           <button
             id="sll-check-answer-btn"
             onClick={onCheckAnswer}
-            className="w-full py-3.5 px-5 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
+            className="w-full py-3.5 px-5 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
           >
             <CheckCircle2 className="w-5 h-5" />
             <span>CHECK ANSWER</span>

@@ -69,17 +69,17 @@ void main() {
   // Subtle glow on distorted zones
   float distortionMag = length(disp) * 20.0;
   
-  vec3 lightAccent = vec3(0.31, 0.27, 0.90);
-  vec3 darkAccent = vec3(0.48, 0.23, 0.93); // Electric purple #7C3AED
+  vec3 lightAccent = vec3(0.145, 0.388, 0.921); // Royal blue #2563EB
+  vec3 darkAccent = vec3(0.231, 0.510, 0.965); // Royal blue #3B82F6 with subtle violet edge
   vec3 chosenAccent = mix(lightAccent, darkAccent, uIsDark);
   
-  vec3 finalColor = mix(baseColor, chosenAccent, gridPattern * 0.16 + distortionMag * (uIsDark > 0.5 ? 0.40 : 0.30));
+  vec3 finalColor = mix(baseColor, chosenAccent, gridPattern * 0.16 + distortionMag * (uIsDark > 0.5 ? 0.35 : 0.28));
   
   gl_FragColor = vec4(finalColor, 1.0);
 }
 `;
 
-// Helper: Generates a seamless high-contrast technical blueprint in Light or Dark Neon aesthetic
+// Helper: Generates a seamless high-contrast technical blueprint in Light or Dark aesthetic
 function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasElement {
   const canvas = document.createElement('canvas');
   canvas.width = w;
@@ -88,19 +88,19 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
   if (!ctx) return canvas;
 
   if (isDark) {
-    // Dark Neon Mode: Deep Navy Black
-    ctx.fillStyle = '#050816';
+    // Dark Mode: Deep Royal Navy #0B1120
+    ctx.fillStyle = '#0B1120';
     ctx.fillRect(0, 0, w, h);
 
     // Subtle Radial Glow in corner
     const grad = ctx.createRadialGradient(w * 0.2, h * 0.2, 50, w * 0.2, h * 0.2, 600);
-    grad.addColorStop(0, 'rgba(124, 58, 237, 0.12)');
-    grad.addColorStop(1, 'rgba(5, 8, 22, 0)');
+    grad.addColorStop(0, 'rgba(37, 99, 235, 0.12)');
+    grad.addColorStop(1, 'rgba(11, 17, 32, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
     // Background Grid Lines
-    ctx.strokeStyle = 'rgba(139, 92, 246, 0.12)';
+    ctx.strokeStyle = 'rgba(59, 130, 246, 0.10)';
     ctx.lineWidth = 1;
     const step = 36;
     for (let x = 0; x <= w; x += step) {
@@ -133,8 +133,8 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
       ctx.stroke();
     }
 
-    // Coordinate Crosshairs & Dots (Cyan Neon)
-    ctx.fillStyle = 'rgba(34, 211, 238, 0.35)';
+    // Coordinate Crosshairs & Dots (Royal Blue)
+    ctx.fillStyle = 'rgba(59, 130, 246, 0.35)';
     for (let x = step; x < w; x += step * 2) {
       for (let y = step; y < h; y += step * 2) {
         ctx.beginPath();
@@ -145,7 +145,7 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
 
     // Corner Crosshairs on Major Grid Intersections
     const drawCross = (cx: number, cy: number) => {
-      ctx.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+      ctx.strokeStyle = 'rgba(37, 99, 235, 0.4)';
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(cx - 8, cy);
@@ -161,19 +161,19 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
       }
     }
 
-    // Left Diagram: Hash Array Representation (Dark Neon)
+    // Left Diagram: Hash Array Representation (Royal Blue)
     const leftX = 100;
     const leftY = 200;
-    ctx.strokeStyle = 'rgba(139, 92, 246, 0.3)';
+    ctx.strokeStyle = 'rgba(37, 99, 235, 0.3)';
     ctx.lineWidth = 2;
     ctx.strokeRect(leftX, leftY, 320, 480);
-    ctx.fillStyle = 'rgba(11, 18, 40, 0.6)';
+    ctx.fillStyle = 'rgba(17, 24, 39, 0.6)';
     ctx.fillRect(leftX, leftY, 320, 480);
 
     for (let i = 0; i < 8; i++) {
       const sy = leftY + i * 60;
       ctx.strokeRect(leftX, sy, 320, 60);
-      ctx.fillStyle = 'rgba(34, 211, 238, 0.6)';
+      ctx.fillStyle = 'rgba(96, 165, 250, 0.7)';
       ctx.font = 'bold 12px monospace';
       ctx.fillText(`[0${i}] h(k) = (${i * 17}) % 8`, leftX + 16, sy + 36);
     }
@@ -182,10 +182,10 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
     const rightX = w - 420;
     const rightY = 240;
     ctx.strokeRect(rightX, rightY, 320, 360);
-    ctx.fillStyle = 'rgba(11, 18, 40, 0.6)';
+    ctx.fillStyle = 'rgba(17, 24, 39, 0.6)';
     ctx.fillRect(rightX, rightY, 320, 360);
 
-    ctx.strokeStyle = 'rgba(168, 85, 247, 0.5)';
+    ctx.strokeStyle = 'rgba(37, 99, 235, 0.5)';
     ctx.lineWidth = 2.5;
     ctx.setLineDash([6, 4]);
     ctx.beginPath();
@@ -207,14 +207,14 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
     ctx.setLineDash([]);
 
     // Blueprint Borders
-    ctx.strokeStyle = 'rgba(139, 92, 246, 0.25)';
+    ctx.strokeStyle = 'rgba(37, 99, 235, 0.25)';
     ctx.lineWidth = 1.5;
     ctx.strokeRect(20, 20, w - 40, h - 40);
 
     return canvas;
   }
 
-  // Light Mode: Clean Slate White (100% Unchanged)
+  // Light Mode: Clean Slate White
   ctx.fillStyle = '#F8FAFC';
   ctx.fillRect(0, 0, w, h);
 
@@ -235,8 +235,8 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
     ctx.stroke();
   }
 
-  // Accent Major Grid Lines
-  ctx.strokeStyle = 'rgba(79, 70, 229, 0.10)';
+  // Accent Major Grid Lines (Royal Blue subtle)
+  ctx.strokeStyle = 'rgba(37, 99, 235, 0.10)';
   ctx.lineWidth = 1.5;
   const majorStep = 180;
   for (let x = 0; x <= w; x += majorStep) {
@@ -264,7 +264,7 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
 
   // Corner Crosshairs on Major Grid Intersections
   const drawCross = (cx: number, cy: number) => {
-    ctx.strokeStyle = 'rgba(79, 70, 229, 0.25)';
+    ctx.strokeStyle = 'rgba(37, 99, 235, 0.22)';
     ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(cx - 8, cy);
@@ -283,10 +283,10 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
   // Left Diagram: Hash Array Representation
   const leftX = 100;
   const leftY = 200;
-  ctx.strokeStyle = 'rgba(79, 70, 229, 0.12)';
+  ctx.strokeStyle = 'rgba(37, 99, 235, 0.14)';
   ctx.lineWidth = 2;
   ctx.strokeRect(leftX, leftY, 320, 480);
-  ctx.fillStyle = 'rgba(79, 70, 229, 0.02)';
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.02)';
   ctx.fillRect(leftX, leftY, 320, 480);
 
   for (let i = 0; i < 8; i++) {
@@ -301,10 +301,10 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
   const rightX = w - 420;
   const rightY = 240;
   ctx.strokeRect(rightX, rightY, 320, 360);
-  ctx.fillStyle = 'rgba(79, 70, 229, 0.02)';
+  ctx.fillStyle = 'rgba(37, 99, 235, 0.02)';
   ctx.fillRect(rightX, rightY, 320, 360);
 
-  ctx.strokeStyle = 'rgba(79, 70, 229, 0.25)';
+  ctx.strokeStyle = 'rgba(37, 99, 235, 0.25)';
   ctx.lineWidth = 2.5;
   ctx.setLineDash([6, 4]);
   ctx.beginPath();
@@ -314,7 +314,7 @@ function createBlueprintTexture(w = 1600, h = 1200, isDark = false): HTMLCanvasE
   ctx.setLineDash([]);
 
   // Center Math Ring Matrix
-  ctx.strokeStyle = 'rgba(79, 70, 229, 0.15)';
+  ctx.strokeStyle = 'rgba(37, 99, 235, 0.15)';
   ctx.lineWidth = 2;
   ctx.setLineDash([4, 4]);
   ctx.beginPath();

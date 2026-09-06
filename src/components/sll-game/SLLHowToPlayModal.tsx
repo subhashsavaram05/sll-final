@@ -28,7 +28,7 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
       icon: BookOpen,
       title: 'Read the task',
       desc: 'Understand what the linked list should look like in RAM.',
-      color: 'text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60',
+      color: 'text-[#2563EB] dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60',
     },
     {
       num: '②',
@@ -42,7 +42,7 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
       icon: MoveRight,
       title: 'Connect nodes',
       desc: 'Drag from the NEXT connector point → destination node, or click both.',
-      color: 'text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60',
+      color: 'text-[#1D4ED8] dark:text-blue-300 bg-blue-100/70 dark:bg-blue-950/80',
     },
     {
       num: '④',
@@ -63,7 +63,7 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
       icon: CheckCircle2,
       title: 'Complete the task',
       desc: 'When the structure is correct, click CHECK ANSWER to earn XP and advance!',
-      color: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/60',
+      color: 'text-rose-600 dark:text-rose-400 bg-rose-50 dark:rose-950/60',
     },
   ];
 
@@ -74,16 +74,16 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
           initial={{ opacity: 0, scale: 0.95, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 12 }}
-          className="w-full max-w-lg bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 rounded-3xl p-5 sm:p-6 shadow-2xl relative overflow-hidden"
+          className="w-full max-w-lg bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-5 sm:p-6 shadow-2xl relative overflow-hidden"
         >
           {/* Header */}
-          <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-purple-500/20">
+          <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-blue-900/20">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-md shadow-indigo-600/30">
+              <div className="w-9 h-9 rounded-xl bg-[#2563EB] text-white flex items-center justify-center shadow-md shadow-blue-600/30">
                 <Gamepad2 className="w-5 h-5" />
               </div>
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] dark:text-blue-400">
                   Interactive Guide
                 </span>
                 <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
@@ -108,14 +108,14 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
               return (
                 <div
                   key={s.title}
-                  className="flex items-start gap-3 p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-100 dark:border-purple-500/20 transition-all hover:bg-slate-100/70 dark:hover:bg-[#0E1736]"
+                  className="flex items-start gap-3 p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-100 dark:border-blue-900/20 transition-all hover:bg-slate-100/70 dark:hover:bg-[#0E1736]"
                 >
                   <div className={`w-8 h-8 rounded-xl ${s.color} flex items-center justify-center shrink-0 font-mono font-bold text-xs`}>
                     <Icon className="w-4 h-4" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5 text-xs font-bold text-slate-800 dark:text-slate-100">
-                      <span className="text-indigo-600 dark:text-purple-400 font-mono">{s.num}</span>
+                      <span className="text-[#2563EB] dark:text-blue-400 font-mono">{s.num}</span>
                       <span>{s.title}</span>
                     </div>
                     <p className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug mt-0.5">
@@ -128,8 +128,8 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
           </div>
 
           {/* Connect Hint Tooltip */}
-          <div className="mb-5 p-3 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-500/30 text-xs text-indigo-900 dark:text-indigo-200 flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-indigo-600 animate-ping shrink-0" />
+          <div className="mb-5 p-3 rounded-2xl bg-[#EFF6FF] dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/30 text-xs text-blue-900 dark:text-blue-200 flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-ping shrink-0" />
             <span>
               <strong>Tip:</strong> In Play Mode, drag the NEXT connector dot or click two nodes to link them instantly without typing memory addresses.
             </span>
@@ -140,7 +140,7 @@ export const SLLHowToPlayModal: React.FC<SLLHowToPlayModalProps> = ({
             type="button"
             id="sll-got-it-play-btn"
             onClick={onClose}
-            className="w-full py-3 px-4 rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
+            className="w-full py-3 px-4 rounded-2xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-sm shadow-lg shadow-blue-600/30 flex items-center justify-center gap-2 cursor-pointer transition-all hover:scale-[1.01]"
           >
             <span>GOT IT — START PLAYING</span>
             <Gamepad2 className="w-4 h-4" />

@@ -520,10 +520,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
   return (
     <div className="w-full max-w-4xl mx-auto py-4 px-4 font-sans text-slate-900 dark:text-white animate-page-enter">
       {/* Header Banner */}
-      <div className="border border-slate-200 dark:border-purple-500/20 rounded-2xl pb-6 mb-6 bg-white dark:bg-[#0B1228] p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
+      <div className="border border-slate-200 dark:border-blue-900/30 rounded-2xl pb-6 mb-6 bg-white dark:bg-[#0B1228] p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
         <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono">
-            <ShieldCheck className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#EFF6FF] dark:bg-blue-950/60 border border-[#BFDBFE] dark:border-blue-500/30 text-[#2563EB] dark:text-blue-300 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
             <span>KNOWLEDGE ASSESSMENT</span>
           </div>
           <div className="flex items-center gap-2">
@@ -546,12 +546,12 @@ export const QuizView: React.FC<QuizViewProps> = ({
         </p>
 
         {/* Question Index Tabs / Progress Tracker */}
-        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-purple-500/15">
+        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-blue-900/20">
           <div className="flex items-center justify-between gap-2 mb-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
             <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+              <Sparkles className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
               <span>
-                Progress: <strong className="text-indigo-600 dark:text-purple-300 font-mono">{answeredCount}</strong> / {totalQuestions} Answered
+                Progress: <strong className="text-[#2563EB] dark:text-blue-300 font-mono">{answeredCount}</strong> / {totalQuestions} Answered
               </span>
             </div>
             {isSubmitted && (
@@ -568,9 +568,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
               const isAnswered = rec !== undefined;
               const isCurrent = currentQuestionIndex === idx && !isSubmitted;
 
-              let pillStyle = 'bg-slate-50 dark:bg-[#080D1F] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-purple-500/20 hover:bg-slate-100 dark:hover:bg-[#0F1733]';
+              let pillStyle = 'bg-slate-50 dark:bg-[#080D1F] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-blue-900/30 hover:bg-slate-100 dark:hover:bg-[#0F1733]';
               if (isCurrent) {
-                pillStyle = 'bg-indigo-600 dark:bg-purple-600 text-white border-indigo-600 dark:border-purple-500 font-bold shadow-xs dark:shadow-[0_0_12px_rgba(124,58,237,0.4)]';
+                pillStyle = 'bg-[#2563EB] dark:bg-blue-600 text-white border-[#2563EB] dark:border-blue-500 font-bold shadow-xs dark:shadow-[0_0_12px_rgba(37,99,235,0.4)]';
               } else if (isAnswered) {
                 if (rec.isCorrect) {
                   pillStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 font-semibold';
@@ -652,7 +652,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
             {/* 6. Summary Statistics Cards: Correct Answers, Incorrect Answers, Accuracy */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl mx-auto">
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
                   CORRECT ANSWERS
                 </span>
@@ -661,7 +661,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   {score}
                 </span>
               </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
                   INCORRECT ANSWERS
                 </span>
@@ -669,7 +669,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   {totalQuestions - score}
                 </span>
               </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-purple-500/30 shadow-xs flex flex-col items-center justify-center text-center">
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
                 <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
                   ACCURACY
                 </span>
@@ -689,7 +689,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   const el = document.getElementById('quiz-question-overview-section');
                   if (el) el.scrollIntoView({ behavior: 'smooth' });
                 }}
-                className="px-5 py-2.5 rounded-xl bg-indigo-50 dark:bg-purple-950/60 border border-indigo-200 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 font-sans text-xs sm:text-sm font-semibold shadow-xs hover:bg-indigo-100 dark:hover:bg-purple-900/50 transition-all flex items-center justify-center gap-2 cursor-pointer"
+                className="px-5 py-2.5 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-[#BFDBFE] dark:border-blue-900/40 text-[#2563EB] dark:text-blue-300 font-sans text-xs sm:text-sm font-semibold shadow-xs hover:bg-[#DBEAFE] dark:hover:bg-blue-900/50 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 <ListOrdered className="w-4 h-4" />
                 <span>Review Answers</span>
@@ -718,7 +718,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 }}
                 className="btn-modern-secondary px-5 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
               >
-                <Gamepad2 className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                <Gamepad2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
                 <span>Continue Learning</span>
               </button>
             </div>
@@ -727,9 +727,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
           {/* 2. QUESTION OVERVIEW SECTION (Directly Below Completion Certificate) */}
           <div id="quiz-question-overview-section" className="space-y-6">
             {/* Section Heading */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-purple-500/20">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-blue-900/25">
               <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-                <ListOrdered className="w-5 h-5 text-indigo-600 dark:text-purple-400" />
+                <ListOrdered className="w-5 h-5 text-[#2563EB] dark:text-blue-400" />
                 <span>Full Question-by-Question Review</span>
               </h3>
               <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-semibold font-mono">
@@ -758,10 +758,10 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     {/* Top Header: Badge + Identifier (Left) & Status Badge (Right) */}
                     <div className="flex items-center justify-between gap-3 mb-3">
                       <div className="flex items-center gap-2.5">
-                        <span className="px-3 py-1 bg-indigo-600 dark:bg-purple-600 text-white rounded-full text-xs font-bold font-mono tracking-wide shadow-xs inline-flex items-center justify-center">
+                        <span className="px-3 py-1 bg-[#2563EB] dark:bg-blue-600 text-white rounded-full text-xs font-bold font-mono tracking-wide shadow-xs inline-flex items-center justify-center">
                           Question {questionNumberStr}
                         </span>
-                        <span className="text-xs font-bold text-indigo-600 dark:text-cyan-300 font-mono tracking-wider">
+                        <span className="text-xs font-bold text-[#2563EB] dark:text-blue-300 font-mono tracking-wider">
                           {q.techniqueCode}
                         </span>
                       </div>
@@ -811,7 +811,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                       </div>
 
                       {/* Right: Correct Answer */}
-                      <div className="p-3.5 sm:p-4 rounded-xl border border-slate-200 dark:border-purple-500/25 bg-[#F8FAFC] dark:bg-[#070B18]">
+                      <div className="p-3.5 sm:p-4 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-[#F8FAFC] dark:bg-[#070B18]">
                         <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-1.5 font-sans">
                           CORRECT ANSWER:
                         </div>
@@ -822,9 +822,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
                     </div>
 
                     {/* Technical Explanation Panel */}
-                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#070B18] border border-slate-200 dark:border-purple-500/20 text-xs">
+                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#070B18] border border-slate-200 dark:border-blue-900/25 text-xs">
                       <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-xs sm:text-sm mb-2">
-                        <HelpCircle className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                        <HelpCircle className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
                         <span>Technical Explanation:</span>
                       </div>
                       <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 font-normal">
@@ -832,7 +832,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                       </p>
 
                       {q.exampleSnippet && (
-                        <div className="mb-3 p-2.5 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 rounded-lg font-mono text-xs text-indigo-700 dark:text-cyan-300 font-semibold">
+                        <div className="mb-3 p-2.5 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-lg font-mono text-xs text-[#1D4ED8] dark:text-blue-300 font-semibold">
                           Example: {q.exampleSnippet}
                         </div>
                       )}
@@ -844,7 +844,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                               soundManager.playNav();
                               onNavigateToTheory(q.targetChapterId);
                             }}
-                            className="text-indigo-600 dark:text-purple-400 hover:text-indigo-700 dark:hover:text-purple-300 font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
+                            className="text-[#2563EB] dark:text-blue-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
                           >
                             <BookOpen className="w-3.5 h-3.5" />
                             <span>Review in Theory Guide →</span>
@@ -858,7 +858,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                             }}
                             className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
                           >
-                            <Gamepad2 className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+                            <Gamepad2 className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
                             <span>Practice in Quest Level {q.targetLevelId} →</span>
                           </button>
                         )}
@@ -881,16 +881,16 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 ? currentAnswerRecord?.isCorrect
                   ? 'border-emerald-300 dark:border-emerald-500/40 ring-1 ring-emerald-200 dark:ring-emerald-500/30'
                   : 'border-rose-300 dark:border-rose-500/40 ring-1 ring-rose-200 dark:ring-rose-500/30'
-                : 'border-slate-200 dark:border-purple-500/20'
+                : 'border-slate-200 dark:border-blue-900/30'
             }`}
           >
             {/* Question Header */}
-            <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100 dark:border-purple-500/15">
+            <div className="flex items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-100 dark:border-blue-900/20">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-1 bg-indigo-600 dark:bg-purple-600 text-white rounded-md text-xs font-bold font-mono shadow-xs">
+                <span className="px-2.5 py-1 bg-[#2563EB] dark:bg-blue-600 text-white rounded-md text-xs font-bold font-mono shadow-xs">
                   Question {currentQuestionIndex + 1 < 10 ? `0${currentQuestionIndex + 1}` : currentQuestionIndex + 1} of {totalQuestions}
                 </span>
-                <span className="text-xs font-semibold text-indigo-600 dark:text-cyan-300 font-mono">{currentQuestion.techniqueCode}</span>
+                <span className="text-xs font-semibold text-[#2563EB] dark:text-blue-300 font-mono">{currentQuestion.techniqueCode}</span>
               </div>
 
               {isCurrentQuestionAnswered && (
@@ -920,7 +920,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
               {currentQuestion.options.map((opt, optIdx) => {
                 const isSelected = pendingSelection === optIdx;
                 let optStyle =
-                  'bg-white dark:bg-[#080D1F] border-slate-200 dark:border-purple-500/25 hover:border-indigo-300 dark:hover:border-purple-500/50 hover:bg-slate-50 dark:hover:bg-[#0F1733] text-slate-800 dark:text-slate-200';
+                  'bg-white dark:bg-[#080D1F] border-slate-200 dark:border-blue-900/30 hover:border-blue-300 dark:hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-[#0F1733] text-slate-800 dark:text-slate-200';
 
                 if (isCurrentQuestionAnswered) {
                   if (optIdx === currentQuestion.correctIndex) {
@@ -929,11 +929,11 @@ export const QuizView: React.FC<QuizViewProps> = ({
                   } else if (isSelected && !currentAnswerRecord?.isCorrect) {
                     optStyle = 'bg-rose-50 dark:bg-rose-950/60 border-rose-400 text-rose-950 dark:text-rose-200 font-bold';
                   } else {
-                    optStyle = 'bg-white dark:bg-[#080D1F] opacity-40 border-slate-200 dark:border-purple-500/20 text-slate-400 dark:text-slate-500';
+                    optStyle = 'bg-white dark:bg-[#080D1F] opacity-40 border-slate-200 dark:border-blue-900/20 text-slate-400 dark:text-slate-500';
                   }
                 } else if (isSelected) {
                   optStyle =
-                    'bg-indigo-50/80 dark:bg-purple-950/60 border-indigo-600 dark:border-cyan-400 text-indigo-900 dark:text-cyan-200 font-semibold ring-2 ring-indigo-500 dark:ring-cyan-500/30';
+                    'bg-[#EFF6FF] dark:bg-blue-950/60 border-[#2563EB] dark:border-blue-500 text-[#1D4ED8] dark:text-blue-200 font-semibold ring-2 ring-[#2563EB]/40 dark:ring-blue-500/30';
                 }
 
                 return (
@@ -952,8 +952,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
                             ? optIdx === currentQuestion.correctIndex
                               ? 'bg-emerald-600 text-white border-emerald-600'
                               : 'bg-rose-600 text-white border-rose-600'
-                            : 'bg-indigo-600 dark:bg-purple-600 text-white border-indigo-600 dark:border-purple-500'
-                          : 'bg-slate-100 dark:bg-[#0B1228] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-purple-500/30'
+                            : 'bg-[#2563EB] dark:bg-blue-600 text-white border-[#2563EB] dark:border-blue-500'
+                          : 'bg-slate-100 dark:bg-[#0B1228] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-blue-900/40'
                       }`}
                     >
                       {String.fromCharCode(65 + optIdx)}
@@ -965,7 +965,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             </div>
 
             {/* Answer Confirmation / Next Button Bar */}
-            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-purple-500/15 flex flex-wrap items-center justify-between gap-3">
+            <div className="mt-6 pt-4 border-t border-slate-100 dark:border-blue-900/20 flex flex-wrap items-center justify-between gap-3">
               <button
                 disabled={currentQuestionIndex === 0}
                 onClick={() => {
@@ -1032,9 +1032,9 @@ export const QuizView: React.FC<QuizViewProps> = ({
 
             {/* Technical Explanation Panel (visible once answered) */}
             {isCurrentQuestionAnswered && (
-              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-purple-500/15 bg-slate-50 dark:bg-[#080D1F] rounded-xl p-4 sm:p-5 text-xs">
+              <div className="mt-6 pt-4 border-t border-slate-100 dark:border-blue-900/20 bg-slate-50 dark:bg-[#080D1F] rounded-xl p-4 sm:p-5 text-xs">
                 <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white mb-2">
-                  <HelpCircle className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                  <HelpCircle className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
                   <span>Technical Explanation:</span>
                 </div>
                 <p className="text-slate-700 dark:text-slate-300 leading-relaxed mb-3 font-normal text-sm">
@@ -1042,7 +1042,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                 </p>
 
                 {currentQuestion.exampleSnippet && (
-                  <div className="mb-3 p-3 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 rounded-lg font-mono text-xs text-indigo-700 dark:text-cyan-300 font-semibold">
+                  <div className="mb-3 p-3 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-lg font-mono text-xs text-[#1D4ED8] dark:text-blue-300 font-semibold">
                     Example: {currentQuestion.exampleSnippet}
                   </div>
                 )}
@@ -1054,7 +1054,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                         soundManager.playNav();
                         onNavigateToTheory(currentQuestion.targetChapterId);
                       }}
-                      className="text-indigo-600 dark:text-cyan-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+                      className="text-[#2563EB] dark:text-blue-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
                       <span>Review in Theory Guide →</span>
@@ -1068,7 +1068,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
                       }}
                       className="text-slate-700 dark:text-slate-300 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
                     >
-                      <Gamepad2 className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+                      <Gamepad2 className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
                       <span>Practice in Quest Level {currentQuestion.targetLevelId} →</span>
                     </button>
                   )}

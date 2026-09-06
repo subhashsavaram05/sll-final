@@ -30,16 +30,16 @@ export const SLLMissionBoard: React.FC<SLLMissionBoardProps> = ({
   onSelectMission,
 }) => {
   return (
-    <div className="w-full bg-white dark:bg-[#0B1228] border border-purple-200 dark:border-purple-500/30 rounded-3xl p-4 sm:p-5 shadow-xs font-sans">
-      <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-purple-500/20">
+    <div className="w-full bg-white dark:bg-[#0B1228] border border-blue-200 dark:border-blue-900/40 rounded-3xl p-4 sm:p-5 shadow-xs font-sans">
+      <div className="flex items-center justify-between gap-2 pb-3 mb-3 border-b border-slate-100 dark:border-blue-900/20">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-300 flex items-center justify-center font-bold text-xs">
+          <div className="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-300 flex items-center justify-center font-bold text-xs">
             <Award className="w-4 h-4" />
           </div>
           <div>
             <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
               <span>MASTER MISSION BOARD</span>
-              <span className="text-[10px] px-2 py-0.2 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 font-mono">
+              <span className="text-[10px] px-2 py-0.2 rounded-full bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-300 font-mono">
                 {LEVEL_5_MISSIONS.filter((m) => completedTaskIds.includes(m.id)).length} / {LEVEL_5_MISSIONS.length} Complete
               </span>
             </h4>
@@ -58,22 +58,22 @@ export const SLLMissionBoard: React.FC<SLLMissionBoardProps> = ({
               onClick={() => onSelectMission && onSelectMission(mission.id)}
               className={`p-2.5 rounded-xl border transition-all flex items-center justify-between text-xs cursor-pointer ${
                 isCurrent
-                  ? 'border-purple-500 bg-purple-50/70 dark:bg-purple-950/40 ring-2 ring-purple-500/20 shadow-xs'
+                  ? 'border-[#2563EB] bg-[#EFF6FF]/70 dark:bg-blue-950/40 ring-2 ring-blue-500/20 shadow-xs'
                   : isDone
                   ? 'border-emerald-200 dark:border-emerald-500/30 bg-emerald-50/30 dark:bg-emerald-950/20 text-slate-700 dark:text-slate-300'
-                  : 'border-slate-200 dark:border-purple-500/20 bg-slate-50/50 dark:bg-[#070B19]/50 text-slate-500 dark:text-slate-400 opacity-80'
+                  : 'border-slate-200 dark:border-blue-900/20 bg-slate-50/50 dark:bg-[#070B19]/50 text-slate-500 dark:text-slate-400 opacity-80'
               }`}
             >
               <div className="flex items-center gap-2.5">
                 {isDone ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 ) : isCurrent ? (
-                  <Target className="w-4 h-4 text-purple-600 animate-pulse shrink-0" />
+                  <Target className="w-4 h-4 text-[#2563EB] animate-pulse shrink-0" />
                 ) : (
                   <Circle className="w-4 h-4 text-slate-300 dark:text-slate-600 shrink-0" />
                 )}
                 <div>
-                  <span className={`font-bold block ${isCurrent ? 'text-purple-900 dark:text-purple-200' : isDone ? 'text-slate-800 dark:text-slate-200' : ''}`}>
+                  <span className={`font-bold block ${isCurrent ? 'text-[#1E40AF] dark:text-blue-200' : isDone ? 'text-slate-800 dark:text-slate-200' : ''}`}>
                     {mission.name}
                   </span>
                   <span className="text-[11px] text-slate-500 dark:text-slate-400">
@@ -83,7 +83,7 @@ export const SLLMissionBoard: React.FC<SLLMissionBoardProps> = ({
               </div>
 
               {isCurrent && (
-                <span className="text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-purple-600 text-white shadow-2xs">
+                <span className="text-[9px] font-mono font-bold uppercase px-2 py-0.5 rounded bg-[#2563EB] text-white shadow-2xs">
                   Active
                 </span>
               )}

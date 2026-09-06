@@ -318,7 +318,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             animate={{ y: 0, opacity: 1 }}
             className="absolute -top-9 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center pointer-events-none"
           >
-            <div className="px-2.5 py-0.5 rounded-md bg-indigo-600 text-white text-[10px] font-mono font-bold shadow-md flex items-center gap-1 whitespace-nowrap">
+            <div className="px-2.5 py-0.5 rounded-md bg-[#2563EB] text-white text-[10px] font-mono font-bold shadow-md flex items-center gap-1 whitespace-nowrap">
               <span>HEAD</span>
               <ArrowDown className="w-3 h-3 stroke-[2.5]" />
             </div>
@@ -394,7 +394,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             effectiveDeleteMode
               ? 'border-rose-500 ring-4 ring-rose-400/40 bg-rose-50/40 dark:bg-rose-950/30 scale-[1.02]'
               : isSourceForNext
-              ? 'border-purple-600 ring-4 ring-purple-500/50 bg-purple-50 dark:bg-purple-950/40 scale-105 shadow-md'
+              ? 'border-[#2563EB] ring-4 ring-blue-500/50 bg-[#EFF6FF]/70 dark:bg-blue-950/40 scale-105 shadow-md'
               : effectiveConnectFrom !== null && effectiveConnectFrom !== node.address
               ? 'border-emerald-500 ring-4 ring-emerald-400/50 bg-emerald-50 dark:bg-emerald-950/30 animate-pulse'
               : dragOverAddr === node.address
@@ -410,15 +410,15 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
               : isCurrent
               ? 'border-cyan-500 ring-4 ring-cyan-500/30 shadow-lg bg-cyan-50/50 dark:bg-cyan-950/30 scale-105'
               : isSelected
-              ? 'border-indigo-600 dark:border-purple-400 ring-4 ring-indigo-500/25 shadow-md bg-indigo-50/40 dark:bg-purple-950/30'
-              : 'border-slate-300 dark:border-purple-500/40 bg-white dark:bg-[#0E1736] hover:border-indigo-400 dark:hover:border-purple-400 hover:shadow-md hover:scale-[1.02]'
+              ? 'border-[#2563EB] dark:border-blue-400 ring-4 ring-blue-500/25 shadow-md bg-blue-50/40 dark:bg-blue-950/30'
+              : 'border-slate-300 dark:border-blue-900/40 bg-white dark:bg-[#0E1736] hover:border-blue-400 dark:hover:border-blue-400 hover:shadow-md hover:scale-[1.02]'
           }`}
           style={{ minWidth: '136px' }}
         >
           {/* Node Header: NODE | ADDR */}
-          <div className="bg-slate-100 dark:bg-[#152148] px-2.5 py-1 border-b border-slate-200 dark:border-purple-500/30 flex items-center justify-between text-[10px] font-mono">
+          <div className="bg-slate-100 dark:bg-[#152148] px-2.5 py-1 border-b border-slate-200 dark:border-blue-900/30 flex items-center justify-between text-[10px] font-mono">
             <span className="font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">NODE</span>
-            <span className="font-bold text-indigo-700 dark:text-purple-300 bg-white dark:bg-[#0B1228] px-1.5 py-0.2 rounded border border-slate-200 dark:border-purple-500/30">
+            <span className="font-bold text-[#2563EB] dark:text-blue-300 bg-white dark:bg-[#0B1228] px-1.5 py-0.2 rounded border border-slate-200 dark:border-blue-900/30">
               ADDR: {node.address}
             </span>
           </div>
@@ -436,15 +436,15 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             {/* ADDRESS */}
             <div className="flex items-center justify-between font-mono text-xs">
               <span className="text-slate-500 dark:text-slate-400 font-semibold">ADDRESS:</span>
-              <span className="font-bold text-indigo-600 dark:text-purple-300 text-xs">
+              <span className="font-bold text-[#2563EB] dark:text-blue-300 text-xs">
                 {node.address}
               </span>
             </div>
 
             {/* NEXT */}
-            <div className="flex items-center justify-between font-mono text-xs pt-1 border-t border-slate-100 dark:border-purple-500/20">
+            <div className="flex items-center justify-between font-mono text-xs pt-1 border-t border-slate-100 dark:border-blue-900/20">
               <span className="text-slate-500 dark:text-slate-400 font-semibold flex items-center gap-1">
-                <LinkIcon className="w-2.5 h-2.5 text-purple-500" />
+                <LinkIcon className="w-2.5 h-2.5 text-[#6366F1]" />
                 <span>NEXT:</span>
               </span>
               <div className="flex items-center gap-1">
@@ -456,7 +456,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                   title="Click to edit NEXT pointer"
                   className={`font-bold px-1.5 py-0.5 rounded text-[11px] font-mono cursor-pointer transition-colors ${
                     node.nextAddress !== null
-                      ? 'bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 border border-indigo-200 dark:border-purple-500/30 hover:bg-indigo-200'
+                      ? 'bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-300 border border-blue-200 dark:border-blue-900/40 hover:bg-blue-100'
                       : 'bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-500/30 hover:bg-rose-200'
                   }`}
                 >
@@ -476,7 +476,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                     setDragOverAddr(null);
                   }}
                   title="Drag NEXT → to destination node"
-                  className="w-3.5 h-3.5 rounded-full bg-purple-600 hover:bg-purple-500 text-white flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-125 transition-transform shadow-xs shrink-0"
+                  className="w-3.5 h-3.5 rounded-full bg-[#6366F1] hover:bg-[#4F46E5] text-white flex items-center justify-center cursor-grab active:cursor-grabbing hover:scale-125 transition-transform shadow-xs shrink-0"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-white block" />
                 </div>
@@ -510,12 +510,12 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             </div>
           )}
           {isSourceForNext && (
-            <div className="bg-purple-600 text-white text-[9px] font-mono font-bold py-1 px-1 text-center flex items-center justify-center gap-1">
+            <div className="bg-[#6366F1] text-white text-[9px] font-mono font-bold py-1 px-1 text-center flex items-center justify-center gap-1">
               <span>SOURCE NODE</span>
             </div>
           )}
           {effectiveNextMode && effectiveConnectFrom === null && (
-            <div className="bg-purple-600 text-white text-[9px] font-mono font-bold py-1 px-1 text-center flex items-center justify-center gap-1 animate-pulse">
+            <div className="bg-[#6366F1] text-white text-[9px] font-mono font-bold py-1 px-1 text-center flex items-center justify-center gap-1 animate-pulse">
               <span>CLICK AS SOURCE</span>
             </div>
           )}
@@ -525,9 +525,9 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
         {isMainRow && (
           <div className="flex items-center px-1.5 shrink-0">
             {node.nextAddress !== null ? (
-              <div className="flex items-center text-indigo-500 dark:text-purple-400">
-                <div className="w-4 sm:w-8 h-[2px] bg-indigo-500 dark:bg-purple-400" />
-                <ArrowRight className="w-4 h-4 -ml-1.5 text-indigo-500 dark:text-purple-400 shrink-0 stroke-[2.5]" />
+              <div className="flex items-center text-[#2563EB] dark:text-blue-400">
+                <div className="w-4 sm:w-8 h-[2px] bg-[#2563EB] dark:bg-blue-400" />
+                <ArrowRight className="w-4 h-4 -ml-1.5 text-[#2563EB] dark:text-blue-400 shrink-0 stroke-[2.5]" />
               </div>
             ) : (
               <div
@@ -572,15 +572,15 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
     <div
       id="sll-interactive-workspace"
       ref={containerRef}
-      className="w-full bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] relative overflow-hidden flex flex-col justify-between min-h-[360px] font-sans"
+      className="w-full bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] relative overflow-hidden flex flex-col justify-between min-h-[360px] font-sans"
     >
       {/* Background Grid Pattern */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#a855f7_1px,transparent_1px)] [background-size:20px_20px] opacity-40 dark:opacity-15 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] dark:bg-[radial-gradient(#3b82f6_1px,transparent_1px)] [background-size:20px_20px] opacity-40 dark:opacity-15 pointer-events-none" />
 
       {/* 1. TOP HEADER BAR: RAM HEAP WORKSPACE & Node Count */}
-      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-purple-500/20 relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-blue-900/20 relative z-10">
         <div className="flex items-center gap-2">
-          <div className="w-7 h-7 rounded-lg bg-indigo-50 dark:bg-purple-950/60 border border-indigo-200 dark:border-purple-500/30 flex items-center justify-center text-indigo-600 dark:text-purple-400">
+          <div className="w-7 h-7 rounded-lg bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 flex items-center justify-center text-[#2563EB] dark:text-blue-400">
             <Cpu className="w-4 h-4" />
           </div>
           <div>
@@ -602,11 +602,11 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
       </div>
 
       {/* 2. POINTER TOOLS TOOLBAR - ALWAYS VISIBLE IN PLAY MODE */}
-      <div className="my-2.5 p-3 rounded-2xl bg-slate-50/90 dark:bg-[#070B19]/90 border border-slate-200 dark:border-purple-500/30 shadow-xs relative z-10">
+      <div className="my-2.5 p-3 rounded-2xl bg-slate-50/90 dark:bg-[#070B19]/90 border border-slate-200 dark:border-blue-900/30 shadow-xs relative z-10">
         <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-indigo-600 dark:text-purple-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-[#2563EB] dark:text-blue-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-pulse" />
               <span>POINTER TOOLS</span>
             </span>
             <span className="text-[10px] text-slate-500 dark:text-slate-400 hidden sm:inline">
@@ -635,7 +635,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             id="toolbar-create-node-btn"
             type="button"
             onClick={handleCreateNodeAction}
-            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-xs font-bold shadow-xs cursor-pointer transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] active:scale-95 text-white text-xs font-bold shadow-xs cursor-pointer transition-all"
             title="Allocate a new node with data in Heap memory"
           >
             <PlusCircle className="w-4 h-4" />
@@ -681,8 +681,8 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             onClick={handleToggleNext}
             className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold shadow-xs cursor-pointer transition-all ${
               effectiveNextMode || effectiveConnectFrom !== null
-                ? 'bg-purple-600 text-white ring-2 ring-purple-400 ring-offset-1 scale-105'
-                : 'bg-purple-50 dark:bg-purple-950/60 hover:bg-purple-100 text-purple-700 dark:text-purple-300 border border-purple-300 dark:border-purple-500/40'
+                ? 'bg-[#2563EB] text-white ring-2 ring-blue-400 ring-offset-1 scale-105'
+                : 'bg-[#EFF6FF] dark:bg-blue-950/60 hover:bg-[#DBEAFE] text-[#2563EB] dark:text-blue-300 border border-blue-200 dark:border-blue-900/40'
             }`}
             title="Connect NEXT pointer from source to destination node"
           >
@@ -715,9 +715,9 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
 
         {/* Active Tool Step Instruction Banner */}
         {isAnyToolActive && (
-          <div className="mt-2.5 p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/70 border border-indigo-200 dark:border-indigo-500/40 flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-indigo-900 dark:text-indigo-200 animate-fadeIn">
+          <div className="mt-2.5 p-2 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/70 border border-blue-200 dark:border-blue-900/40 flex flex-wrap items-center justify-between gap-2 text-xs font-medium text-blue-900 dark:text-blue-200 animate-fadeIn">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-indigo-600 animate-ping shrink-0" />
+              <span className="w-2 h-2 rounded-full bg-[#2563EB] animate-ping shrink-0" />
               <span>
                 {effectiveHeadMode && 'Select a node to set as HEAD.'}
                 {effectiveTailMode && 'Select a node to set as TAIL.'}
@@ -752,12 +752,12 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
       </div>
 
       {/* 3. LIVE RAM & POINTER STATE METRICS */}
-      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs font-mono w-full mb-3 relative z-10">
+      <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-xs font-mono w-full mb-3 relative z-10">
         <div className="flex flex-wrap items-center gap-2">
           {/* Chain Length */}
           <div className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold shadow-2xs">
             <span className="text-slate-400 font-normal">Chain Length:</span>
-            <span className="text-indigo-600 dark:text-purple-400">{orderedNodes.length} node{orderedNodes.length !== 1 ? 's' : ''}</span>
+            <span className="text-[#2563EB] dark:text-blue-400">{orderedNodes.length} node{orderedNodes.length !== 1 ? 's' : ''}</span>
           </div>
 
           {/* Unlinked */}
@@ -778,11 +778,11 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
           <div
             className={`flex items-center gap-1 px-2.5 py-1 rounded-lg border font-bold shadow-2xs transition-colors ${
               pointers.headAddress !== null
-                ? 'bg-indigo-50 dark:bg-indigo-950/60 border-indigo-200 dark:border-indigo-500/30 text-indigo-700 dark:text-indigo-300'
+                ? 'bg-[#EFF6FF] dark:bg-blue-950/60 border-blue-200 dark:border-blue-900/30 text-[#2563EB] dark:text-blue-300'
                 : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-400'
             }`}
           >
-            <span className={`w-2 h-2 rounded-full ${pointers.headAddress !== null ? 'bg-indigo-600 dark:bg-indigo-400 animate-pulse' : 'bg-slate-400'}`} />
+            <span className={`w-2 h-2 rounded-full ${pointers.headAddress !== null ? 'bg-[#2563EB] dark:bg-blue-400 animate-pulse' : 'bg-slate-400'}`} />
             <span>HEAD → {pointers.headAddress !== null ? pointers.headAddress : 'NULL'}</span>
           </div>
 
@@ -818,15 +818,15 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
       {/* 4. NODE WORKSPACE STAGE */}
       <div className="my-3 relative z-10 flex flex-col items-center justify-center min-h-[190px] w-full">
         {nodes.length === 0 ? (
-          <div className="text-center py-8 px-4 border-2 border-dashed border-slate-300 dark:border-purple-500/30 rounded-2xl w-full max-w-md bg-slate-50/50 dark:bg-purple-950/20">
-            <div className="w-10 h-10 mx-auto rounded-full bg-slate-200 dark:bg-purple-900/40 flex items-center justify-center text-slate-400 dark:text-purple-300 mb-2">
+          <div className="text-center py-8 px-4 border-2 border-dashed border-slate-300 dark:border-blue-900/30 rounded-2xl w-full max-w-md bg-slate-50/50 dark:bg-blue-950/20">
+            <div className="w-10 h-10 mx-auto rounded-full bg-slate-200 dark:bg-blue-900/40 flex items-center justify-center text-slate-400 dark:text-blue-300 mb-2">
               <Database className="w-5 h-5" />
             </div>
             <p className="text-sm font-semibold text-slate-700 dark:text-slate-300">
-              Linked List is Currently Empty (<code className="font-mono text-indigo-600 dark:text-purple-400">HEAD == NULL</code>)
+              Linked List is Currently Empty (<code className="font-mono text-[#2563EB] dark:text-blue-400">HEAD == NULL</code>)
             </p>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
-              Click <strong className="text-indigo-600 dark:text-purple-300">+ Create Node</strong> above to allocate your first node in RAM.
+              Click <strong className="text-[#2563EB] dark:text-blue-300">+ Create Node</strong> above to allocate your first node in RAM.
             </p>
           </div>
         ) : (
@@ -844,7 +844,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                 <button
                   type="button"
                   onClick={() => onInsertBetween(null, orderedNodes[0]?.address || null)}
-                  className="opacity-40 hover:opacity-100 hover:scale-105 px-1.5 py-3 rounded-xl border border-dashed border-indigo-400 hover:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 text-[9px] font-mono font-bold text-indigo-600 dark:text-purple-300 transition-all flex flex-col items-center justify-center shrink-0 cursor-pointer"
+                  className="opacity-40 hover:opacity-100 hover:scale-105 px-1.5 py-3 rounded-xl border border-dashed border-blue-400 hover:border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-[9px] font-mono font-bold text-[#2563EB] dark:text-blue-300 transition-all flex flex-col items-center justify-center shrink-0 cursor-pointer"
                   title="Insert before HEAD"
                 >
                   <span>+</span>
@@ -861,7 +861,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                 <button
                   type="button"
                   onClick={() => onInsertBetween(orderedNodes[orderedNodes.length - 1]?.address || null, null)}
-                  className="opacity-40 hover:opacity-100 hover:scale-105 px-1.5 py-3 rounded-xl border border-dashed border-indigo-400 hover:border-indigo-600 bg-indigo-50/50 dark:bg-indigo-950/30 text-[9px] font-mono font-bold text-indigo-600 dark:text-purple-300 transition-all flex flex-col items-center justify-center shrink-0 cursor-pointer ml-1"
+                  className="opacity-40 hover:opacity-100 hover:scale-105 px-1.5 py-3 rounded-xl border border-dashed border-blue-400 hover:border-blue-600 bg-blue-50/50 dark:bg-blue-950/30 text-[9px] font-mono font-bold text-[#2563EB] dark:text-blue-300 transition-all flex flex-col items-center justify-center shrink-0 cursor-pointer ml-1"
                   title="Insert after TAIL"
                 >
                   <span>+</span>
@@ -904,11 +904,11 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
 
       {/* Traversal Output Buffer Stream */}
       {(levelId === 3 || levelId === 5 || traversalOutput.length > 0) && (
-        <div className="mt-2 pt-2 border-t border-slate-100 dark:border-purple-500/20 relative z-10">
+        <div className="mt-2 pt-2 border-t border-slate-100 dark:border-blue-900/20 relative z-10">
           <div className="flex items-center justify-between mb-1">
             <span className="text-xs font-mono font-bold text-slate-600 dark:text-slate-400 flex items-center gap-1.5">
-              <Eye className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
-              <span>TRAVERSAL OUTPUT STREAM (<code className="text-indigo-600 dark:text-purple-300">CURRENT → DATA</code>)</span>
+              <Eye className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
+              <span>TRAVERSAL OUTPUT STREAM (<code className="text-[#2563EB] dark:text-blue-300">CURRENT → DATA</code>)</span>
             </span>
             {isTraversing && (
               <span className="text-[10px] font-mono font-bold text-cyan-600 dark:text-cyan-400 animate-pulse flex items-center gap-1">
@@ -918,7 +918,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
             )}
           </div>
 
-          <div className="bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/30 rounded-xl p-2 flex items-center gap-2 overflow-x-auto min-h-[38px]">
+          <div className="bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/30 rounded-xl p-2 flex items-center gap-2 overflow-x-auto min-h-[38px]">
             {traversalOutput.length === 0 ? (
               <span className="text-xs font-mono text-slate-400 dark:text-slate-600 italic">
                 Output buffer empty. Follow CURRENT pointers to stream node data.
@@ -930,7 +930,7 @@ export const SLLWorkspace: React.FC<SLLWorkspaceProps> = ({
                     <motion.div
                       initial={{ scale: 0.5, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      className="px-2 py-0.5 rounded-lg bg-indigo-600 dark:bg-purple-600 text-white font-mono font-bold text-xs shadow-xs"
+                      className="px-2 py-0.5 rounded-lg bg-[#2563EB] text-white font-mono font-bold text-xs shadow-xs"
                     >
                       {val}
                     </motion.div>

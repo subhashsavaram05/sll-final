@@ -1415,7 +1415,7 @@ export const LEVEL_METADATA: Record<number, {
     title: 'Level 01 • Create & Insert',
     subtitle: 'Learn Heap allocation, manual address mapping, and pointer linking for beginning and end insertions.',
     badge: 'Foundation',
-    color: 'indigo',
+    color: 'blue',
     totalTasks: 4,
   },
   2: {
@@ -1443,7 +1443,7 @@ export const LEVEL_METADATA: Record<number, {
     title: 'Level 05 • Linked List Master',
     subtitle: 'Solve progressive interactive missions combining all concepts from scratch with a mission board.',
     badge: 'Grand Master',
-    color: 'purple',
+    color: 'blue',
     totalTasks: 7,
   },
 };

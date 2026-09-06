@@ -35,6 +35,9 @@ export const HomePage: React.FC<HomePageProps> = ({
   // Hook for smooth reveal animation on scroll
   useScrollReveal();
 
+  // State to highlight corresponding memory address pairs on hover (e.g. Node 1 NEXT 1002 <-> Node 2 ADDR 1002)
+  const [hoveredAddr, setHoveredAddr] = React.useState<number | null>(null);
+
   const handleStartLearning = () => {
     soundManager.playPrimaryClick();
     onExploreTopics();
@@ -68,92 +71,344 @@ export const HomePage: React.FC<HomePageProps> = ({
             </p>
           </div>
 
-          {/* Right Side: Visual Single Linked List Diagram (Head -> [10|●] -> [20|●] -> [30|●] -> NULL) */}
-          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end overflow-x-auto py-2">
-            <div className="flex flex-col items-start min-w-[340px] sm:min-w-[420px]">
+          {/* Right Side: Visual Single Linked List Diagram (Head -> [10|1002] -> [20|1003] -> [30|NULL]) */}
+          <div className="lg:col-span-6 flex items-center justify-center lg:justify-end overflow-x-auto py-1">
+            <div className="flex flex-col items-start min-w-[340px] sm:min-w-[410px]">
               {/* Nodes Row with Head Pointer */}
-              <div className="flex items-center gap-1.5 sm:gap-2.5">
+              <div className="flex items-center gap-1 sm:gap-2">
                 {/* Node 1 with Head Label above */}
-                <div className="flex flex-col items-center">
+                <div
+                  className="group flex flex-col items-center cursor-default"
+                  onMouseEnter={() => setHoveredAddr(1001)}
+                  onMouseLeave={() => setHoveredAddr(null)}
+                >
                   {/* Head pointer indicator */}
                   <div className="flex flex-col items-center mb-1">
-                    <span className="text-xs font-bold text-[#0F172A] dark:text-white leading-none">Head</span>
-                    <ArrowDown className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400 stroke-[2.5]" />
+                    <div
+                      className={`flex items-center gap-1 px-2 py-0.5 rounded-md bg-[#2563EB] text-white text-[10px] font-bold font-mono shadow-[0_0_12px_rgba(37,99,235,0.4)] transition-all ${
+                        hoveredAddr === 1001 ? 'scale-105 ring-2 ring-blue-300' : ''
+                      }`}
+                    >
+                      <span>HEAD</span>
+                      <span className="opacity-85 text-[9px] font-normal">→ 1001</span>
+                    </div>
+                    <ArrowDown className="w-3 h-3 text-[#2563EB] dark:text-blue-400 stroke-[3] -mt-0.5 animate-pulse" />
                   </div>
 
-                  {/* Node 1 Body [ 10 | ● ] */}
-                  <div className="flex items-stretch bg-[#F8FAFF] dark:bg-[#0E162E] border-2 border-[#2563EB] dark:border-blue-500/70 rounded-xl p-1 shadow-2xs">
-                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-blue-900/40 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
-                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">10</span>
+                  {/* Node 1 Card */}
+                  <div
+                    className={`w-[88px] sm:w-[98px] bg-white dark:bg-[#0B1228] border-2 rounded-xl overflow-hidden shadow-2xs transition-all duration-200 hover:-translate-y-0.5 ${
+                      hoveredAddr === 1001
+                        ? 'border-[#2563EB] ring-2 ring-blue-400/40 shadow-[0_0_14px_rgba(37,99,235,0.3)]'
+                        : 'border-blue-300 dark:border-blue-500/70 hover:border-[#2563EB]'
+                    }`}
+                  >
+                    {/* Address Header Pill */}
+                    <div
+                      className={`px-2 py-0.5 border-b transition-colors flex items-center justify-between ${
+                        hoveredAddr === 1001
+                          ? 'bg-[#DBEAFE] dark:bg-blue-900/60 border-blue-300 dark:border-blue-800'
+                          : 'bg-[#EFF6FF] dark:bg-blue-950/70 border-blue-100 dark:border-blue-900/40'
+                      }`}
+                    >
+                      <span className="text-[7.5px] font-mono font-bold tracking-wider text-slate-400 dark:text-slate-400 uppercase">
+                        ADDR
+                      </span>
+                      <span className="text-[10px] font-mono font-extrabold text-[#2563EB] dark:text-blue-300">
+                        1001
+                      </span>
                     </div>
-                    <div className="bg-[#EFF6FF] dark:bg-blue-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB] dark:bg-blue-400" />
+
+                    {/* Data & Next Row */}
+                    <div className="grid grid-cols-2 divide-x divide-blue-100 dark:divide-blue-900/40 bg-white dark:bg-[#0E162E]">
+                      {/* DATA field */}
+                      <div className="p-1 sm:p-1.5 flex flex-col items-center justify-center">
+                        <span className="text-[7px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">
+                          DATA
+                        </span>
+                        <span className="font-mono font-black text-xs sm:text-sm text-[#0F172A] dark:text-white leading-tight">
+                          10
+                        </span>
+                      </div>
+
+                      {/* NEXT pointer field */}
+                      <div
+                        className={`p-1 sm:p-1.5 flex flex-col items-center justify-center transition-colors cursor-pointer ${
+                          hoveredAddr === 1002
+                            ? 'bg-blue-100 dark:bg-blue-900/60 ring-2 ring-inset ring-[#2563EB]'
+                            : 'bg-[#EFF6FF]/70 dark:bg-blue-950/50 hover:bg-[#DBEAFE]'
+                        }`}
+                        onMouseEnter={(e) => {
+                          e.stopPropagation();
+                          setHoveredAddr(1002);
+                        }}
+                        onMouseLeave={() => setHoveredAddr(null)}
+                        title="NEXT points to address 1002 (Node 2)"
+                      >
+                        <span className="text-[7px] font-bold text-[#2563EB] dark:text-blue-400 uppercase tracking-wider">
+                          NEXT
+                        </span>
+                        <span className="font-mono font-black text-[10px] sm:text-[11px] text-[#1D4ED8] dark:text-blue-300 leading-tight">
+                          1002
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Node Label Below */}
-                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 1</span>
+                  <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono font-medium mt-1">
+                    Node 1
+                  </span>
                 </div>
 
-                {/* Arrow 1 -> 2 */}
-                <div className="flex items-center -mt-4">
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB] dark:text-blue-400 stroke-[2.5]" />
+                {/* Arrow 1 -> 2 with matching flow */}
+                <div className="flex flex-col items-center justify-center -mt-3">
+                  <div
+                    className={`flex items-center transition-all ${
+                      hoveredAddr === 1002 ? 'scale-110 text-[#1D4ED8]' : 'text-[#2563EB] dark:text-blue-400'
+                    }`}
+                  >
+                    <div
+                      className={`w-2.5 sm:w-3.5 h-[2.5px] rounded-full transition-all ${
+                        hoveredAddr === 1002
+                          ? 'bg-[#1D4ED8] dark:bg-blue-300 shadow-[0_0_8px_rgba(37,99,235,0.6)]'
+                          : 'bg-[#2563EB] dark:bg-blue-400'
+                      }`}
+                    />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 -ml-1 stroke-[3] animate-pulse" />
+                  </div>
+                  <span
+                    className={`text-[8px] font-mono font-bold transition-opacity ${
+                      hoveredAddr === 1002 ? 'text-[#2563EB] dark:text-blue-300 opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    1002
+                  </span>
                 </div>
 
-                {/* Node 2 [ 20 | ● ] */}
-                <div className="flex flex-col items-center">
+                {/* Node 2 [ 20 | 1003 ] */}
+                <div
+                  className="group flex flex-col items-center cursor-default"
+                  onMouseEnter={() => setHoveredAddr(1002)}
+                  onMouseLeave={() => setHoveredAddr(null)}
+                >
                   {/* Spacer for Head height alignment */}
-                  <div className="h-[22px] mb-1" />
+                  <div className="h-[27px] mb-1" />
 
-                  {/* Node 2 Body */}
-                  <div className="flex items-stretch bg-[#F8FAFF] dark:bg-[#0E162E] border-2 border-[#2563EB] dark:border-blue-500/70 rounded-xl p-1 shadow-2xs">
-                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-blue-900/40 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
-                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">20</span>
+                  {/* Node 2 Card */}
+                  <div
+                    className={`w-[88px] sm:w-[98px] bg-white dark:bg-[#0B1228] border-2 rounded-xl overflow-hidden shadow-2xs transition-all duration-200 hover:-translate-y-0.5 ${
+                      hoveredAddr === 1002
+                        ? 'border-[#2563EB] ring-2 ring-blue-400/40 shadow-[0_0_14px_rgba(37,99,235,0.3)]'
+                        : 'border-blue-300 dark:border-blue-500/70 hover:border-[#2563EB]'
+                    }`}
+                  >
+                    {/* Address Header Pill */}
+                    <div
+                      className={`px-2 py-0.5 border-b transition-colors flex items-center justify-between ${
+                        hoveredAddr === 1002
+                          ? 'bg-[#DBEAFE] dark:bg-blue-900/60 border-blue-300 dark:border-blue-800 ring-1 ring-blue-500'
+                          : 'bg-[#EFF6FF] dark:bg-blue-950/70 border-blue-100 dark:border-blue-900/40'
+                      }`}
+                    >
+                      <span className="text-[7.5px] font-mono font-bold tracking-wider text-slate-400 dark:text-slate-400 uppercase">
+                        ADDR
+                      </span>
+                      <span className="text-[10px] font-mono font-extrabold text-[#2563EB] dark:text-blue-300">
+                        1002
+                      </span>
                     </div>
-                    <div className="bg-[#EFF6FF] dark:bg-blue-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB] dark:bg-blue-400" />
+
+                    {/* Data & Next Row */}
+                    <div className="grid grid-cols-2 divide-x divide-blue-100 dark:divide-blue-900/40 bg-white dark:bg-[#0E162E]">
+                      {/* DATA field */}
+                      <div className="p-1 sm:p-1.5 flex flex-col items-center justify-center">
+                        <span className="text-[7px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">
+                          DATA
+                        </span>
+                        <span className="font-mono font-black text-xs sm:text-sm text-[#0F172A] dark:text-white leading-tight">
+                          20
+                        </span>
+                      </div>
+
+                      {/* NEXT pointer field */}
+                      <div
+                        className={`p-1 sm:p-1.5 flex flex-col items-center justify-center transition-colors cursor-pointer ${
+                          hoveredAddr === 1003
+                            ? 'bg-blue-100 dark:bg-blue-900/60 ring-2 ring-inset ring-[#2563EB]'
+                            : 'bg-[#EFF6FF]/70 dark:bg-blue-950/50 hover:bg-[#DBEAFE]'
+                        }`}
+                        onMouseEnter={(e) => {
+                          e.stopPropagation();
+                          setHoveredAddr(1003);
+                        }}
+                        onMouseLeave={() => setHoveredAddr(null)}
+                        title="NEXT points to address 1003 (Node 3)"
+                      >
+                        <span className="text-[7px] font-bold text-[#2563EB] dark:text-blue-400 uppercase tracking-wider">
+                          NEXT
+                        </span>
+                        <span className="font-mono font-black text-[10px] sm:text-[11px] text-[#1D4ED8] dark:text-blue-300 leading-tight">
+                          1003
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Node Label Below */}
-                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 2</span>
+                  <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono font-medium mt-1">
+                    Node 2
+                  </span>
                 </div>
 
-                {/* Arrow 2 -> 3 */}
-                <div className="flex items-center -mt-4">
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB] dark:text-blue-400 stroke-[2.5]" />
+                {/* Arrow 2 -> 3 with matching flow */}
+                <div className="flex flex-col items-center justify-center -mt-3">
+                  <div
+                    className={`flex items-center transition-all ${
+                      hoveredAddr === 1003 ? 'scale-110 text-[#1D4ED8]' : 'text-[#2563EB] dark:text-blue-400'
+                    }`}
+                  >
+                    <div
+                      className={`w-2.5 sm:w-3.5 h-[2.5px] rounded-full transition-all ${
+                        hoveredAddr === 1003
+                          ? 'bg-[#1D4ED8] dark:bg-blue-300 shadow-[0_0_8px_rgba(37,99,235,0.6)]'
+                          : 'bg-[#2563EB] dark:bg-blue-400'
+                      }`}
+                    />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 -ml-1 stroke-[3] animate-pulse" />
+                  </div>
+                  <span
+                    className={`text-[8px] font-mono font-bold transition-opacity ${
+                      hoveredAddr === 1003 ? 'text-[#2563EB] dark:text-blue-300 opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    1003
+                  </span>
                 </div>
 
-                {/* Node 3 [ 30 | ● ] */}
-                <div className="flex flex-col items-center">
+                {/* Node 3 [ 30 | NULL ] */}
+                <div
+                  className="group flex flex-col items-center cursor-default"
+                  onMouseEnter={() => setHoveredAddr(1003)}
+                  onMouseLeave={() => setHoveredAddr(null)}
+                >
                   {/* Spacer for Head height alignment */}
-                  <div className="h-[22px] mb-1" />
+                  <div className="h-[27px] mb-1" />
 
-                  {/* Node 3 Body */}
-                  <div className="flex items-stretch bg-[#F8FAFF] dark:bg-[#0E162E] border-2 border-[#2563EB] dark:border-blue-500/70 rounded-xl p-1 shadow-2xs">
-                    <div className="bg-white dark:bg-[#0B1228] px-2.5 sm:px-3.5 py-1.5 rounded-lg border border-[#E2E8F0] dark:border-blue-900/40 flex items-center justify-center min-w-[32px] sm:min-w-[38px]">
-                      <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-white">30</span>
+                  {/* Node 3 Card */}
+                  <div
+                    className={`w-[88px] sm:w-[98px] bg-white dark:bg-[#0B1228] border-2 rounded-xl overflow-hidden shadow-2xs transition-all duration-200 hover:-translate-y-0.5 ${
+                      hoveredAddr === 1003
+                        ? 'border-[#2563EB] ring-2 ring-blue-400/40 shadow-[0_0_14px_rgba(37,99,235,0.3)]'
+                        : 'border-blue-300 dark:border-blue-500/70 hover:border-[#2563EB]'
+                    }`}
+                  >
+                    {/* Address Header Pill */}
+                    <div
+                      className={`px-2 py-0.5 border-b transition-colors flex items-center justify-between ${
+                        hoveredAddr === 1003
+                          ? 'bg-[#DBEAFE] dark:bg-blue-900/60 border-blue-300 dark:border-blue-800 ring-1 ring-blue-500'
+                          : 'bg-[#EFF6FF] dark:bg-blue-950/70 border-blue-100 dark:border-blue-900/40'
+                      }`}
+                    >
+                      <span className="text-[7.5px] font-mono font-bold tracking-wider text-slate-400 dark:text-slate-400 uppercase">
+                        ADDR
+                      </span>
+                      <span className="text-[10px] font-mono font-extrabold text-[#2563EB] dark:text-blue-300">
+                        1003
+                      </span>
                     </div>
-                    <div className="bg-[#EFF6FF] dark:bg-blue-950/60 px-2 sm:px-2.5 py-1.5 rounded-lg flex items-center justify-center ml-1">
-                      <div className="w-2.5 h-2.5 rounded-full bg-[#2563EB] dark:bg-blue-400" />
+
+                    {/* Data & Next Row */}
+                    <div className="grid grid-cols-2 divide-x divide-blue-100 dark:divide-blue-900/40 bg-white dark:bg-[#0E162E]">
+                      {/* DATA field */}
+                      <div className="p-1 sm:p-1.5 flex flex-col items-center justify-center">
+                        <span className="text-[7px] font-bold text-slate-400 dark:text-slate-400 uppercase tracking-wider">
+                          DATA
+                        </span>
+                        <span className="font-mono font-black text-xs sm:text-sm text-[#0F172A] dark:text-white leading-tight">
+                          30
+                        </span>
+                      </div>
+
+                      {/* NEXT pointer field */}
+                      <div
+                        className={`p-1 sm:p-1.5 flex flex-col items-center justify-center transition-colors cursor-pointer ${
+                          hoveredAddr === 9999
+                            ? 'bg-blue-100 dark:bg-blue-900/60 ring-2 ring-inset ring-[#2563EB]'
+                            : 'bg-[#EFF6FF]/70 dark:bg-blue-950/50 hover:bg-[#DBEAFE]'
+                        }`}
+                        onMouseEnter={(e) => {
+                          e.stopPropagation();
+                          setHoveredAddr(9999);
+                        }}
+                        onMouseLeave={() => setHoveredAddr(null)}
+                        title="NEXT points to NULL (End of list)"
+                      >
+                        <span className="text-[7px] font-bold text-[#2563EB] dark:text-blue-400 uppercase tracking-wider">
+                          NEXT
+                        </span>
+                        <span className="font-mono font-black text-[9px] sm:text-[10px] text-slate-600 dark:text-slate-400 leading-tight">
+                          NULL
+                        </span>
+                      </div>
                     </div>
                   </div>
 
                   {/* Node Label Below */}
-                  <span className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium mt-1.5">Node 3</span>
+                  <span className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 font-mono font-medium mt-1">
+                    Node 3
+                  </span>
                 </div>
 
                 {/* Arrow 3 -> NULL */}
-                <div className="flex items-center -mt-4">
-                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#2563EB] dark:text-blue-400 stroke-[2.5]" />
+                <div className="flex flex-col items-center justify-center -mt-3">
+                  <div
+                    className={`flex items-center transition-all ${
+                      hoveredAddr === 9999 ? 'scale-110 text-[#1D4ED8]' : 'text-[#2563EB] dark:text-blue-400'
+                    }`}
+                  >
+                    <div
+                      className={`w-2 sm:w-2.5 h-[2.5px] rounded-full transition-all ${
+                        hoveredAddr === 9999
+                          ? 'bg-[#1D4ED8] dark:bg-blue-300 shadow-[0_0_8px_rgba(37,99,235,0.6)]'
+                          : 'bg-[#2563EB] dark:bg-blue-400'
+                      }`}
+                    />
+                    <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 -ml-1 stroke-[3] animate-pulse" />
+                  </div>
                 </div>
 
                 {/* NULL End Terminal */}
-                <div className="flex flex-col items-center -mt-4">
-                  <span className="font-mono font-bold text-xs sm:text-sm text-[#0F172A] dark:text-slate-200 uppercase tracking-wide">
+                <div
+                  className={`flex flex-col items-center -mt-3 px-2 py-1.5 rounded-xl border-2 border-dashed transition-all duration-200 cursor-default ${
+                    hoveredAddr === 9999
+                      ? 'bg-blue-100 dark:bg-blue-900/50 border-[#2563EB] scale-105 shadow-[0_0_12px_rgba(37,99,235,0.3)]'
+                      : 'bg-[#EFF6FF] dark:bg-blue-950/60 border-blue-300 dark:border-blue-800/60 hover:border-blue-400'
+                  }`}
+                  onMouseEnter={() => setHoveredAddr(9999)}
+                  onMouseLeave={() => setHoveredAddr(null)}
+                >
+                  <span className="font-mono font-black text-xs sm:text-sm text-[#0F172A] dark:text-white uppercase tracking-wider">
                     NULL
                   </span>
+                  <span className="text-[8px] font-mono text-[#2563EB] dark:text-blue-400 font-bold -mt-0.5">
+                    End
+                  </span>
                 </div>
+              </div>
+
+              {/* Educational Concept Cue */}
+              <div className="mt-2 w-full flex items-center justify-between gap-1.5 px-2.5 py-1 rounded-lg bg-[#EFF6FF]/70 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/30 text-[10px] sm:text-[11px] font-mono text-slate-600 dark:text-slate-300">
+                <span className="flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] dark:bg-blue-400 animate-ping shrink-0" />
+                  <span>
+                    <strong className="text-[#2563EB] dark:text-blue-300 font-bold">NEXT</strong> = Address of next node
+                  </span>
+                </span>
+                <span className="text-[9px] text-[#2563EB] dark:text-blue-400 font-semibold hidden sm:inline">
+                  1002 → Node 2 • 1003 → Node 3
+                </span>
               </div>
             </div>
           </div>
@@ -480,12 +735,12 @@ export const HomePage: React.FC<HomePageProps> = ({
                     <stop offset="65%" stopColor="#F8FAFC" />
                     <stop offset="100%" stopColor="#CBD5E1" />
                   </linearGradient>
-                  <linearGradient id="purpleNoseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="blueNoseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#3B82F6" />
                     <stop offset="60%" stopColor="#2563EB" />
                     <stop offset="100%" stopColor="#1D4ED8" />
                   </linearGradient>
-                  <linearGradient id="purpleFinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <linearGradient id="blueFinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
                     <stop offset="0%" stopColor="#2563EB" />
                     <stop offset="85%" stopColor="#1D4ED8" />
                     <stop offset="100%" stopColor="#6366F1" />
@@ -548,13 +803,13 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {/* Left Fin */}
                   <path
                     d="M 54 58 C 42 64 38 74 42 78 C 50 76 56 70 58 64 Z"
-                    fill="url(#purpleFinGrad)"
+                    fill="url(#blueFinGrad)"
                   />
 
                   {/* Right Fin */}
                   <path
                     d="M 82 58 C 94 64 98 74 94 78 C 86 76 80 70 78 64 Z"
-                    fill="url(#purpleFinGrad)"
+                    fill="url(#blueFinGrad)"
                   />
 
                   {/* Red Engine Base / Mounting Ring */}
@@ -579,17 +834,17 @@ export const HomePage: React.FC<HomePageProps> = ({
                   {/* Blue Nosecone */}
                   <path
                     d="M 68 16 C 60 23 55 31 54 37 L 82 37 C 81 31 76 23 68 16 Z"
-                    fill="url(#purpleNoseGrad)"
+                    fill="url(#blueNoseGrad)"
                   />
 
                   {/* Blue Dorsal Spine Fin */}
                   <path
                     d="M 66 37 Q 68 56 65 67 L 71 67 Q 68 56 70 37 Z"
-                    fill="url(#purpleFinGrad)"
+                    fill="url(#blueFinGrad)"
                   />
 
                   {/* 3D Porthole / Window */}
-                  <circle cx="68" cy="46" r="8" fill="url(#purpleNoseGrad)" stroke="#FFFFFF" strokeWidth="2" />
+                  <circle cx="68" cy="46" r="8" fill="url(#blueNoseGrad)" stroke="#FFFFFF" strokeWidth="2" />
                   <circle cx="68" cy="46" r="5" fill="#1E3A8A" />
                   <circle cx="66" cy="44" r="1.75" fill="#FFFFFF" opacity="0.9" />
                 </g>

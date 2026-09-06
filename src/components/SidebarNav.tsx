@@ -11,6 +11,8 @@ import {
 import { MainViewTab } from '../types/game';
 import { progressManager } from '../utils/progressManager';
 import { soundManager } from '../utils/audio';
+import { useTheme } from '../utils/themeContext';
+import { AlgoLearnLogo } from './AlgoLearnLogo';
 
 export interface SidebarNavProps {
   activeTab: MainViewTab;
@@ -31,6 +33,7 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   isDesktopOpen = true,
   onToggleDesktopCollapse,
 }) => {
+  const { theme } = useTheme();
   const [stats, setStats] = React.useState(() => progressManager.getStats());
   const [isProgressHovered, setIsProgressHovered] = useState(false);
 
@@ -106,10 +109,13 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
   const content = (
     <aside
       id="app-sidebar-navigation"
-      className="w-64 h-full flex flex-col bg-white dark:bg-[#070B18] border-r border-slate-200 dark:border-blue-900/30 select-none shadow-xs transition-colors duration-300"
+      className="w-64 h-full h-[100vh] min-h-[100vh] flex flex-col bg-white dark:bg-[#070B18] border-r border-slate-200 dark:border-blue-900/30 select-none shadow-xs transition-colors duration-300 m-0 p-0"
     >
-      {/* Top Sidebar Header with Close Button (No duplicate branding) */}
-      <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-blue-900/25 flex items-center justify-end">
+      {/* Top Sidebar Header with Brand & Close Button - Aligned with TopHeader height */}
+      <div className="h-14 sm:h-16 px-3.5 sm:px-4 border-b border-slate-200 dark:border-blue-900/25 flex items-center justify-between shrink-0 bg-white dark:bg-[#070B18] m-0">
+        <div className="flex items-center gap-2 min-w-0">
+          <AlgoLearnLogo theme={theme} className="h-7 sm:h-8 w-auto" />
+        </div>
         {/* Close Button in Top-Right Corner of Navigation */}
         <button
           id="btn-sidebar-close"
@@ -122,14 +128,14 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
         </button>
       </div>
 
-      {/* Navigation Item List */}
+      {/* Navigation Item List - Fills remaining vertical space to bottom of viewport */}
       <div
-        className="px-3 py-4 space-y-1 overflow-y-auto"
+        className="flex-1 px-3 py-3 space-y-1 overflow-y-auto overflow-x-hidden m-0"
         onMouseEnter={() => setIsProgressHovered(true)}
         onMouseLeave={() => setIsProgressHovered(false)}
       >
         {/* SINGLE NAVIGATION MENU HEADING */}
-        <div className="px-3 pb-2 text-[11px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase font-mono">
+        <div className="px-3 pb-2 pt-1 text-[11px] font-bold tracking-wider text-slate-400 dark:text-slate-500 uppercase font-mono">
           NAVIGATION MENU
         </div>
 
@@ -178,10 +184,10 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
   return (
     <>
-      {/* Desktop Fixed Left Sidebar with smooth collapse transition */}
+      {/* Desktop Fixed Left Sidebar - Full height panel spanning top-0 to bottom-0 */}
       <div
         id="app-sidebar-container"
-        className={`hidden lg:block fixed top-0 left-0 bottom-0 h-screen z-30 transition-all duration-300 ease-in-out ${
+        className={`hidden lg:block fixed top-0 left-0 bottom-0 h-screen h-[100vh] min-h-[100vh] z-30 transition-all duration-300 ease-in-out m-0 p-0 ${
           isDesktopOpen
             ? 'w-64 opacity-100 translate-x-0 pointer-events-auto'
             : 'w-0 opacity-0 -translate-x-full pointer-events-none overflow-hidden'
@@ -192,14 +198,14 @@ export const SidebarNav: React.FC<SidebarNavProps> = ({
 
       {/* Mobile Drawer Overlay - Fixed to viewport */}
       {isOpenMobile && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
+        <div className="lg:hidden fixed inset-0 z-50 flex m-0 p-0">
           <div
             className="fixed inset-0 bg-slate-900/40 dark:bg-black/70 backdrop-blur-xs animate-fadeIn"
             onClick={onCloseMobile}
           />
           <div
             id="app-sidebar-container"
-            className="relative z-10 w-64 h-full bg-white dark:bg-[#070B18] shadow-xl animate-slideRight"
+            className="relative z-10 w-64 h-full h-[100vh] min-h-[100vh] bg-white dark:bg-[#070B18] shadow-xl animate-slideRight flex flex-col m-0 p-0"
           >
             {content}
           </div>

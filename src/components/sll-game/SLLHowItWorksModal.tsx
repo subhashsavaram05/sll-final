@@ -25,7 +25,7 @@ export const SLLHowItWorksModal: React.FC<SLLHowItWorksModalProps> = ({
           initial={{ opacity: 0, scale: 0.92, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.92, y: 15 }}
-          className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 rounded-3xl p-5 sm:p-6 w-full max-w-lg shadow-2xl overflow-hidden relative"
+          className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-5 sm:p-6 w-full max-w-lg shadow-2xl overflow-hidden relative"
         >
           {/* Close button */}
           <button
@@ -53,7 +53,7 @@ export const SLLHowItWorksModal: React.FC<SLLHowItWorksModalProps> = ({
           {/* ASCII / Visual Flow Diagram */}
           <div className="p-3.5 rounded-2xl bg-slate-900 text-slate-100 font-mono text-xs border border-slate-800 mb-4 overflow-x-auto shadow-inner">
             <div className="text-[10px] font-bold text-slate-400 mb-1 uppercase tracking-wider flex items-center gap-1">
-              <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+              <BookOpen className="w-3.5 h-3.5 text-blue-400" />
               <span>Visual Pointer Flow Diagram:</span>
             </div>
             <pre className="text-emerald-300 whitespace-pre font-mono leading-relaxed text-[11px] sm:text-xs">
@@ -69,9 +69,9 @@ export const SLLHowItWorksModal: React.FC<SLLHowItWorksModalProps> = ({
             {info.steps.map((step, idx) => (
               <div
                 key={idx}
-                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs text-slate-700 dark:text-slate-300"
+                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-xs text-slate-700 dark:text-slate-300"
               >
-                <div className="w-5 h-5 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[10px] font-mono font-bold shrink-0 mt-0.5">
+                <div className="w-5 h-5 rounded-full bg-[#2563EB] text-white flex items-center justify-center text-[10px] font-mono font-bold shrink-0 mt-0.5">
                   {idx + 1}
                 </div>
                 <span className="leading-relaxed font-medium">{step}</span>
@@ -88,7 +88,7 @@ export const SLLHowItWorksModal: React.FC<SLLHowItWorksModalProps> = ({
           {/* Got it button */}
           <button
             onClick={onClose}
-            className="w-full py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/30 transition-all cursor-pointer flex items-center justify-center gap-2"
+            className="w-full py-3 px-4 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/30 transition-all cursor-pointer flex items-center justify-center gap-2"
           >
             <span>Got it! Let's Try It</span>
             <ArrowRight className="w-4 h-4" />

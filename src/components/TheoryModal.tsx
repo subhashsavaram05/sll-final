@@ -37,7 +37,7 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
       title: '5. Searching & Display',
       desc: 'Linear sequential traversal starting from HEAD checking each node or printing its data.',
       formula: 'while(temp != NULL) { if(temp->data == key) return 1; temp = temp->next; }  // O(n)',
-      icon: <Search className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />,
+      icon: <Search className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />,
     },
   ];
 
@@ -80,7 +80,7 @@ export const TheoryModal: React.FC<TheoryModalProps> = ({ onClose, onOpenFullLea
                 <h4 className="font-bold text-sm text-slate-900 dark:text-white">{topic.title}</h4>
               </div>
               <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed mb-2.5">{topic.desc}</p>
-              <div className="flex items-center gap-2 bg-white dark:bg-[#050816] border border-slate-200 dark:border-blue-900/30 rounded-lg px-3 py-2 text-xs font-mono font-bold text-slate-800 dark:text-cyan-300 shadow-2xs">
+              <div className="flex items-center gap-2 bg-white dark:bg-[#050816] border border-slate-200 dark:border-blue-900/30 rounded-lg px-3 py-2 text-xs font-mono font-bold text-slate-800 dark:text-blue-300 shadow-2xs">
                 <span className="text-blue-600 dark:text-blue-400 text-[11px] uppercase tracking-wider font-sans">Syntax:</span>
                 <span>{topic.formula}</span>
               </div>

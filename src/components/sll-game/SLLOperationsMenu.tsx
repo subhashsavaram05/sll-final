@@ -59,15 +59,15 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
   return (
     <div className="flex flex-col gap-6 animate-chapter-switch max-w-6xl mx-auto w-full font-sans">
       {/* 1. TOP SECTION: LEVEL PROGRESS & HUD STATS */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] flex flex-col gap-4">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-4 sm:p-5 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] flex flex-col gap-4">
         {/* Level Title & Stepper row */}
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-purple-500/20 pb-4">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 dark:border-blue-900/20 pb-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-purple-950/60 border border-indigo-200 dark:border-purple-500/30 flex items-center justify-center text-indigo-600 dark:text-purple-400 shadow-xs">
+            <div className="w-10 h-10 rounded-2xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 flex items-center justify-center text-[#2563EB] dark:text-blue-400 shadow-xs">
               <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400 block">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] dark:text-blue-400 block">
                 HANDS-ON POINTER MANIPULATION • LEVEL 0{currentLevelId} OF 05
               </span>
               <h2 className="text-lg sm:text-xl font-bold font-display text-slate-900 dark:text-white tracking-tight">
@@ -77,7 +77,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
           </div>
 
           {/* Level Switcher Chips */}
-          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#070B19] p-1 rounded-2xl border border-slate-200 dark:border-purple-500/30">
+          <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-[#070B19] p-1 rounded-2xl border border-slate-200 dark:border-blue-900/30">
             {[1, 2, 3, 4, 5].map((lvl) => {
               const isCurrent = currentLevelId === lvl;
               const isDone = progressManager.getState().levelsCompleted.includes(lvl);
@@ -90,10 +90,10 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                   }}
                   className={`flex items-center gap-1 px-3 py-1.5 rounded-xl font-mono text-xs font-bold transition-all cursor-pointer ${
                     isCurrent
-                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105'
+                      ? 'bg-[#2563EB] text-white shadow-md shadow-blue-600/30 scale-105'
                       : isDone
                       ? 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100'
-                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-purple-950/50'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-blue-950/50'
                   }`}
                 >
                   <span>L0{lvl}</span>
@@ -109,33 +109,25 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
           {currentMeta.subtitle}
         </p>
 
-        {/* 4 Information Mini-Panels for Current Level */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 pt-1">
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-purple-500/20 flex flex-col">
+        {/* Information Mini-Panels for Current Level: Interaction Mode & Tasks in Level */}
+        <div className="flex flex-wrap items-center gap-2.5 pt-1">
+          <div
+            id="game-card-interaction-mode"
+            className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-blue-900/20 flex flex-col min-w-[190px] sm:min-w-[210px]"
+          >
             <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold">Interaction Mode</span>
             <span className="text-xs font-bold text-slate-800 dark:text-slate-200 mt-0.5">
               Manual Pointers & Memory
             </span>
           </div>
 
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-purple-500/20 flex flex-col">
+          <div
+            id="game-card-tasks-in-level"
+            className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-blue-900/20 flex flex-col min-w-[190px] sm:min-w-[210px]"
+          >
             <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold">Tasks in Level</span>
-            <span className="text-xs font-bold text-indigo-600 dark:text-purple-400 mt-0.5">
+            <span className="text-xs font-bold text-[#2563EB] dark:text-blue-400 mt-0.5">
               {levelTasks.length} Hands-on Task{levelTasks.length !== 1 ? 's' : ''}
-            </span>
-          </div>
-
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-purple-500/20 flex flex-col">
-            <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold">Feedback Engine</span>
-            <span className="text-xs font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
-              Concept & Address Validation
-            </span>
-          </div>
-
-          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-[#070B18] border border-slate-200 dark:border-purple-500/20 flex flex-col">
-            <span className="text-[10px] font-mono uppercase text-slate-400 font-semibold">Total XP Reward</span>
-            <span className="text-xs font-bold text-amber-600 dark:text-amber-400 mt-0.5">
-              +{levelTasks.reduce((acc, t) => acc + t.xpReward, 0)} XP
             </span>
           </div>
         </div>
@@ -145,7 +137,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
       <div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <Layers className="w-5 h-5 text-indigo-600 dark:text-purple-400" />
+            <Layers className="w-5 h-5 text-[#2563EB] dark:text-blue-400" />
             <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 dark:text-white">
               Choose Task to Play
             </h3>
@@ -167,14 +159,14 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                 className={`flex flex-col justify-between p-5 rounded-3xl border-2 transition-all bg-white dark:bg-[#0B1228] shadow-xs hover:shadow-lg ${
                   isCompleted
                     ? 'border-emerald-400/80 dark:border-emerald-500/40 hover:border-emerald-500'
-                    : 'border-slate-200 dark:border-purple-500/25 hover:border-indigo-500 dark:hover:border-purple-400'
+                    : 'border-slate-200 dark:border-blue-900/30 hover:border-[#2563EB] dark:hover:border-blue-400'
                 }`}
               >
                 <div className="flex-1">
                   {/* Card Header: Icon & Task Badge */}
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2">
-                      <div className="w-9 h-9 rounded-xl bg-indigo-50 dark:bg-purple-950/80 text-indigo-600 dark:text-purple-400 border border-indigo-200 dark:border-purple-500/30 flex items-center justify-center shadow-xs">
+                      <div className="w-9 h-9 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/80 text-[#2563EB] dark:text-blue-400 border border-blue-200 dark:border-blue-900/30 flex items-center justify-center shadow-xs">
                         {getTaskIcon(task.taskIndex, currentLevelId)}
                       </div>
                       <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
@@ -188,7 +180,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                         <span>Done</span>
                       </span>
                     ) : (
-                      <span className="text-[11px] font-mono font-bold text-indigo-600 dark:text-purple-400 bg-indigo-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full">
+                      <span className="text-[11px] font-mono font-bold text-[#2563EB] dark:text-blue-300 bg-[#EFF6FF] dark:bg-blue-950/60 px-2 py-0.5 rounded-full">
                         +{task.xpReward} XP
                       </span>
                     )}
@@ -213,7 +205,7 @@ export const SLLOperationsMenu: React.FC<SLLOperationsMenuProps> = ({
                   className={`w-full mt-4 py-2.5 px-4 rounded-xl font-bold text-xs flex items-center justify-center gap-2 cursor-pointer transition-all shadow-md ${
                     isCompleted
                       ? 'bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100'
-                      : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-indigo-600/20'
+                      : 'bg-[#2563EB] hover:bg-[#1D4ED8] text-white shadow-blue-600/20'
                   }`}
                 >
                   <Play className="w-3.5 h-3.5 fill-current" />

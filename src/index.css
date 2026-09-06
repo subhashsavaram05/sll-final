@@ -15,6 +15,7 @@
     --text-muted: #64748B;
     --primary-blue: #2563EB;
     --primary-blue-hover: #1D4ED8;
+    --primary-blue-active: #1E40AF;
     --primary-blue-light: #EFF6FF;
     --primary-blue-border: #BFDBFE;
     --brand-violet: #6366F1;
@@ -23,25 +24,47 @@
     --border-strong: #CBD5E1;
     --gradient-brand: linear-gradient(90deg, #1D4ED8 0%, #2563EB 60%, #6366F1 100%);
     --gradient-brand-subtle: linear-gradient(135deg, #EFF6FF 0%, #F8FAFF 100%);
+
+    /* Centralized tokens per color system */
+    --primary: #2563EB;
+    --primary-dark: #1D4ED8;
+    --primary-deep: #1E40AF;
+    --primary-navy: #172554;
+    --accent-violet: #6366F1;
+    --accent-violet-accent: #7C5CFC;
+    --primary-light: #EFF6FF;
+    --primary-tint: #DBEAFE;
+    --border: #E2E8F0;
   }
 
   .dark,
   [data-theme="dark"] {
-    --bg-main: #070B19;
-    --bg-card: #0B1228;
-    --bg-subtle: #080D1F;
+    --bg-main: #0B1120;
+    --bg-card: #111827;
+    --bg-subtle: #0F172A;
     --text-primary: #F8FAFC;
     --text-secondary: #CBD5E1;
     --text-muted: #94A3B8;
-    --primary-blue: #2563EB;
-    --primary-blue-hover: #1D4ED8;
-    --primary-blue-light: rgba(37, 99, 235, 0.15);
-    --primary-blue-border: rgba(37, 99, 235, 0.35);
+    --primary-blue: #3B82F6;
+    --primary-blue-hover: #2563EB;
+    --primary-blue-active: #1D4ED8;
+    --primary-blue-light: rgba(59, 130, 246, 0.15);
+    --primary-blue-border: rgba(59, 130, 246, 0.35);
     --brand-violet: #6366F1;
     --brand-violet-accent: #7C5CFC;
-    --border-light: rgba(148, 163, 184, 0.15);
-    --border-strong: rgba(37, 99, 235, 0.3);
-    --gradient-brand: linear-gradient(90deg, #1D4ED8 0%, #2563EB 65%, #6366F1 100%);
+    --border-light: rgba(148, 163, 184, 0.18);
+    --border-strong: rgba(59, 130, 246, 0.3);
+    --gradient-brand: linear-gradient(90deg, #1D4ED8 0%, #2563EB 60%, #6366F1 100%);
+    --gradient-brand-subtle: linear-gradient(135deg, rgba(59, 130, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%);
+
+    --primary: #3B82F6;
+    --primary-dark: #2563EB;
+    --primary-deep: #1D4ED8;
+    --primary-navy: #0B1120;
+    --accent-violet: #6366F1;
+    --accent-violet-accent: #7C5CFC;
+    --primary-light: rgba(59, 130, 246, 0.15);
+    --border: rgba(148, 163, 184, 0.18);
   }
 
   html {

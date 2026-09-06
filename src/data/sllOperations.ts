@@ -38,7 +38,7 @@ export const SLL_OPERATIONS: Record<string, SLLOperationDef> = {
     shortDesc: 'Allocate memory for a new node storing DATA = 25 and NEXT = NULL.',
     timeComplexity: 'O(1)',
     spaceComplexity: 'O(1)',
-    badgeColor: 'indigo',
+    badgeColor: 'blue',
     iconName: 'plus',
     initialNodes: [
       { id: 'n1', data: 10, address: 1001, nextAddress: 1002 },
@@ -74,7 +74,7 @@ export const SLL_OPERATIONS: Record<string, SLLOperationDef> = {
     shortDesc: 'Link new node 25 to HEAD (1001), then update HEAD pointer to 1005.',
     timeComplexity: 'O(1)',
     spaceComplexity: 'O(1)',
-    badgeColor: 'purple',
+    badgeColor: 'violet',
     iconName: 'arrow-right',
     initialNodes: [
       { id: 'n1', data: 10, address: 1001, nextAddress: 1002 },
@@ -266,7 +266,7 @@ export const SLL_OPERATIONS: Record<string, SLLOperationDef> = {
     shortDesc: 'Step through every node in order by clicking the matching NEXT address node in the workspace.',
     timeComplexity: 'O(N)',
     spaceComplexity: 'O(1)',
-    badgeColor: 'cyan',
+    badgeColor: 'blue',
     iconName: 'eye',
     initialNodes: [
       { id: 'n1', data: 10, address: 2001, nextAddress: 2002 },
@@ -331,7 +331,7 @@ export const SLL_OPERATIONS: Record<string, SLLOperationDef> = {
     shortDesc: 'Watch the traversal algorithm visit nodes sequentially and stream data to the output buffer.',
     timeComplexity: 'O(N)',
     spaceComplexity: 'O(1)',
-    badgeColor: 'indigo',
+    badgeColor: 'blue',
     iconName: 'eye',
     initialNodes: [
       { id: 'n1', data: 10, address: 2001, nextAddress: 2002 },
@@ -450,7 +450,7 @@ export const SLL_OPERATIONS: Record<string, SLLOperationDef> = {
     shortDesc: 'Perform all 7 core single linked list operations consecutively with zero mistakes.',
     timeComplexity: 'O(1) ~ O(N)',
     spaceComplexity: 'O(1)',
-    badgeColor: 'purple',
+    badgeColor: 'violet',
     iconName: 'zap',
     initialNodes: [
       { id: 'm20', data: 20, address: 4002, nextAddress: 4003 },

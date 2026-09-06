@@ -58,8 +58,8 @@ export const AIBotFloatingButton: React.FC = () => {
 
           {/* Right Ear Inset Gradient */}
           <linearGradient id="rightEarInset" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#C4B5FD" />
-            <stop offset="100%" stopColor="#818CF8" />
+            <stop offset="0%" stopColor="#BFDBFE" />
+            <stop offset="100%" stopColor="#6366F1" />
           </linearGradient>
 
           {/* Dark Navy Visor Screen */}
@@ -68,19 +68,19 @@ export const AIBotFloatingButton: React.FC = () => {
             <stop offset="100%" stopColor="#040818" />
           </linearGradient>
 
-          {/* Lower Book Base Glowing Cover (Cyan -> Royal Blue -> Radiant Violet) */}
+          {/* Lower Book Base Cover: Royal Blue -> Subtle Violet */}
           <linearGradient id="bookBottomCover" x1="16" y1="78" x2="84" y2="92" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#00A2FF" />
-            <stop offset="35%" stopColor="#1E65F6" />
-            <stop offset="70%" stopColor="#6D43F8" />
-            <stop offset="100%" stopColor="#A855F7" />
+            <stop offset="0%" stopColor="#1D4ED8" />
+            <stop offset="45%" stopColor="#2563EB" />
+            <stop offset="80%" stopColor="#4F46E5" />
+            <stop offset="100%" stopColor="#6366F1" />
           </linearGradient>
 
-          {/* Middle Cyan Layer */}
+          {/* Middle Blue Layer */}
           <linearGradient id="bookCyanLayer" x1="20" y1="74" x2="80" y2="84" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#00D2FF" />
-            <stop offset="50%" stopColor="#0094FF" />
-            <stop offset="100%" stopColor="#7C3AED" />
+            <stop offset="0%" stopColor="#3B82F6" />
+            <stop offset="60%" stopColor="#2563EB" />
+            <stop offset="100%" stopColor="#6366F1" />
           </linearGradient>
 
           {/* Soft Depth Filter for Elements */}

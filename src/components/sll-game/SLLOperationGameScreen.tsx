@@ -756,7 +756,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
   return (
     <div className="flex flex-col gap-5 max-w-7xl mx-auto w-full font-sans animate-chapter-switch">
       {/* 1. TOP HEADER HUD */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 rounded-3xl p-4 sm:p-5 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-4 sm:p-5 shadow-xs flex flex-wrap items-center justify-between gap-3">
         {/* Left: Back & Title */}
         <div className="flex items-center gap-3">
           <button
@@ -765,14 +765,14 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
               soundManager.play('click');
               onBackToMenu();
             }}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-purple-950/60 border border-slate-200 dark:border-purple-500/30 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-blue-950/60 border border-slate-200 dark:border-blue-900/30 text-slate-700 dark:text-slate-200 text-xs font-bold hover:bg-slate-200 transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Levels</span>
           </button>
 
           <div>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-400 block">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-[#2563EB] dark:text-blue-400 block">
               LEVEL 0{currentLevelId} • TASK #{activeTask.taskIndex}
             </span>
             <h2 className="text-base sm:text-lg font-bold font-display text-slate-900 dark:text-white leading-tight">
@@ -784,7 +784,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
         {/* Center: Assistance Mode Switcher (Guide & Solve, Concept, Play) */}
         <div className="flex items-center gap-2">
           {/* Segmented Mode Switcher: GUIDE & SOLVE | CONCEPT */}
-          <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-xs font-bold shadow-2xs">
+          <div className="flex items-center p-1 rounded-2xl bg-slate-100 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-xs font-bold shadow-2xs">
             <button
               type="button"
               id="mode-guide-solve-btn"
@@ -806,7 +806,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
               onClick={() => handleSelectAssistanceMode('concept')}
               className={`flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl transition-all cursor-pointer ${
                 assistanceMode === 'concept'
-                  ? 'bg-indigo-600 text-white font-bold shadow-xs'
+                  ? 'bg-[#2563EB] text-white font-bold shadow-xs'
                   : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white border border-transparent'
               }`}
               title="Concept: Current Objective, Pointer Tools info, Pointer Rule, RAM Memory State"
@@ -821,7 +821,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
             <button
               type="button"
               onClick={() => setShowMissionBoard(true)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-purple-50 dark:bg-purple-950/60 border border-purple-200 dark:border-purple-500/30 text-purple-700 dark:text-purple-300 text-xs font-bold hover:bg-purple-100 transition-colors cursor-pointer"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/30 text-[#2563EB] dark:text-blue-300 text-xs font-bold hover:bg-blue-100 transition-colors cursor-pointer"
               title="View Master Mission Board"
             >
               <Award className="w-4 h-4" />
@@ -832,21 +832,21 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
 
         {/* Right: HUD Stats */}
         <div className="flex items-center gap-2 sm:gap-3 text-xs font-mono">
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-slate-700 dark:text-slate-300 font-bold">
-            <TimerIcon className="w-3.5 h-3.5 text-indigo-500" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-slate-700 dark:text-slate-300 font-bold">
+            <TimerIcon className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
             <span>
               {String(Math.floor(elapsedSeconds / 60)).padStart(2, '0')}:
               {String(elapsedSeconds % 60).padStart(2, '0')}
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-amber-600 font-bold">
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-amber-600 font-bold">
             <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-500" />
             <span>{totalScore} XP</span>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 text-slate-600 dark:text-slate-400 font-bold">
-            <Activity className="w-3.5 h-3.5 text-indigo-500" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 text-slate-600 dark:text-slate-400 font-bold">
+            <Activity className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
             <span>Attempt #{attempts}</span>
           </div>
         </div>
@@ -856,17 +856,17 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
       {assistanceMode === 'concept' ? (
         <div id="sll-concept-section" className="flex flex-col gap-5 font-sans">
           {/* Concept Header Banner */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 rounded-3xl bg-indigo-50/70 dark:bg-[#0B1228] border border-indigo-200 dark:border-purple-500/30 shadow-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3 p-4 sm:p-5 rounded-3xl bg-[#EFF6FF]/70 dark:bg-[#0B1228] border border-blue-200 dark:border-blue-900/30 shadow-xs">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-xs">
+              <div className="w-10 h-10 rounded-2xl bg-[#2563EB] text-white flex items-center justify-center shadow-xs">
                 <BookOpen className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-indigo-600 dark:text-purple-300">
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-[#2563EB] dark:text-blue-300">
                     Concept & Educational Reference
                   </span>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white dark:bg-purple-950/80 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-purple-500/30">
+                  <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-white dark:bg-blue-950/80 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-blue-900/30">
                     Task #{activeTask.taskIndex}
                   </span>
                 </div>
@@ -900,11 +900,11 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
           {activeTask.howItWorks && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-5">
               {/* ASCII Diagram & Visual Pointer Flow */}
-              <div className="lg:col-span-7 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 shadow-xs flex flex-col justify-between">
+              <div className="lg:col-span-7 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 shadow-xs flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-purple-500/20">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-blue-900/20">
                     <div className="flex items-center gap-2">
-                      <Code2 className="w-4 h-4 text-indigo-600 dark:text-purple-400" />
+                      <Code2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
                       <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                         Memory Pointer Flow Architecture
                       </span>
@@ -935,16 +935,16 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
               </div>
 
               {/* Step-by-Step Algorithmic Logic */}
-              <div className="lg:col-span-5 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/25 shadow-xs flex flex-col justify-between">
+              <div className="lg:col-span-5 p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 shadow-xs flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-purple-500/20">
+                  <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-blue-900/20">
                     <div className="flex items-center gap-2">
-                      <Layers className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                      <Layers className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
                       <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
                         Execution Steps Breakdown
                       </span>
                     </div>
-                    <span className="text-[10px] font-mono font-bold text-indigo-600 dark:text-purple-300">
+                    <span className="text-[10px] font-mono font-bold text-[#2563EB] dark:text-blue-300">
                       {activeTask.howItWorks.steps.length} Steps
                     </span>
                   </div>
@@ -953,9 +953,9 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
                     {activeTask.howItWorks.steps.map((stepText, idx) => (
                       <div
                         key={idx}
-                        className="p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/20 flex items-start gap-2.5"
+                        className="p-2.5 rounded-2xl bg-slate-50 dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/20 flex items-start gap-2.5"
                       >
-                        <span className="w-5 h-5 rounded-lg bg-indigo-100 dark:bg-purple-950 text-indigo-700 dark:text-purple-300 font-mono text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="w-5 h-5 rounded-lg bg-blue-100 dark:bg-blue-950 text-[#1D4ED8] dark:text-blue-300 font-mono text-[11px] font-bold flex items-center justify-center shrink-0 mt-0.5">
                           {idx + 1}
                         </span>
                         <div className="text-xs">
@@ -966,7 +966,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
                   </div>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-purple-500/20 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-blue-900/20 flex items-center justify-between">
                   <span className="text-xs font-mono text-slate-500">Practice Now:</span>
                   <div className="flex items-center gap-2">
                     <button
@@ -1150,7 +1150,7 @@ export const SLLOperationGameScreen: React.FC<SLLOperationGameScreenProps> = ({
             initial={{ opacity: 0, scale: 0.92, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 15 }}
-            className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 rounded-3xl p-5 sm:p-6 w-full max-w-2xl shadow-2xl overflow-hidden relative"
+            className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-3xl p-5 sm:p-6 w-full max-w-2xl shadow-2xl overflow-hidden relative"
           >
             <button
               type="button"

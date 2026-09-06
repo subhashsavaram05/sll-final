@@ -220,14 +220,14 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
   return (
     <div className="w-full max-w-5xl mx-auto py-6 px-4 space-y-6 font-sans text-slate-900 dark:text-white animate-page-enter">
       {/* Header & Controls in Modern Dashboard Card */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200/90 dark:border-purple-500/25 rounded-2xl p-5 sm:p-7 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
-        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-purple-500/15">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200/90 dark:border-blue-900/30 rounded-2xl p-5 sm:p-7 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
+        <div className="flex flex-wrap items-center justify-between gap-3 pb-4 mb-4 border-b border-slate-100 dark:border-blue-900/20">
           <div>
             <div className="flex flex-wrap items-center gap-2">
               <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight animate-heading-enter break-words">
                 Hash Table Experimentation Lab
               </h2>
-              <span className="text-xs uppercase font-bold px-2.5 py-0.5 bg-indigo-50 dark:bg-purple-950/60 border border-indigo-100 dark:border-purple-500/30 text-indigo-700 dark:text-purple-300 rounded-lg font-mono shadow-2xs">
+              <span className="text-xs uppercase font-bold px-2.5 py-0.5 bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-100 dark:border-blue-900/40 text-[#2563EB] dark:text-blue-300 rounded-lg font-mono shadow-2xs">
                 Interactive Lab
               </span>
             </div>
@@ -246,7 +246,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
                 }}
                 className="btn-modern-secondary px-3.5 py-2 text-xs font-semibold flex items-center gap-1.5 cursor-pointer shadow-2xs"
               >
-                <BookOpen className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" />
+                <BookOpen className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
                 <span>Theory Guide</span>
               </button>
             )}
@@ -275,7 +275,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
                 soundManager.playSelect();
                 resetTableWithSize(Number(e.target.value));
               }}
-              className="w-full p-2.5 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/30 rounded-xl font-semibold text-slate-800 dark:text-slate-200 focus:border-indigo-500 dark:focus:border-purple-400 focus:outline-hidden cursor-pointer font-mono shadow-2xs"
+              className="w-full p-2.5 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/30 rounded-xl font-semibold text-slate-800 dark:text-slate-200 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-hidden cursor-pointer font-mono shadow-2xs"
             >
               <option value={5}>5 (Prime)</option>
               <option value={7}>7 (Prime)</option>
@@ -298,7 +298,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
                 soundManager.playSelect();
                 setTechnique(e.target.value as TechniqueType);
               }}
-              className="w-full p-2.5 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/30 rounded-xl font-semibold text-slate-800 dark:text-slate-200 focus:border-indigo-500 dark:focus:border-purple-400 focus:outline-hidden cursor-pointer shadow-2xs"
+              className="w-full p-2.5 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/30 rounded-xl font-semibold text-slate-800 dark:text-slate-200 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-hidden cursor-pointer shadow-2xs"
             >
               <option value="chaining">Separate Chaining</option>
               <option value="linear">Linear Probing (+1)</option>
@@ -308,10 +308,10 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
           </div>
 
           {/* Load Factor Stats */}
-          <div className="p-3 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/25 rounded-xl flex flex-col justify-between shadow-2xs">
+          <div className="p-3 bg-slate-50/80 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/25 rounded-xl flex flex-col justify-between shadow-2xs">
             <span className="font-bold text-slate-500 dark:text-slate-400 uppercase text-[10px] font-mono">Load Factor (α = n/m)</span>
             <div className="flex items-center justify-between mt-1">
-              <span className="text-xl font-extrabold text-indigo-600 dark:text-cyan-400 font-mono">{loadFactor}</span>
+              <span className="text-xl font-extrabold text-[#2563EB] dark:text-blue-400 font-mono">{loadFactor}</span>
               <span className="text-slate-500 dark:text-slate-400 text-xs font-mono font-medium">({totalKeys}/{tableSize} items)</span>
             </div>
           </div>
@@ -331,9 +331,9 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
         </div>
 
         {/* Dynamic Formula Display Bar */}
-        <div className="mt-3.5 p-2.5 bg-indigo-50/70 dark:bg-purple-950/40 border border-indigo-100 dark:border-purple-500/25 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs font-mono shadow-2xs">
+        <div className="mt-3.5 p-2.5 bg-[#EFF6FF]/70 dark:bg-blue-950/40 border border-blue-100 dark:border-blue-900/30 rounded-xl flex flex-wrap items-center justify-between gap-2 text-xs font-mono shadow-2xs">
           <span className="text-slate-600 dark:text-slate-400 font-semibold uppercase text-[11px]">Active Formula (m = {tableSize}):</span>
-          <span className="font-bold text-indigo-700 dark:text-cyan-300 bg-white dark:bg-[#080D1F] px-2.5 py-1 rounded-lg border border-indigo-100 dark:border-purple-500/30 shadow-2xs">
+          <span className="font-bold text-[#2563EB] dark:text-blue-300 bg-white dark:bg-[#080D1F] px-2.5 py-1 rounded-lg border border-blue-100 dark:border-blue-900/30 shadow-2xs">
             {technique === 'chaining' && `h(k) = k mod ${tableSize}`}
             {technique === 'linear' && `h(k, i) = (k mod ${tableSize} + i) mod ${tableSize}`}
             {technique === 'quadratic' && `h(k, i) = (k mod ${tableSize} + i²) mod ${tableSize}`}
@@ -342,7 +342,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
         </div>
 
         {/* Input & Search Bar */}
-        <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-slate-100 dark:border-purple-500/15">
+        <div className="flex flex-wrap items-center gap-2.5 mt-4 pt-4 border-t border-slate-100 dark:border-blue-900/20">
           <div className="flex items-center gap-2">
             <input
               type="number"
@@ -350,7 +350,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
               value={inputKey}
               onChange={(e) => setInputKey(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleInsert()}
-              className="w-32 px-3 py-2 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/30 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-purple-400 focus:outline-hidden shadow-2xs"
+              className="w-32 px-3 py-2 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/30 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-hidden shadow-2xs"
             />
             <button
               id="btn-sandbox-insert"
@@ -364,7 +364,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
               onClick={handleRandomInsert}
               className="btn-modern-secondary px-3.5 py-2 text-xs font-semibold flex items-center gap-1 cursor-pointer shadow-2xs"
             >
-              <Shuffle className="w-3.5 h-3.5 text-indigo-600 dark:text-purple-400" /> Random
+              <Shuffle className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" /> Random
             </button>
           </div>
 
@@ -374,7 +374,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
               placeholder="Search Key"
               value={searchKey}
               onChange={(e) => setSearchKey(e.target.value)}
-              className="w-32 px-3 py-2 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-purple-500/30 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 focus:border-indigo-500 dark:focus:border-purple-400 focus:outline-hidden shadow-2xs"
+              className="w-32 px-3 py-2 bg-slate-50 dark:bg-[#080D1F] border border-slate-200 dark:border-blue-900/30 rounded-xl text-sm font-semibold text-slate-800 dark:text-slate-100 focus:border-blue-500 dark:focus:border-blue-400 focus:outline-hidden shadow-2xs"
             />
             <button
               id="btn-sandbox-search"
@@ -388,13 +388,13 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
       </div>
 
       {/* Hash Table Visual Row */}
-      <div className="bg-white dark:bg-[#0B1228] border-2 border-indigo-100/90 dark:border-purple-500/25 rounded-2xl p-5 sm:p-7 shadow-md shadow-indigo-900/5 dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
-        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-purple-500/15">
+      <div className="bg-white dark:bg-[#0B1228] border-2 border-blue-100/90 dark:border-blue-900/30 rounded-2xl p-5 sm:p-7 shadow-md shadow-blue-900/5 dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)]">
+        <div className="flex items-center justify-between pb-3 mb-4 border-b border-slate-100 dark:border-blue-900/20">
           <span className="text-xs font-bold text-slate-900 dark:text-white tracking-wider uppercase font-mono">
             Hash Table Array (Load = {loadFactor})
           </span>
           {searchPath.length > 0 && (
-            <span className="text-xs font-semibold text-indigo-700 dark:text-cyan-300 bg-indigo-50 dark:bg-purple-950/60 px-2.5 py-1 rounded-md border border-indigo-100 dark:border-purple-500/30 font-mono shadow-2xs">
+            <span className="text-xs font-semibold text-[#2563EB] dark:text-blue-300 bg-[#EFF6FF] dark:bg-blue-950/60 px-2.5 py-1 rounded-md border border-blue-100 dark:border-blue-900/30 font-mono shadow-2xs">
               Search Path: [{searchPath.join(' → ')}]
             </span>
           )}
@@ -425,7 +425,7 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
 
         {/* Chained Linked List Overview for Sandbox */}
         {technique === 'chaining' && (
-          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-purple-500/15">
+          <div className="mt-4 pt-4 border-t border-slate-100 dark:border-blue-900/20">
             <div className="text-xs font-bold text-slate-700 dark:text-slate-300 mb-2 uppercase font-mono">Separate Chaining Buckets:</div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               {slots
@@ -433,17 +433,17 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
                 .map((s) => (
                   <div
                     key={s.index}
-                    className="flex items-center gap-2 p-2.5 bg-slate-50/80 dark:bg-black border border-slate-200 dark:border-purple-900/40 rounded-xl text-xs overflow-x-auto shadow-2xs"
+                    className="flex items-center gap-2 p-2.5 bg-slate-50/80 dark:bg-black border border-slate-200 dark:border-blue-900/40 rounded-xl text-xs overflow-x-auto shadow-2xs"
                   >
-                    <span className="font-bold text-white bg-indigo-600 dark:bg-purple-600 px-2 py-0.5 rounded-md shrink-0 font-mono shadow-xs">
+                    <span className="font-bold text-white bg-[#2563EB] dark:bg-blue-600 px-2 py-0.5 rounded-md shrink-0 font-mono shadow-xs">
                       [{s.index < 10 ? `0${s.index}` : s.index}]
                     </span>
                     <span className="text-slate-400 dark:text-slate-500 shrink-0">:</span>
                     <div className="flex items-center gap-1.5 shrink-0 font-mono">
                       {s.items.map((item, idx) => (
                         <React.Fragment key={item.id || idx}>
-                          {idx > 0 && <ArrowRight className="w-3 h-3 text-indigo-600 dark:text-cyan-400 shrink-0" />}
-                          <span className="px-2.5 py-0.5 bg-white dark:bg-black border border-indigo-200/80 dark:border-purple-500/30 rounded-md font-bold text-slate-900 dark:text-white shadow-2xs">
+                          {idx > 0 && <ArrowRight className="w-3 h-3 text-[#2563EB] dark:text-blue-400 shrink-0" />}
+                          <span className="px-2.5 py-0.5 bg-white dark:bg-black border border-blue-200/80 dark:border-blue-900/30 rounded-md font-bold text-slate-900 dark:text-white shadow-2xs">
                             {item.value}
                           </span>
                         </React.Fragment>
@@ -457,17 +457,17 @@ export const SandboxMode: React.FC<SandboxModeProps> = ({
       </div>
 
       {/* Activity Log */}
-      <div className="bg-white dark:bg-[#0B1228] border border-slate-200/90 dark:border-purple-500/25 rounded-2xl p-5 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] text-xs">
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200/90 dark:border-blue-900/30 rounded-2xl p-5 shadow-sm dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] text-xs">
         <div className="text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mb-3 flex items-center justify-between font-mono">
           <span>Execution Log Audit Trail</span>
-          <span className="text-[10px] text-indigo-700 dark:text-cyan-300 font-bold bg-indigo-50 dark:bg-purple-950/60 px-2.5 py-0.5 rounded-md border border-indigo-100 dark:border-purple-500/30 shadow-2xs">
+          <span className="text-[10px] text-[#2563EB] dark:text-blue-300 font-bold bg-[#EFF6FF] dark:bg-blue-950/60 px-2.5 py-0.5 rounded-md border border-blue-100 dark:border-blue-900/30 shadow-2xs">
             Live Stream
           </span>
         </div>
         <div className="space-y-1.5 font-mono">
           {logMessages.map((msg, i) => (
             <div key={i} className="flex items-start gap-2">
-              <span className="text-indigo-600 dark:text-purple-400 font-bold select-none">&gt;</span>
+              <span className="text-[#2563EB] dark:text-blue-400 font-bold select-none">&gt;</span>
               <span className={i === 0 ? 'text-slate-900 dark:text-white font-bold' : 'text-slate-500 dark:text-slate-400'}>{msg}</span>
             </div>
           ))}

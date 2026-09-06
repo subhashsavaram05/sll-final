@@ -212,23 +212,23 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
         initial={{ scale: 0.92, opacity: 0, y: 10 }}
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.92, opacity: 0, y: 10 }}
-        className="w-full max-w-md bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-purple-500/30 rounded-3xl shadow-2xl overflow-hidden relative"
+        className="w-full max-w-md bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-blue-900/40 rounded-3xl shadow-2xl overflow-hidden relative"
       >
         {/* Modal Header */}
-        <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-purple-500/20 flex items-center justify-between bg-slate-50/70 dark:bg-[#15203B]">
+        <div className="p-4 sm:p-5 border-b border-slate-100 dark:border-blue-900/20 flex items-center justify-between bg-slate-50/70 dark:bg-[#15203B]">
           <div className="flex items-center gap-2.5">
             {modalType === 'CREATE_NODE' && (
-              <div className="w-8 h-8 rounded-xl bg-indigo-100 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-blue-100 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center">
                 <Plus className="w-5 h-5" />
               </div>
             )}
             {modalType === 'CHANGE_NEXT' && (
-              <div className="w-8 h-8 rounded-xl bg-purple-100 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+              <div className="w-8 h-8 rounded-xl bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-400 flex items-center justify-center">
                 <LinkIcon className="w-4 h-4" />
               </div>
             )}
             {modalType === 'SET_HEAD' && (
-              <div className="w-8 h-8 rounded-xl bg-cyan-100 dark:bg-cyan-950 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold font-mono text-xs">
+              <div className="w-8 h-8 rounded-xl bg-[#EFF6FF] dark:bg-blue-950 text-[#2563EB] dark:text-blue-400 flex items-center justify-center font-bold font-mono text-xs">
                 HEAD
               </div>
             )}
@@ -298,7 +298,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                   onChange={(e) => setDataInput(e.target.value)}
                   placeholder="e.g. 10, 20, 30"
                   autoFocus
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
@@ -312,12 +312,12 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                     value={addressInput}
                     onChange={(e) => setAddressInput(e.target.value)}
                     placeholder="e.g. 1001, 1002"
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     type="button"
                     onClick={() => setAddressInput(String(defaultAddr))}
-                    className="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-purple-950/60 border border-slate-200 dark:border-purple-500/30 text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200"
+                    className="px-3 py-2.5 rounded-xl bg-slate-100 dark:bg-blue-950/60 border border-slate-200 dark:border-blue-900/30 text-xs font-mono font-semibold text-slate-700 dark:text-slate-300 hover:bg-slate-200"
                   >
                     Auto ({defaultAddr})
                   </button>
@@ -334,7 +334,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                     value={nextInput}
                     onChange={(e) => setNextInput(e.target.value)}
                     placeholder="e.g. 1002 or NULL"
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     type="button"
@@ -358,7 +358,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                         key={n.address}
                         type="button"
                         onClick={() => setNextInput(String(n.address))}
-                        className="px-2 py-1 rounded-lg bg-indigo-50 dark:bg-purple-950/50 border border-indigo-200 dark:border-purple-500/30 text-[11px] font-mono font-semibold text-indigo-700 dark:text-purple-300 hover:bg-indigo-100"
+                        className="px-2 py-1 rounded-lg bg-[#EFF6FF] dark:bg-blue-950/50 border border-[#BFDBFE] dark:border-blue-500/30 text-[11px] font-mono font-semibold text-[#2563EB] dark:text-blue-300 hover:bg-[#DBEAFE]"
                       >
                         {n.address} [Data:{n.data}]
                       </button>
@@ -377,7 +377,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 flex items-center gap-1.5 cursor-pointer"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Allocate Node</span>
@@ -404,15 +404,15 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                       }}
                       className={`p-2.5 rounded-xl border text-left flex items-center justify-between transition-all ${
                         targetNodeAddr === n.address
-                          ? 'border-indigo-600 bg-indigo-50 dark:bg-purple-950/60 text-indigo-700 dark:text-purple-300 font-bold ring-2 ring-indigo-500/30'
-                          : 'border-slate-200 dark:border-purple-500/30 bg-slate-50/50 dark:bg-[#070B19] text-slate-700 dark:text-slate-300'
+                          ? 'border-[#2563EB] bg-[#EFF6FF] dark:bg-blue-950/60 text-[#2563EB] dark:text-blue-300 font-bold ring-2 ring-blue-500/30'
+                          : 'border-slate-200 dark:border-blue-900/30 bg-slate-50/50 dark:bg-[#070B19] text-slate-700 dark:text-slate-300'
                       }`}
                     >
                       <div>
                         <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 block">ADDR: {n.address}</span>
                         <span className="text-xs font-bold">DATA: {n.data}</span>
                       </div>
-                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-purple-500/20">
+                      <span className="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-blue-900/20">
                         → {n.nextAddress !== null ? n.nextAddress : 'NULL'}
                       </span>
                     </button>
@@ -431,7 +431,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                     onChange={(e) => setNewNextInput(e.target.value)}
                     placeholder="e.g. 1002 or NULL"
                     autoFocus
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
+                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     type="button"
@@ -456,7 +456,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                         key={n.address}
                         type="button"
                         onClick={() => setNewNextInput(String(n.address))}
-                        className="px-2 py-1 rounded-lg bg-indigo-50 dark:bg-purple-950/50 border border-indigo-200 dark:border-purple-500/30 text-[11px] font-mono font-semibold text-indigo-700 dark:text-purple-300 hover:bg-indigo-100"
+                        className="px-2 py-1 rounded-lg bg-[#EFF6FF] dark:bg-blue-950/50 border border-[#BFDBFE] dark:border-blue-900/30 text-[11px] font-mono font-semibold text-[#2563EB] dark:text-blue-300 hover:bg-[#DBEAFE]"
                       >
                         Node {n.address} [Data:{n.data}]
                       </button>
@@ -474,7 +474,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow-md shadow-purple-600/20 flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-linear-to-r from-[#2563EB] to-[#6366F1] hover:from-[#1D4ED8] hover:to-[#4F46E5] text-white font-bold text-xs shadow-md shadow-blue-600/20 flex items-center gap-1.5 cursor-pointer"
                 >
                   <LinkIcon className="w-4 h-4" />
                   <span>Update NEXT</span>
@@ -500,7 +500,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                     onChange={(e) => setHeadInput(e.target.value)}
                     placeholder="e.g. 1001 or NULL"
                     autoFocus
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                   />
                   <button
                     type="button"
@@ -524,7 +524,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                         key={n.address}
                         type="button"
                         onClick={() => setHeadInput(String(n.address))}
-                        className="px-2 py-1 rounded-lg bg-cyan-50 dark:bg-cyan-950/50 border border-cyan-200 dark:border-cyan-500/30 text-[11px] font-mono font-semibold text-cyan-700 dark:text-cyan-300 hover:bg-cyan-100"
+                        className="px-2 py-1 rounded-lg bg-[#EFF6FF] dark:bg-blue-950/50 border border-[#BFDBFE] dark:border-blue-500/30 text-[11px] font-mono font-semibold text-[#2563EB] dark:text-blue-300 hover:bg-[#DBEAFE]"
                       >
                         {n.address} [Data: {n.data}]
                       </button>
@@ -543,7 +543,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs shadow-md shadow-cyan-600/20 flex items-center gap-1.5 cursor-pointer"
+                  className="px-5 py-2.5 rounded-xl bg-[#2563EB] hover:bg-[#1D4ED8] text-white font-bold text-xs shadow-md shadow-blue-600/20 flex items-center gap-1.5 cursor-pointer"
                 >
                   <Check className="w-4 h-4" />
                   <span>Set HEAD</span>
@@ -569,7 +569,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                     onChange={(e) => setTailInput(e.target.value)}
                     placeholder="e.g. 1004 or NULL"
                     autoFocus
-                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-purple-500/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500"
+                    className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-slate-50 dark:bg-[#070B19] text-slate-900 dark:text-white font-mono text-sm focus:outline-hidden focus:ring-2 focus:ring-amber-500"
                   />
                   <button
                     type="button"
@@ -646,7 +646,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                         className={`p-2.5 rounded-xl border text-left transition-all ${
                           deleteAddr === n.address
                             ? 'border-rose-600 bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 font-bold ring-2 ring-rose-500/30'
-                            : 'border-slate-200 dark:border-purple-500/30 bg-slate-50/50 dark:bg-[#070B19] text-slate-700 dark:text-slate-300'
+                            : 'border-slate-200 dark:border-blue-900/30 bg-slate-50/50 dark:bg-[#070B19] text-slate-700 dark:text-slate-300'
                         }`}
                       >
                         <span className="text-[10px] font-mono text-slate-400 dark:text-slate-500 block">ADDR: {n.address}</span>
@@ -689,7 +689,7 @@ export const SLLActionModal: React.FC<SLLActionModalProps> = ({
                       className={`p-3.5 rounded-2xl border transition-all ${
                         isUnlocked
                           ? 'bg-amber-50/70 dark:bg-amber-950/30 border-amber-200 dark:border-amber-500/30 text-slate-800 dark:text-slate-200'
-                          : 'bg-slate-50 dark:bg-[#070B19] border-dashed border-slate-200 dark:border-purple-500/20 opacity-50'
+                          : 'bg-slate-50 dark:bg-[#070B19] border-dashed border-slate-200 dark:border-blue-900/20 opacity-50'
                       }`}
                     >
                       <div className="flex items-center justify-between mb-1">

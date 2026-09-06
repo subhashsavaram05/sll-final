@@ -92,10 +92,10 @@ export const SLLSolveWalkthrough: React.FC<SLLSolveWalkthroughProps> = ({
       </div>
 
       {/* Main Walkthrough Visual Stage */}
-      <div className="my-5 p-4 rounded-2xl bg-white dark:bg-[#070B19] border border-slate-200 dark:border-purple-500/25 min-h-[160px] flex flex-col items-center justify-center">
+      <div className="my-5 p-4 rounded-2xl bg-white dark:bg-[#070B19] border border-slate-200 dark:border-blue-900/25 min-h-[160px] flex flex-col items-center justify-center">
         {/* Pointer indicators at this step */}
         <div className="flex items-center gap-2 text-xs font-mono mb-3">
-          <div className="px-2.5 py-1 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 text-indigo-700 dark:text-indigo-300 font-bold">
+          <div className="px-2.5 py-1 rounded-lg bg-[#EFF6FF] dark:bg-blue-950/60 border border-blue-200 dark:border-blue-900/40 text-[#2563EB] dark:text-blue-300 font-bold">
             HEAD: {activeStep.simulatedPointers.headAddress !== null ? activeStep.simulatedPointers.headAddress : 'NULL'}
           </div>
           <div className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/60 border border-amber-200 text-amber-700 dark:text-amber-300 font-bold">
@@ -119,24 +119,24 @@ export const SLLSolveWalkthrough: React.FC<SLLSolveWalkthroughProps> = ({
                     className={`flex flex-col rounded-xl border-2 overflow-hidden shadow-xs ${
                       isHighlighted
                         ? 'border-amber-500 ring-4 ring-amber-500/20 bg-amber-50/60 dark:bg-amber-950/40'
-                        : 'border-slate-300 dark:border-purple-500/30 bg-white dark:bg-[#0E1736]'
+                        : 'border-slate-300 dark:border-blue-900/30 bg-white dark:bg-[#0E1736]'
                     }`}
                     style={{ minWidth: '100px' }}
                   >
-                    <div className="bg-slate-100 dark:bg-[#152148] px-2 py-0.5 text-[9px] font-mono flex justify-between border-b border-slate-200 dark:border-purple-500/30">
+                    <div className="bg-slate-100 dark:bg-[#152148] px-2 py-0.5 text-[9px] font-mono flex justify-between border-b border-slate-200 dark:border-blue-900/30">
                       <span className="text-slate-500">ADDR</span>
-                      <span className="font-bold text-indigo-600 dark:text-purple-300">{node.address}</span>
+                      <span className="font-bold text-[#2563EB] dark:text-blue-300">{node.address}</span>
                     </div>
                     <div className="flex items-stretch text-center">
-                      <div className="flex-1 py-1 px-1 font-bold text-slate-900 dark:text-white border-r border-slate-200 dark:border-purple-500/30 text-xs">
+                      <div className="flex-1 py-1 px-1 font-bold text-slate-900 dark:text-white border-r border-slate-200 dark:border-blue-900/30 text-xs">
                         {node.data}
                       </div>
-                      <div className="flex-1 py-1 px-1 font-mono text-[9px] font-bold text-indigo-600 dark:text-purple-300">
+                      <div className="flex-1 py-1 px-1 font-mono text-[9px] font-bold text-[#2563EB] dark:text-blue-300">
                         {node.nextAddress !== null ? node.nextAddress : 'NULL'}
                       </div>
                     </div>
                   </motion.div>
-                  <div className="px-1 text-indigo-500 flex items-center">
+                  <div className="px-1 text-[#2563EB] dark:text-blue-400 flex items-center">
                     <ArrowRight className="w-3.5 h-3.5" />
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export const SLLSolveWalkthrough: React.FC<SLLSolveWalkthroughProps> = ({
         <button
           onClick={handlePrev}
           disabled={currentStepIdx === 0}
-          className="flex items-center gap-1 px-3 py-2 rounded-xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-purple-500/30 text-slate-700 dark:text-slate-300 disabled:opacity-30 text-xs font-bold hover:bg-slate-50 transition-colors cursor-pointer"
+          className="flex items-center gap-1 px-3 py-2 rounded-xl bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 text-slate-700 dark:text-slate-300 disabled:opacity-30 text-xs font-bold hover:bg-slate-50 transition-colors cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Previous Step</span>

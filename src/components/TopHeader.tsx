@@ -91,10 +91,10 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
       id="app-top-header"
       className={`fixed top-0 right-0 left-0 ${
         isDesktopSidebarOpen ? 'lg:left-64' : 'lg:left-0'
-      } z-20 bg-white dark:bg-[#070B18]/95 border-b border-slate-200 dark:border-blue-900/30 shadow-xs backdrop-blur-md transition-all duration-300`}
+      } z-20 h-14 sm:h-16 bg-white dark:bg-[#070B18]/95 border-b border-slate-200 dark:border-blue-900/30 shadow-xs backdrop-blur-md transition-all duration-300 flex items-center m-0 p-0`}
     >
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 py-2 sm:py-2.5 flex items-center justify-between gap-2 sm:gap-4">
-        {/* Left Side: 1. Menu Button (when sidebar is closed) -> 2. AlgoLearn Logo -> 3. Current Section */}
+      <div className="max-w-7xl w-full mx-auto h-full px-3 sm:px-6 flex items-center justify-between gap-2 sm:gap-4">
+        {/* Left Side: 1. Menu Button (when sidebar is closed) -> 2. AlgoLearn Logo (when sidebar closed or on mobile) -> 3. Current Section */}
         <div className="flex items-center gap-2.5 sm:gap-3.5 min-w-0">
           {/* 1. THREE-BAR MENU / HAMBURGER BUTTON (Strictly visible ONLY when navigation sidebar is CLOSED) */}
           <button
@@ -107,13 +107,19 @@ export const TopHeader: React.FC<TopHeaderProps> = ({
             <Menu className="w-5 h-5" />
           </button>
 
-          {/* 2. ALGOLEARN LOGO (EXACT IMAGE) */}
-          <div className="flex items-center shrink-0">
+          {/* 2. ALGOLEARN LOGO (Visible on mobile drawer or when desktop sidebar is closed) */}
+          <div className={`items-center shrink-0 ${isDesktopSidebarOpen ? 'flex lg:hidden' : 'flex'}`}>
             <AlgoLearnLogo theme={theme} className="h-8 sm:h-9 w-auto" />
           </div>
 
-          {/* 3. CURRENT PAGE / SECTION (SECONDARY) */}
-          <div className="hidden xs:flex items-center gap-2 pl-2.5 sm:pl-3 border-l border-slate-200 dark:border-blue-900/30 min-w-0">
+          {/* 3. CURRENT PAGE / SECTION */}
+          <div
+            className={`items-center gap-2 min-w-0 ${
+              isDesktopSidebarOpen
+                ? 'flex'
+                : 'hidden xs:flex pl-2.5 sm:pl-3 border-l border-slate-200 dark:border-blue-900/30'
+            }`}
+          >
             <span className="text-xs sm:text-sm font-semibold text-blue-600 dark:text-blue-400 font-sans tracking-wide leading-none truncate">
               {pageName}
             </span>
