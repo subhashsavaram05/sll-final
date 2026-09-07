@@ -1,161 +1,272 @@
 import { ModuleRecord, ModuleStatus, UserProgressState } from '../types/game';
 
-const STORAGE_KEY = 'hash_quest_field_notes_progress_v2';
+const STORAGE_KEY = 'sll_learning_progress_v1';
 
-export const FIELD_NOTES_MODULES: Omit<ModuleRecord, 'status' | 'progressPercent'>[] = [
+export const SLL_PROGRESS_ACTIVITIES: Omit<ModuleRecord, 'status' | 'progressPercent'>[] = [
   {
-    id: 'fn-01-basics',
+    id: 'sl-01-intro',
     number: '01',
-    code: 'FN-01',
-    title: 'WHAT IS HASHING? & O(1) ACCESS',
+    code: 'SL-01',
+    title: 'What is a Singly Linked List?',
     category: 'FOUNDATION',
-    description: 'Understand direct addressing, hash tables, and why hash lookups operate in average O(1) constant time.',
-    criteriaDescription: 'Read the foundation theory and complete the interactive O(1) vs O(n) lookup speed race.',
+    description: 'Learn how nodes store data and connect to the next node. Understand Head and node connections.',
+    criteriaDescription: 'Understand linear node chaining, Head pointer reference, and dynamic memory allocation.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-01',
+    targetChapterId: 'what-is-sll',
   },
   {
-    id: 'fn-02-modulo',
+    id: 'sl-02-nodes',
     number: '02',
-    code: 'FN-02',
-    title: 'THE HASH FUNCTION & MODULO',
+    code: 'SL-02',
+    title: 'Understanding Nodes',
     category: 'FOUNDATION',
-    description: 'Master the core modulus formula: h(key) = key mod table size to map numbers into array bounds.',
-    criteriaDescription: 'Use the interactive modulo arithmetic calculator with at least 2 distinct keys and table sizes.',
+    description: 'Explore the internal anatomy of a node: data fields holding values and next pointers referencing memory.',
+    criteriaDescription: 'Master node structure, payload storage, and pointer allocation in memory.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-02',
+    targetChapterId: 'understanding-nodes',
   },
   {
-    id: 'fn-03-table',
+    id: 'sl-03-head-connections',
     number: '03',
-    code: 'FN-03',
-    title: 'THE HASH TABLE ARCHITECTURE',
+    code: 'SL-03',
+    title: 'Head and Node Connections',
     category: 'FOUNDATION',
-    description: 'Associative data structures mapping keys to values using contiguous array storage and direct addressing.',
-    criteriaDescription: 'Study the hash table architecture, key-value storage, and direct memory translation.',
+    description: 'Master the list entry point with Head, pointer references between nodes, and terminating at null.',
+    criteriaDescription: 'Trace head referencing, sequential chaining, and null terminus verification.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-03',
+    targetChapterId: 'head-connections',
   },
   {
-    id: 'fn-04-lifecycle',
+    id: 'sl-04-traversal',
     number: '04',
-    code: 'FN-04',
-    title: 'THE HASHING LIFECYCLE PIPELINE',
+    code: 'SL-04',
+    title: 'Traversing a Singly Linked List',
     category: 'FOUNDATION',
-    description: 'Master the 4-step pipeline for every Insert, Search, and Delete operation.',
-    criteriaDescription: 'Inspect the step-by-step hashing pipeline from key input to memory placement.',
+    description: 'Walk through each linked node sequentially from Head to null using temporary traversal pointers.',
+    criteriaDescription: 'Implement pointer traversal using current = current.next without losing list references.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-04',
+    targetChapterId: 'traversal',
   },
   {
-    id: 'fn-05-collision',
+    id: 'sl-05-insert-beginning',
     number: '05',
-    code: 'FN-05',
-    title: 'WHAT IS A COLLISION & PARADOX',
-    category: 'FOUNDATION',
-    description: 'The mathematical inevitability of collisions under the Pigeonhole Principle and Birthday Paradox.',
-    criteriaDescription: 'Understand why collisions occur and why resolution strategies are essential.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-05',
+    code: 'SL-05',
+    title: 'Insertion at Beginning',
+    category: 'TECHNIQUE',
+    description: 'Prepend a new node at the start of the list in O(1) constant time by updating the Head pointer.',
+    criteriaDescription: 'Point new node next to current Head, then reassign Head to the new node.',
+    targetTab: 'GAME',
+    targetLevelId: 1,
   },
   {
-    id: 'fn-06-chaining',
+    id: 'sl-06-insert-end',
     number: '06',
-    code: 'FN-06',
-    title: 'SEPARATE CHAINING (CLOSED ADDR)',
+    code: 'SL-06',
+    title: 'Insertion at End',
     category: 'TECHNIQUE',
-    description: 'Closed addressing strategy where each slot holds a linked list to gracefully store colliding elements.',
-    criteriaDescription: 'Master linked bucket insertion and collision resolution.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-06',
+    description: 'Traverse to the tail node and attach a new node by setting the last node\'s next pointer.',
+    criteriaDescription: 'Locate the terminal node whose next is null and link it to the newly created node.',
+    targetTab: 'GAME',
+    targetLevelId: 2,
   },
   {
-    id: 'fn-07-linear',
+    id: 'sl-07-insert-position',
     number: '07',
-    code: 'FN-07',
-    title: 'LINEAR PROBING (OPEN ADDRESSING)',
+    code: 'SL-07',
+    title: 'Insertion at Specific Position',
     category: 'TECHNIQUE',
-    description: 'Open addressing algorithm searching sequentially (+1, +2...) for the nearest open slot upon collision.',
-    criteriaDescription: 'Master sequential slot searching and probe sequence calculation.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-07',
+    description: 'Insert a node at any arbitrary index or position by traversing to index-1 and rewiring pointers.',
+    criteriaDescription: 'Set new_node.next = prev.next, then update prev.next = new_node without breaking the chain.',
+    targetTab: 'GAME',
+    targetLevelId: 3,
   },
   {
-    id: 'fn-08-quadratic',
+    id: 'sl-08-delete-first',
     number: '08',
-    code: 'FN-08',
-    title: 'QUADRATIC PROBING (SQUARE LEAPS)',
+    code: 'SL-08',
+    title: 'Deleting the First Node',
     category: 'TECHNIQUE',
-    description: 'Leaping open addressing using square increments (+1², +2², +3²) to avoid primary clustering.',
-    criteriaDescription: 'Master square leap probing and secondary clustering mitigation.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-08',
+    description: 'Remove the head element in O(1) time by reassigning Head to head.next and freeing memory.',
+    criteriaDescription: 'Advance Head pointer to the second node and cleanly deallocate the former head.',
+    targetTab: 'GAME',
+    targetLevelId: 4,
   },
   {
-    id: 'fn-09-double',
+    id: 'sl-09-delete-final',
     number: '09',
-    code: 'FN-09',
-    title: 'DOUBLE HASHING (DUAL FUNCTION)',
+    code: 'SL-09',
+    title: 'Deleting the Final Node',
     category: 'TECHNIQUE',
-    description: 'Advanced dual-hash resolution where a second function h2(key) computes a unique non-zero jump interval.',
-    criteriaDescription: 'Master dual-hash computation and step size calculation.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-09',
+    description: 'Traverse to the penultimate node, disconnect the tail node, and update the new tail\'s next to null.',
+    criteriaDescription: 'Find the second-to-last node, free the tail node, and set the next pointer to null.',
+    targetTab: 'GAME',
+    targetLevelId: 4,
   },
   {
-    id: 'fn-10-realworld',
+    id: 'sl-10-delete-specific',
     number: '10',
-    code: 'FN-10',
-    title: 'REAL-WORLD APPLICATIONS',
-    category: 'ANALYSIS',
-    description: 'Explore databases, compilers, caches, and distributed consistent hashing in production systems.',
-    criteriaDescription: 'Study industry use cases and production hash table deployments.',
-    targetTab: 'THEORY',
-    targetChapterId: 'theory-10',
+    code: 'SL-10',
+    title: 'Deleting a Specific Node',
+    category: 'TECHNIQUE',
+    description: 'Locate a specific target node by key or position and bridge the previous node directly to target.next.',
+    criteriaDescription: 'Bypass target node with prev.next = current.next and clean up unlinked memory.',
+    targetTab: 'GAME',
+    targetLevelId: 4,
   },
   {
-    id: 'fn-11-advantages',
+    id: 'sl-11-search',
     number: '11',
-    code: 'FN-11',
-    title: 'CORE ADVANTAGES & PERFORMANCE',
-    category: 'ANALYSIS',
-    description: 'Deep dive into algorithmic complexity: average O(1) vs worst-case O(n) trade-offs.',
-    criteriaDescription: 'Analyze time complexities, space requirements, and hardware cache efficiency.',
+    code: 'SL-11',
+    title: 'Searching in a Linked List',
+    category: 'TECHNIQUE',
+    description: 'Perform linear search starting from Head to locate a target value in O(n) worst-case time.',
+    criteriaDescription: 'Sequentially compare each node\'s data value until the target is found or null is reached.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-11',
+    targetChapterId: 'search',
   },
   {
-    id: 'fn-12-tradeoffs',
+    id: 'sl-12-operations',
     number: '12',
-    code: 'FN-12',
-    title: 'LIMITATIONS & TRADEOFFS',
-    category: 'ANALYSIS',
-    description: 'Understand unsorted keys, lack of range queries, rehashing overhead, and cryptographic hashing.',
-    criteriaDescription: 'Analyze memory overhead, range search limits, and load factor thresholds.',
+    code: 'SL-12',
+    title: 'Linked List Operations',
+    category: 'TECHNIQUE',
+    description: 'Examine length calculation, reversal, concatenation, and pointer safety rules across list operations.',
+    criteriaDescription: 'Analyze operation mechanics, pointer safety rules, and algorithmic complexity.',
     targetTab: 'THEORY',
-    targetChapterId: 'theory-12',
+    targetChapterId: 'operations',
+  },
+  {
+    id: 'sl-13-memory',
+    number: '13',
+    code: 'SL-13',
+    title: 'Memory Representation',
+    category: 'ANALYSIS',
+    description: 'Understand how linked nodes are allocated non-contiguously across Heap memory with pointer addresses.',
+    criteriaDescription: 'Contrast non-contiguous heap memory addresses with contiguous array blocks.',
+    targetTab: 'THEORY',
+    targetChapterId: 'memory-representation',
+  },
+  {
+    id: 'sl-14-dynamic-memory',
+    number: '14',
+    code: 'SL-14',
+    title: 'Dynamic Memory',
+    category: 'ANALYSIS',
+    description: 'Examine runtime allocation, pointer referencing, avoiding leaks, and dynamic node deallocation.',
+    criteriaDescription: 'Master dynamic heap allocation, pointer lifecycle, and memory management.',
+    targetTab: 'THEORY',
+    targetChapterId: 'dynamic-memory',
+  },
+  {
+    id: 'sl-15-vs-array',
+    number: '15',
+    code: 'SL-15',
+    title: 'Linked List vs Array',
+    category: 'ANALYSIS',
+    description: 'Evaluate algorithmic trade-offs: dynamic growth and O(1) insertions vs cache locality and random access.',
+    criteriaDescription: 'Analyze trade-offs between O(1) random indexing and O(1) localized insertions.',
+    targetTab: 'THEORY',
+    targetChapterId: 'linked-list-vs-array',
+  },
+  {
+    id: 'sl-16-connection-game',
+    number: '16',
+    code: 'SL-16',
+    title: 'Node Connection Game',
+    category: 'EXAMINATION',
+    description: 'Interactive challenge connecting nodes, setting pointer links, and establishing valid chains.',
+    criteriaDescription: 'Successfully wire nodes sequentially and maintain valid Head and null pointers.',
+    targetTab: 'GAME',
+    targetLevelId: 1,
+  },
+  {
+    id: 'sl-17-insertion-challenge',
+    number: '17',
+    code: 'SL-17',
+    title: 'Insertion Challenge',
+    category: 'EXAMINATION',
+    description: 'Interactive challenge executing beginning, ending, and intermediate insertions without breaking chains.',
+    criteriaDescription: 'Complete all insertion puzzles with precision and zero dangling pointers.',
+    targetTab: 'GAME',
+    targetLevelId: 2,
+  },
+  {
+    id: 'sl-18-deletion-challenge',
+    number: '18',
+    code: 'SL-18',
+    title: 'Deletion Challenge',
+    category: 'EXAMINATION',
+    description: 'Interactive challenge safely removing nodes and bridging surrounding pointers to Head.',
+    criteriaDescription: 'Remove target nodes and ensure remaining nodes stay securely connected.',
+    targetTab: 'GAME',
+    targetLevelId: 3,
+  },
+  {
+    id: 'sl-19-quiz',
+    number: '19',
+    code: 'SL-19',
+    title: 'Singly Linked List Quiz',
+    category: 'EXAMINATION',
+    description: 'Comprehensive 10-question examination assessing nodes, head pointers, traversals, and operations.',
+    criteriaDescription: 'Score 80% or higher on Singly Linked List pointer theory and complexity questions.',
+    targetTab: 'QUIZ',
+  },
+  {
+    id: 'sl-20-final-lab',
+    number: '20',
+    code: 'SL-20',
+    title: 'Singly Linked List Final Lab',
+    category: 'EXAMINATION',
+    description: 'Interactive hands-on sandbox lab constructing, mutating, and stress-testing custom Singly Linked Lists.',
+    criteriaDescription: 'Execute interactive creation, insertions, deletions, and traversals in the sandbox workspace.',
+    targetTab: 'LAB',
   },
 ];
 
+// Re-export for backward compatibility
+export const FIELD_NOTES_MODULES = SLL_PROGRESS_ACTIVITIES;
+
+export interface SLLLevelDef {
+  id: number;
+  title: string;
+  subtitle: string;
+}
+
+export const SLL_LEVELS: SLLLevelDef[] = [
+  { id: 1, title: 'Node Explorer', subtitle: 'Explore Node Anatomy, Data Fields & Head Pointers' },
+  { id: 2, title: 'Connection Builder', subtitle: 'Wire Sequential Next Pointers & Build Chains' },
+  { id: 3, title: 'Traversal Master', subtitle: 'Iterate Step-by-Step from Head to the Null Terminus' },
+  { id: 4, title: 'Operation Expert', subtitle: 'Master Beginning, Middle, and End Insertions & Deletions' },
+  { id: 5, title: 'Singly Linked List Master', subtitle: 'Conquer Complex Pointer Manipulation & Edge Cases' },
+];
+
 const INITIAL_PROGRESS: UserProgressState = {
-  version: 2,
+  version: 3,
   modules: {
-    'fn-01-basics': 'NOT_STARTED',
-    'fn-02-modulo': 'NOT_STARTED',
-    'fn-03-table': 'NOT_STARTED',
-    'fn-04-lifecycle': 'NOT_STARTED',
-    'fn-05-collision': 'NOT_STARTED',
-    'fn-06-chaining': 'NOT_STARTED',
-    'fn-07-linear': 'NOT_STARTED',
-    'fn-08-quadratic': 'NOT_STARTED',
-    'fn-09-double': 'NOT_STARTED',
-    'fn-10-realworld': 'NOT_STARTED',
-    'fn-11-advantages': 'NOT_STARTED',
-    'fn-12-tradeoffs': 'NOT_STARTED',
+    'sl-01-intro': 'NOT_STARTED',
+    'sl-02-nodes': 'NOT_STARTED',
+    'sl-03-head-connections': 'NOT_STARTED',
+    'sl-04-traversal': 'NOT_STARTED',
+    'sl-05-insert-beginning': 'NOT_STARTED',
+    'sl-06-insert-end': 'NOT_STARTED',
+    'sl-07-insert-position': 'NOT_STARTED',
+    'sl-08-delete-first': 'NOT_STARTED',
+    'sl-09-delete-final': 'NOT_STARTED',
+    'sl-10-delete-specific': 'NOT_STARTED',
+    'sl-11-search': 'NOT_STARTED',
+    'sl-12-operations': 'NOT_STARTED',
+    'sl-13-memory': 'NOT_STARTED',
+    'sl-14-dynamic-memory': 'NOT_STARTED',
+    'sl-15-vs-array': 'NOT_STARTED',
+    'sl-16-connection-game': 'NOT_STARTED',
+    'sl-17-insertion-challenge': 'NOT_STARTED',
+    'sl-18-deletion-challenge': 'NOT_STARTED',
+    'sl-19-quiz': 'NOT_STARTED',
+    'sl-20-final-lab': 'NOT_STARTED',
   },
   moduleProgress: {},
   completedTheoryChapters: [],
-  currentTheoryChapterId: 'theory-01',
+  currentTheoryChapterId: 'what-is-sll',
   levelCompletedKeys: {},
   levelsCompleted: [],
   levelsMastered: [],
@@ -166,64 +277,42 @@ const INITIAL_PROGRESS: UserProgressState = {
   sandboxOperationsCount: 0,
   totalScore: 0,
   streak: 0,
-  currentActiveModuleId: 'fn-01-basics',
+  currentActiveModuleId: 'sl-01-intro',
   lastActiveTimestamp: Date.now(),
   completedVideos: [],
   hasCelebrated100Percent: false,
 };
 
-// Normalized map of chapter aliases to standard IDs
-export const THEORY_ID_MAP: Record<string, string> = {
-  'what-is-hashing': 'theory-01',
-  'hash-function': 'theory-02',
-  'hash-table': 'theory-03',
-  'hashing-lifecycle': 'theory-04',
-  'what-is-a-collision': 'theory-05',
-  'separate-chaining': 'theory-06',
-  'linear-probing': 'theory-07',
-  'quadratic-probing': 'theory-08',
-  'double-hashing': 'theory-09',
-  'real-world-applications': 'theory-10',
-  'core-advantages': 'theory-11',
-  'limitations-tradeoffs': 'theory-12',
-  'load-factor': 'theory-08',
-  '01': 'theory-01',
-  '02': 'theory-02',
-  '03': 'theory-03',
-  '04': 'theory-04',
-  '05': 'theory-05',
-  '06': 'theory-06',
-  '07': 'theory-07',
-  '08': 'theory-08',
-  '09': 'theory-09',
-  '10': 'theory-10',
-  '11': 'theory-11',
-  '12': 'theory-12',
-  '13': 'theory-13',
-  '14': 'theory-14',
-  '15': 'theory-15',
-  'theory-01': 'theory-01',
-  'theory-02': 'theory-02',
-  'theory-03': 'theory-03',
-  'theory-04': 'theory-04',
-  'theory-05': 'theory-05',
-  'theory-06': 'theory-06',
-  'theory-07': 'theory-07',
-  'theory-08': 'theory-08',
-  'theory-09': 'theory-09',
-  'theory-10': 'theory-10',
-  'theory-11': 'theory-11',
-  'theory-12': 'theory-12',
-  'theory-13': 'theory-13',
-  'theory-14': 'theory-14',
-  'theory-15': 'theory-15',
+export const SLL_CHAPTER_MAP: Record<string, string> = {
+  'what-is-sll': 'theory-01',
+  'understanding-nodes': 'theory-02',
+  'head-connections': 'theory-03',
+  'traversal': 'theory-04',
+  'insert-beginning': 'theory-05',
+  'insert-end': 'theory-06',
+  'insert-position': 'theory-07',
+  'delete-first': 'theory-08',
+  'delete-final': 'theory-09',
+  'delete-specific': 'theory-10',
+  'search': 'theory-11',
+  'operations': 'theory-12',
+  'memory-representation': 'theory-13',
+  'dynamic-memory': 'theory-14',
+  'linked-list-vs-array': 'theory-15',
 };
 
-export const normalizeTheoryChapterId = (idOrSlug: string): string => {
-  if (!idOrSlug) return 'theory-01';
-  if (idOrSlug.startsWith('theory-')) return idOrSlug;
-  return THEORY_ID_MAP[idOrSlug] || idOrSlug;
-};
+export function normalizeTheoryChapterId(topicId?: string): string {
+  if (!topicId) return 'theory-01';
+  if (topicId.startsWith('theory-')) return topicId;
+  if (SLL_CHAPTER_MAP[topicId]) {
+    return SLL_CHAPTER_MAP[topicId];
+  }
+  const num = parseInt(topicId.replace(/\D/g, ''), 10);
+  if (!isNaN(num) && num >= 1 && num <= 15) {
+    return `theory-${String(num).padStart(2, '0')}`;
+  }
+  return 'theory-01';
+}
 
 type ProgressListener = (state: UserProgressState) => void;
 
@@ -241,21 +330,29 @@ class ProgressManager {
       const stored = localStorage.getItem(STORAGE_KEY);
       if (!stored) return INITIAL_PROGRESS;
       const parsed = JSON.parse(stored);
-      if (parsed && parsed.version === 2) {
+      if (parsed && parsed.version === 3) {
         return {
           ...INITIAL_PROGRESS,
           ...parsed,
+          modules: {
+            ...INITIAL_PROGRESS.modules,
+            ...(parsed.modules || {}),
+          },
+          moduleProgress: { ...(parsed.moduleProgress || {}) },
           completedTheoryChapters: Array.isArray(parsed.completedTheoryChapters)
-            ? Array.from(new Set(parsed.completedTheoryChapters.map(normalizeTheoryChapterId)))
+            ? Array.from(new Set(parsed.completedTheoryChapters))
             : [],
-          currentTheoryChapterId: parsed.currentTheoryChapterId
-            ? normalizeTheoryChapterId(parsed.currentTheoryChapterId)
-            : 'theory-01',
           completedVideos: Array.isArray(parsed.completedVideos)
             ? Array.from(new Set(parsed.completedVideos))
             : [],
           levelsCompleted: Array.isArray(parsed.levelsCompleted)
             ? Array.from(new Set(parsed.levelsCompleted))
+            : [],
+          levelsMastered: Array.isArray(parsed.levelsMastered)
+            ? Array.from(new Set(parsed.levelsMastered))
+            : [],
+          masterChallengesCompleted: Array.isArray(parsed.masterChallengesCompleted)
+            ? Array.from(new Set(parsed.masterChallengesCompleted))
             : [],
         };
       }
@@ -293,14 +390,14 @@ class ProgressManager {
     return JSON.parse(JSON.stringify(this.state));
   }
 
-  // 1. THEORY STATS (12 Modules)
+  // 1. THEORY STATS (Theory Chapters)
   public getTheoryStats() {
     const list = Array.isArray(this.state.completedTheoryChapters)
       ? Array.from(new Set(this.state.completedTheoryChapters))
       : [];
-    const completed = Math.min(12, list.length);
-    const total = 12;
-    const percentage = Math.round((completed / total) * 100);
+    const total = 9;
+    const completed = Math.min(total, list.length);
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
     return {
       total,
       completed,
@@ -311,12 +408,12 @@ class ProgressManager {
     };
   }
 
-  // 2. VIDEO STATS (2 Video Lessons)
+  // 2. VIDEO STATS (2 Singly Linked List Video Lessons)
   public getVideoStats() {
     const list = Array.isArray(this.state.completedVideos) ? this.state.completedVideos : [];
-    const isIntroCompleted = list.includes('lesson-01') || list.includes('introduction');
-    const isCollisionCompleted = list.includes('lesson-02') || list.includes('collision');
-    const completed = (isIntroCompleted ? 1 : 0) + (isCollisionCompleted ? 1 : 0);
+    const isIntroCompleted = list.includes('lesson-01') || list.includes('introduction') || list.includes('sll-intro');
+    const isOperationsCompleted = list.includes('lesson-02') || list.includes('operations') || list.includes('sll-operations');
+    const completed = (isIntroCompleted ? 1 : 0) + (isOperationsCompleted ? 1 : 0);
     const total = 2;
     const percentage = Math.round((completed / total) * 100);
 
@@ -325,13 +422,14 @@ class ProgressManager {
       completed,
       percentage,
       isIntroCompleted,
-      isCollisionCompleted,
+      isOperationsCompleted,
+      isCollisionCompleted: isOperationsCompleted, // backward compat
       isComplete: completed >= total,
       completedVideos: [...list],
     };
   }
 
-  // 3. GAME STATS (5 Levels)
+  // 3. GAME STATS (5 Singly Linked List Levels)
   public getGameStats() {
     const rawList = Array.isArray(this.state.levelsCompleted) ? this.state.levelsCompleted : [];
     const completedList = Array.from(new Set(rawList.filter((lvl) => lvl >= 1 && lvl <= 5)));
@@ -348,7 +446,7 @@ class ProgressManager {
     };
   }
 
-  // 4. QUIZ STATS (1 Whole Quiz)
+  // 4. QUIZ STATS
   public getQuizStats() {
     const isSubmitted = Boolean(this.state.quizSubmitted);
     const completed = isSubmitted ? 1 : 0;
@@ -365,48 +463,50 @@ class ProgressManager {
     };
   }
 
-  // ALL 12 MODULES
+  // ALL 20 SINGLY LINKED LIST MODULES
   public getModules(): ModuleRecord[] {
     const theoryDone = this.state.completedTheoryChapters || [];
     const levelsDone = this.state.levelsCompleted || [];
+    const videoStats = this.getVideoStats();
+    const quizStats = this.getQuizStats();
 
-    const moduleMapping: Record<string, string> = {
-      'fn-01-basics': 'theory-01',
-      'fn-02-modulo': 'theory-02',
-      'fn-03-table': 'theory-03',
-      'fn-04-lifecycle': 'theory-04',
-      'fn-05-collision': 'theory-05',
-      'fn-06-chaining': 'theory-06',
-      'fn-07-linear': 'theory-07',
-      'fn-08-quadratic': 'theory-08',
-      'fn-09-double': 'theory-09',
-      'fn-10-realworld': 'theory-10',
-      'fn-11-advantages': 'theory-11',
-      'fn-12-tradeoffs': 'theory-12',
-    };
-
-    return FIELD_NOTES_MODULES.map((m) => {
-      let status = this.state.modules[m.id] || 'NOT_STARTED';
+    return SLL_PROGRESS_ACTIVITIES.map((m) => {
+      let status: ModuleStatus = this.state.modules[m.id] || 'NOT_STARTED';
       let progressPercent = this.state.moduleProgress[m.id] || 0;
-      const chapterId = moduleMapping[m.id];
 
-      if (chapterId && theoryDone.includes(chapterId)) {
+      // Auto-sync theory chapters
+      if (m.targetChapterId && theoryDone.includes(m.targetChapterId)) {
         status = 'COMPLETED';
         progressPercent = 100;
       }
 
-      // Also support game level masteries for interactive modules
-      if (m.id === 'fn-06-chaining' && levelsDone.includes(2)) {
+      // Auto-sync levels
+      if (m.id === 'sl-05-insert-beginning' && levelsDone.includes(1)) {
+        status = this.state.levelsMastered.includes(1) ? 'MASTERED' : 'COMPLETED';
+        progressPercent = 100;
+      } else if (m.id === 'sl-06-insert-end' && levelsDone.includes(2)) {
         status = this.state.levelsMastered.includes(2) ? 'MASTERED' : 'COMPLETED';
         progressPercent = 100;
-      } else if (m.id === 'fn-07-linear' && levelsDone.includes(3)) {
+      } else if (m.id === 'sl-07-insert-position' && levelsDone.includes(3)) {
         status = this.state.levelsMastered.includes(3) ? 'MASTERED' : 'COMPLETED';
         progressPercent = 100;
-      } else if (m.id === 'fn-08-quadratic' && levelsDone.includes(4)) {
+      } else if ((m.id === 'sl-08-delete-first' || m.id === 'sl-09-delete-final' || m.id === 'sl-10-delete-specific') && levelsDone.includes(4)) {
         status = this.state.levelsMastered.includes(4) ? 'MASTERED' : 'COMPLETED';
         progressPercent = 100;
-      } else if (m.id === 'fn-09-double' && levelsDone.includes(5)) {
-        status = this.state.levelsMastered.includes(5) ? 'MASTERED' : 'COMPLETED';
+      } else if (m.id === 'sl-16-connection-game' && levelsDone.includes(1)) {
+        status = this.state.levelsMastered.includes(1) ? 'MASTERED' : 'COMPLETED';
+        progressPercent = 100;
+      } else if (m.id === 'sl-17-insertion-challenge' && levelsDone.includes(2)) {
+        status = this.state.levelsMastered.includes(2) ? 'MASTERED' : 'COMPLETED';
+        progressPercent = 100;
+      } else if (m.id === 'sl-18-deletion-challenge' && levelsDone.includes(3)) {
+        status = this.state.levelsMastered.includes(3) ? 'MASTERED' : 'COMPLETED';
+        progressPercent = 100;
+      } else if (m.id === 'sl-19-quiz' && quizStats.isSubmitted) {
+        status = quizStats.finalScore >= 80 ? 'MASTERED' : 'COMPLETED';
+        progressPercent = 100;
+      } else if (m.id === 'sl-20-final-lab' && (this.state.sandboxOperationsCount || 0) >= 3) {
+        status = 'COMPLETED';
         progressPercent = 100;
       }
 
@@ -424,36 +524,25 @@ class ProgressManager {
     });
   }
 
-  // OVERALL PROGRESS (20 Unique Activities)
+  // OVERALL PROGRESS: Exactly 20 Measurable Singly Linked List Activities
   public getStats() {
+    const modules = this.getModules();
+    const total = 20;
+    const completed = modules.filter((m) => m.status === 'COMPLETED' || m.status === 'MASTERED').length;
+    const mastered = modules.filter((m) => m.status === 'MASTERED').length;
+    const isAllComplete = completed >= total;
+    const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+    // First unfinished module
+    const currentUnfinished =
+      modules.find(
+        (m) => m.status === 'IN_PROGRESS' || m.status === 'NOT_STARTED'
+      ) || modules[0];
+
     const theory = this.getTheoryStats();
     const video = this.getVideoStats();
     const game = this.getGameStats();
     const quiz = this.getQuizStats();
-
-    // Exactly 20 distinct measurable learning activities:
-    // 12 Theory Modules + 5 Game Levels + 2 Videos + 1 Quiz
-    const total = 20;
-    const completed = theory.completed + video.completed + game.completed + quiz.completed;
-    const isAllComplete =
-      theory.completed === 12 &&
-      video.completed === 2 &&
-      game.completed === 5 &&
-      quiz.completed === 1;
-
-    // Strict 100% calculation: exactly 100% ONLY when every activity is finished
-    const percentage = isAllComplete
-      ? 100
-      : Math.min(99, Math.max(0, Math.round((completed / total) * 100)));
-
-    const modules = this.getModules();
-    const mastered = modules.filter((m) => m.status === 'MASTERED').length;
-
-    // Find next unfinished module
-    const currentUnfinished =
-      modules.find(
-        (m) => m.status === 'IN_PROGRESS' || m.status === 'NOT_STARTED'
-      ) || modules[modules.length - 1];
 
     return {
       total,
@@ -469,63 +558,38 @@ class ProgressManager {
     };
   }
 
-  // =========================================================================
-  // THEORY SPECIFIC PROGRESS (Idempotent & Exact)
-  // =========================================================================
+  // THEORY METHODS
   public isTheoryChapterCompleted(chapterId: string): boolean {
-    const normalized = normalizeTheoryChapterId(chapterId);
-    return (this.state.completedTheoryChapters || []).includes(normalized);
+    return (this.state.completedTheoryChapters || []).includes(chapterId);
   }
 
   public completeTheoryChapter(chapterId: string): boolean {
-    const normalized = normalizeTheoryChapterId(chapterId);
-
     if (!this.state.completedTheoryChapters) {
       this.state.completedTheoryChapters = [];
     }
 
-    // Idempotent check: if already completed, do not re-add
-    if (this.state.completedTheoryChapters.includes(normalized)) {
-      return false; // Already completed
+    if (this.state.completedTheoryChapters.includes(chapterId)) {
+      return false;
     }
 
-    this.state.completedTheoryChapters.push(normalized);
-    this.state.currentTheoryChapterId = normalized;
+    this.state.completedTheoryChapters.push(chapterId);
+    this.state.currentTheoryChapterId = chapterId;
 
-    // Synchronize underlying module ID
-    const chapterToModuleMap: Record<string, string> = {
-      'theory-01': 'fn-01-basics',
-      'theory-02': 'fn-02-modulo',
-      'theory-03': 'fn-03-table',
-      'theory-04': 'fn-04-lifecycle',
-      'theory-05': 'fn-05-collision',
-      'theory-06': 'fn-06-chaining',
-      'theory-07': 'fn-07-linear',
-      'theory-08': 'fn-08-quadratic',
-      'theory-09': 'fn-09-double',
-      'theory-10': 'fn-10-realworld',
-      'theory-11': 'fn-11-advantages',
-      'theory-12': 'fn-12-tradeoffs',
-    };
-
-    const targetModuleId = chapterToModuleMap[normalized];
+    const targetModuleId = SLL_CHAPTER_MAP[chapterId];
     if (targetModuleId) {
       this.completeModule(targetModuleId);
     }
 
     this.saveState();
-    return true; // Newly completed!
+    return true;
   }
 
   public setCurrentTheoryChapter(chapterId: string) {
-    const normalized = normalizeTheoryChapterId(chapterId);
-    this.state.currentTheoryChapterId = normalized;
+    this.state.currentTheoryChapterId = chapterId;
     this.saveState();
   }
 
-  // =========================================================================
-  // VIDEO SPECIFIC PROGRESS (Idempotent & Independent)
-  // =========================================================================
+  // VIDEO METHODS
   public isVideoCompleted(videoId: string): boolean {
     const list = this.state.completedVideos || [];
     return list.includes(videoId);
@@ -536,16 +600,14 @@ class ProgressManager {
       this.state.completedVideos = [];
     }
     if (this.state.completedVideos.includes(videoId)) {
-      return false; // Already completed
+      return false;
     }
     this.state.completedVideos.push(videoId);
     this.saveState();
-    return true; // Newly completed!
+    return true;
   }
 
-  // =========================================================================
-  // MODULE LEVEL METHODS
-  // =========================================================================
+  // MODULE METHODS
   public startModule(moduleId: string) {
     if (!this.state.modules[moduleId] || this.state.modules[moduleId] === 'NOT_STARTED') {
       this.state.modules[moduleId] = 'IN_PROGRESS';
@@ -595,6 +657,18 @@ class ProgressManager {
       this.state.levelsMastered.push(levelId);
     }
 
+    // Auto complete corresponding activity
+    const levelActivityMap: Record<number, string> = {
+      1: 'sl-05-insert-beginning',
+      2: 'sl-06-insert-end',
+      3: 'sl-07-insert-position',
+      4: 'sl-08-delete-first',
+      5: 'sl-12-operations',
+    };
+    if (levelActivityMap[levelId]) {
+      this.completeModule(levelActivityMap[levelId], isPerfect);
+    }
+
     this.saveState();
   }
 
@@ -615,6 +689,7 @@ class ProgressManager {
     this.state.quizSubmitted = true;
     const percentage = Math.round((correctCount / totalQuestions) * 100);
     this.state.quizFinalScore = percentage;
+    this.completeModule('sl-19-quiz', percentage >= 80);
     this.saveState();
   }
 
@@ -637,6 +712,9 @@ class ProgressManager {
 
   public recordSandboxOp() {
     this.state.sandboxOperationsCount += 1;
+    if (this.state.sandboxOperationsCount >= 3) {
+      this.completeModule('sl-20-final-lab');
+    }
     this.saveState();
   }
 
@@ -648,49 +726,20 @@ class ProgressManager {
   public resetProgress() {
     if (typeof window !== 'undefined') {
       try {
+        localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem('hash_quest_quiz_answers_v3');
         localStorage.removeItem('hash_quest_quiz_submitted_v3');
+        localStorage.removeItem('hash_quest_field_notes_progress_v2');
       } catch {
         // Ignore storage errors
       }
     }
 
-    this.state = {
-      version: 2,
-      modules: {
-        'fn-01-basics': 'NOT_STARTED',
-        'fn-02-modulo': 'NOT_STARTED',
-        'fn-03-table': 'NOT_STARTED',
-        'fn-04-lifecycle': 'NOT_STARTED',
-        'fn-05-collision': 'NOT_STARTED',
-        'fn-06-chaining': 'NOT_STARTED',
-        'fn-07-linear': 'NOT_STARTED',
-        'fn-08-quadratic': 'NOT_STARTED',
-        'fn-09-double': 'NOT_STARTED',
-        'fn-10-realworld': 'NOT_STARTED',
-        'fn-11-advantages': 'NOT_STARTED',
-        'fn-12-tradeoffs': 'NOT_STARTED',
-      },
-      moduleProgress: {},
-      completedTheoryChapters: [],
-      currentTheoryChapterId: 'theory-01',
-      levelCompletedKeys: {},
-      levelsCompleted: [],
-      levelsMastered: [],
-      quizScores: {},
-      quizSubmitted: false,
-      quizFinalScore: 0,
-      masterChallengesCompleted: [],
-      sandboxOperationsCount: 0,
-      totalScore: 0,
-      streak: 0,
-      currentActiveModuleId: 'fn-01-basics',
-      lastActiveTimestamp: Date.now(),
-      completedVideos: [],
-      hasCelebrated100Percent: false,
-    };
+    this.state = JSON.parse(JSON.stringify(INITIAL_PROGRESS));
+    this.state.lastActiveTimestamp = Date.now();
     this.saveState();
   }
 }
 
 export const progressManager = new ProgressManager();
+

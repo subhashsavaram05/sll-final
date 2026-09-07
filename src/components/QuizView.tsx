@@ -289,6 +289,8 @@ export const QuizView: React.FC<QuizViewProps> = ({
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
   // Temporary selection before confirming/submitting the question
   const [pendingSelection, setPendingSelection] = useState<number | null>(null);
+  // Optional collapsible detailed question breakdown
+  const [showDetailedReview, setShowDetailedReview] = useState<boolean>(false);
 
   // Current question helper
   const currentQuestion = QUIZ_QUESTIONS[currentQuestionIndex] || QUIZ_QUESTIONS[0];
@@ -437,6 +439,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
     setIsSubmitted(false);
     setCurrentQuestionIndex(0);
     setPendingSelection(null);
+    setShowDetailedReview(false);
 
     try {
       localStorage.removeItem(QUIZ_STORAGE_ANSWERS_KEY);
@@ -446,433 +449,421 @@ export const QuizView: React.FC<QuizViewProps> = ({
     }
 
     progressManager.resetQuizAttempt();
-  };
-
-  const getPerformanceFeedback = (score: number) => {
-    if (score >= 9) {
-      return {
-        badge: 'OUTSTANDING MASTERY (GRADE A+)',
-        message: 'Excellent! You have a strong understanding of Single Linked Lists.',
-      };
-    }
-    if (score >= 7) {
-      return {
-        badge: 'GOOD WORK (GRADE B+)',
-        message: 'Good work! Review a few operations to strengthen your understanding.',
-      };
-    }
-    if (score >= 5) {
-      return {
-        badge: 'PROGRESSING (GRADE C)',
-        message: "You're getting there! Review insertion, deletion, and traversal.",
-      };
-    }
-    return {
-      badge: 'REVIEW NEEDED',
-      message: 'Keep learning! Review the basic structure and operations of Single Linked Lists.',
-    };
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const answeredCount = Object.keys(studentAnswers).length;
-  const feedback = getPerformanceFeedback(score);
 
-  // Dynamic certificate/completion card theme determined by final quiz percentage
-  const certificateTheme = useMemo(() => {
-    if (percentage >= 80) {
+  // Dynamic mastery assessment according to score percentage:
+  // 90% - 100% = OUTSTANDING MASTERY (GRADE A+)
+  // 80% - 89% = EXCELLENT PERFORMANCE (GRADE A)
+  // 70% - 79% = GOOD PROGRESS (GRADE B)
+  // 60% - 69% = KEEP PRACTICING (GRADE C)
+  // Below 60% = NEEDS MORE PRACTICE
+  const masteryAssessment = useMemo(() => {
+    if (percentage >= 90) {
       return {
-        // Grade A — Green Theme (80% – 100%)
-        cardBorder: 'border-2 border-emerald-500/40 dark:border-emerald-500/40 shadow-emerald-500/5 dark:shadow-[0_8px_30px_rgba(16,185,129,0.15)]',
-        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600 shadow-emerald-500/20 dark:shadow-emerald-950/50',
-        badge: 'border border-[#00A86B]/40 dark:border-emerald-500/40 bg-[#E6F8F0] dark:bg-emerald-950/60 text-[#008A54] dark:text-emerald-300',
-        scoreCardBorder: 'border-2 border-emerald-300/80 dark:border-emerald-500/40 shadow-[0_8px_30px_rgba(16,185,129,0.12)] dark:shadow-[0_8px_30px_rgba(16,185,129,0.2)]',
-        scoreTag: 'text-emerald-600 dark:text-emerald-400',
-        scoreText: 'text-[#00A86B] dark:text-emerald-400',
-        accuracyPill: 'bg-emerald-50/70 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-500/30 text-emerald-800 dark:text-emerald-200',
-        correctStat: 'text-[#00A86B] dark:text-emerald-400',
-      };
-    } else if (percentage >= 40) {
-      return {
-        // Grade B — Light Blue Theme (40% – 79%)
-        cardBorder: 'border-2 border-sky-400/50 dark:border-sky-500/40 shadow-sky-500/5 dark:shadow-[0_8px_30px_rgba(14,165,233,0.15)]',
-        trophyBg: 'bg-sky-500 dark:bg-sky-600 shadow-sky-500/20 dark:shadow-sky-950/50',
-        badge: 'border border-sky-400/50 dark:border-sky-500/40 bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300',
-        scoreCardBorder: 'border-2 border-sky-300/80 dark:border-sky-500/40 shadow-[0_8px_30px_rgba(14,165,233,0.12)] dark:shadow-[0_8px_30px_rgba(14,165,233,0.2)]',
-        scoreTag: 'text-sky-600 dark:text-sky-400',
-        scoreText: 'text-sky-500 dark:text-sky-400',
-        accuracyPill: 'bg-sky-50/70 dark:bg-sky-950/40 border-sky-200 dark:border-sky-500/30 text-sky-800 dark:text-sky-200',
-        correctStat: 'text-sky-500 dark:text-sky-400',
-      };
-    } else {
-      return {
-        // Grade C — Yellow Theme (0% – 39%)
-        cardBorder: 'border-2 border-amber-400/50 dark:border-amber-500/40 shadow-amber-500/5 dark:shadow-[0_8px_30px_rgba(245,158,11,0.15)]',
-        trophyBg: 'bg-amber-500 dark:bg-amber-600 shadow-amber-500/20 dark:shadow-amber-950/50',
-        badge: 'border border-amber-400/50 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300',
-        scoreCardBorder: 'border-2 border-amber-300/80 dark:border-amber-500/40 shadow-[0_8px_30px_rgba(245,158,11,0.12)] dark:shadow-[0_8px_30px_rgba(245,158,11,0.2)]',
-        scoreTag: 'text-amber-600 dark:text-amber-400',
-        scoreText: 'text-amber-500 dark:text-amber-400',
-        accuracyPill: 'bg-amber-50/70 dark:bg-amber-950/40 border-amber-200 dark:border-amber-500/30 text-amber-800 dark:text-amber-200',
-        correctStat: 'text-amber-500 dark:text-amber-400',
+        badgeText: 'OUTSTANDING MASTERY (GRADE A+)',
+        badgeClass:
+          'border border-emerald-300/80 dark:border-emerald-500/40 bg-[#E6F8F0] dark:bg-emerald-950/50 text-[#008A54] dark:text-emerald-300',
+        message:
+          'Outstanding work! You demonstrated thorough command of Singly Linked List concepts, node connections, and algorithmic operations.',
+        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600',
       };
     }
+    if (percentage >= 80) {
+      return {
+        badgeText: 'EXCELLENT PERFORMANCE (GRADE A)',
+        badgeClass:
+          'border border-blue-300/80 dark:border-blue-500/40 bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300',
+        message:
+          'Excellent work! You demonstrated strong understanding of Singly Linked List concepts and operations.',
+        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600',
+      };
+    }
+    if (percentage >= 70) {
+      return {
+        badgeText: 'GOOD PROGRESS (GRADE B)',
+        badgeClass:
+          'border border-sky-300/80 dark:border-sky-500/40 bg-sky-50 dark:bg-sky-950/50 text-sky-700 dark:text-sky-300',
+        message:
+          'Good progress! You have a solid grasp of core Singly Linked List fundamentals with just a few details to polish.',
+        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600',
+      };
+    }
+    if (percentage >= 60) {
+      return {
+        badgeText: 'KEEP PRACTICING (GRADE C)',
+        badgeClass:
+          'border border-amber-300/80 dark:border-amber-500/40 bg-amber-50 dark:bg-amber-950/50 text-amber-700 dark:text-amber-300',
+        message:
+          'Good effort! Keep practicing node pointer manipulation, insertion, and deletion steps to build complete mastery.',
+        trophyBg: 'bg-[#00A86B] dark:bg-emerald-600',
+      };
+    }
+    return {
+      badgeText: 'NEEDS MORE PRACTICE',
+      badgeClass:
+        'border border-rose-300/80 dark:border-rose-500/40 bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300',
+      message:
+        'Needs more practice! Review the Singly Linked List theory guide and try the interactive levels to reinforce your knowledge.',
+      trophyBg: 'bg-[#00A86B] dark:bg-emerald-600',
+    };
   }, [percentage]);
 
   return (
     <div className="w-full max-w-4xl mx-auto py-4 px-4 font-sans text-slate-900 dark:text-white animate-page-enter">
-      {/* Header Banner */}
-      <div className="border border-slate-200 dark:border-blue-900/30 rounded-2xl pb-6 mb-6 bg-white dark:bg-[#0B1228] p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
-        <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#EFF6FF] dark:bg-blue-950/60 border border-[#BFDBFE] dark:border-blue-500/30 text-[#2563EB] dark:text-blue-300 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
-            <span>KNOWLEDGE ASSESSMENT</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              Single Linked List Quiz (10 Questions)
-            </span>
-            {isSubmitted && (
-              <span className="px-2.5 py-0.5 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-500/30 text-emerald-700 dark:text-emerald-300 rounded-md text-xs font-semibold">
-                Completed
-              </span>
-            )}
-          </div>
-        </div>
-
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight animate-heading-enter">
-          Single Linked List Knowledge Check
-        </h1>
-        <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl mt-1 leading-relaxed">
-          Test your understanding of nodes, pointers, traversal, insertion, deletion, searching, and the basic operations of a single linked list.
-        </p>
-
-        {/* Question Index Tabs / Progress Tracker */}
-        <div className="mt-5 pt-4 border-t border-slate-100 dark:border-blue-900/20">
-          <div className="flex items-center justify-between gap-2 mb-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
-            <div className="flex items-center gap-1.5">
-              <Sparkles className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
-              <span>
-                Progress: <strong className="text-[#2563EB] dark:text-blue-300 font-mono">{answeredCount}</strong> / {totalQuestions} Answered
-              </span>
-            </div>
-            {isSubmitted && (
-              <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 font-mono">
-                {score} / {totalQuestions} Correct
-              </span>
-            )}
-          </div>
-
-          {/* Question Index Pills */}
-          <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
-            {QUIZ_QUESTIONS.map((q, idx) => {
-              const rec = studentAnswers[q.id];
-              const isAnswered = rec !== undefined;
-              const isCurrent = currentQuestionIndex === idx && !isSubmitted;
-
-              let pillStyle = 'bg-slate-50 dark:bg-[#080D1F] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-blue-900/30 hover:bg-slate-100 dark:hover:bg-[#0F1733]';
-              if (isCurrent) {
-                pillStyle = 'bg-[#2563EB] dark:bg-blue-600 text-white border-[#2563EB] dark:border-blue-500 font-bold shadow-xs dark:shadow-[0_0_12px_rgba(37,99,235,0.4)]';
-              } else if (isAnswered) {
-                if (rec.isCorrect) {
-                  pillStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 font-semibold';
-                } else {
-                  pillStyle = 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-500/30 font-semibold';
-                }
-              }
-
-              return (
-                <button
-                  key={q.id}
-                  id={`btn-quiz-jump-${q.id}`}
-                  onClick={() => {
-                    soundManager.playNav();
-                    if (isSubmitted) {
-                      const el = document.getElementById(`quiz-review-card-${q.id}`);
-                      if (el) {
-                        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                      }
-                    } else {
-                      setCurrentQuestionIndex(idx);
-                    }
-                  }}
-                  className={`py-2 text-center text-xs font-mono rounded-lg border transition-all cursor-pointer ${pillStyle}`}
-                  title={`Question ${idx + 1}`}
-                >
-                  <span>Q{idx + 1}</span>
-                  {isAnswered && (
-                    <span className="block text-[10px] leading-tight mt-0.5">
-                      {rec.isCorrect ? '✓' : '✕'}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* QUIZ COMPLETION VIEW (Displayed ONLY after Complete & Review is clicked) */}
+      {/* If quiz is submitted, show the dedicated QUIZ ASSESSMENT COMPLETED screen */}
       {isSubmitted ? (
-        <div className="space-y-8">
+        <div className="w-full max-w-2xl mx-auto space-y-6">
           <div
             id="quiz-result-card"
-            className={`p-6 sm:p-10 lg:p-12 bg-white dark:bg-[#0B1228] rounded-3xl flex flex-col items-center justify-center text-center animate-editorial-scale transition-all ${certificateTheme.cardBorder}`}
+            className="p-6 sm:p-10 lg:p-12 bg-white dark:bg-[#0B1228] border border-slate-200/90 dark:border-blue-900/30 rounded-3xl flex flex-col items-center justify-center text-center shadow-lg dark:shadow-[0_12px_40px_rgba(0,0,0,0.4)] animate-editorial-scale transition-all"
           >
-            {/* 1. Top Achievement Trophy Icon */}
-            <div className={`w-16 h-16 sm:w-20 sm:h-20 rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-lg mx-auto mb-4 sm:mb-5 ${certificateTheme.trophyBg}`}>
-              <Trophy className="w-8 h-8 sm:w-10 sm:h-10 text-white stroke-[2.2]" />
+            {/* Top row: Trophy Icon & Mastery Badge */}
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-3.5 mb-5">
+              <div
+                className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl flex items-center justify-center text-white shadow-md shadow-emerald-500/20 shrink-0 ${masteryAssessment.trophyBg}`}
+              >
+                <Trophy className="w-7 h-7 sm:w-8 sm:h-8 text-white stroke-[2.2]" />
+              </div>
+
+              <div
+                className={`inline-flex items-center justify-center px-4 py-2 rounded-full font-mono text-xs sm:text-sm font-bold tracking-wider uppercase ${masteryAssessment.badgeClass}`}
+              >
+                <span>★ {masteryAssessment.badgeText} ★</span>
+              </div>
             </div>
 
-            {/* 2. Achievement Badge */}
-            <div className={`inline-flex items-center justify-center px-4 py-1.5 rounded-full font-mono text-[11px] sm:text-xs font-bold tracking-wider uppercase mb-3 sm:mb-4 ${certificateTheme.badge}`}>
-              ★ {feedback.badge} ★
-            </div>
+            {/* Main Heading */}
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B192C] dark:text-white tracking-tight uppercase mb-2 sm:mb-3">
+              QUIZ ASSESSMENT COMPLETED
+            </h1>
 
-            {/* 3. Main Completion Heading */}
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#0B192C] dark:text-white tracking-tight uppercase mb-3">
-              Single Linked List Knowledge Check Complete!
-            </h2>
-
-            {/* 4. Supporting Description */}
-            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-xl mx-auto leading-relaxed font-normal mb-6 sm:mb-8">
-              {feedback.message}
+            {/* Dynamic performance message */}
+            <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 max-w-lg mx-auto leading-relaxed font-normal mb-7 sm:mb-8">
+              {masteryAssessment.message}
             </p>
 
-            {/* 5. Highlighted Score Card */}
-            <div className={`w-full max-w-md mx-auto p-6 sm:p-8 bg-white dark:bg-[#070B18] rounded-3xl flex flex-col items-center justify-center text-center mb-6 sm:mb-8 ${certificateTheme.scoreCardBorder}`}>
-              <span className={`text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase mb-2 ${certificateTheme.scoreTag}`}>
+            {/* Large Highlighted Score Card */}
+            <div className="w-full max-w-lg mx-auto p-6 sm:p-8 rounded-2xl border border-indigo-200/80 dark:border-blue-500/30 bg-white dark:bg-[#080D1F] shadow-xs flex flex-col items-center justify-center text-center">
+              <span className="text-[11px] sm:text-xs font-mono font-bold tracking-[0.2em] uppercase text-indigo-600 dark:text-blue-400 mb-2">
                 FINAL HIGHLIGHTED SCORE
               </span>
-              <div className={`text-5xl sm:text-6xl font-black font-sans tracking-tight leading-none my-2 ${certificateTheme.scoreText}`}>
-                {score} / {totalQuestions}
+              <div className="text-6xl sm:text-7xl lg:text-8xl font-black font-sans tracking-tight text-emerald-500 dark:text-emerald-400 my-2 leading-none">
+                {percentage}%
               </div>
-              <div className={`mt-3 px-4 py-1.5 rounded-xl font-mono text-xs sm:text-sm font-semibold border ${certificateTheme.accuracyPill}`}>
-                Accuracy: {percentage}%
+              <div className="mt-2 px-5 py-1.5 rounded-full bg-slate-50 dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
+                {score} / {totalQuestions} Questions Correct
               </div>
             </div>
 
-            {/* 6. Summary Statistics Cards: Correct Answers, Incorrect Answers, Accuracy */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl mx-auto">
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
-                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
-                  CORRECT ANSWERS
+            {/* 3 Statistic Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-lg mx-auto mt-6 mb-8">
+              {/* Correct */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-blue-900/30 shadow-2xs flex flex-col items-center justify-center text-center">
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1">
+                  CORRECT
                 </span>
-                <span className={`text-xl sm:text-2xl font-extrabold font-mono flex items-center justify-center gap-1.5 ${certificateTheme.correctStat}`}>
+                <span className="text-2xl sm:text-3xl font-extrabold font-mono text-[#00A86B] dark:text-emerald-400 flex items-center justify-center gap-1.5">
                   <Check className="w-5 h-5 stroke-[2.5]" />
-                  {score}
+                  <span>{score}</span>
                 </span>
               </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
-                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
-                  INCORRECT ANSWERS
+
+              {/* Incorrect */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-blue-900/30 shadow-2xs flex flex-col items-center justify-center text-center">
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1">
+                  INCORRECT
                 </span>
-                <span className="text-xl sm:text-2xl font-extrabold text-rose-500 dark:text-rose-400 font-mono">
+                <span className="text-2xl sm:text-3xl font-extrabold font-mono text-rose-500 dark:text-rose-400">
                   {totalQuestions - score}
                 </span>
               </div>
-              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#070B18] border border-slate-200/90 dark:border-blue-900/40 shadow-xs flex flex-col items-center justify-center text-center">
-                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1.5">
+
+              {/* Accuracy */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-blue-900/30 shadow-2xs flex flex-col items-center justify-center text-center">
+                <span className="text-[10px] sm:text-[11px] font-mono font-bold tracking-widest text-slate-400 dark:text-slate-500 uppercase mb-1">
                   ACCURACY
                 </span>
-                <span className="text-xl sm:text-2xl font-extrabold text-slate-900 dark:text-white font-mono">
+                <span className="text-2xl sm:text-3xl font-extrabold font-mono text-slate-900 dark:text-white">
                   {percentage}%
                 </span>
               </div>
             </div>
 
-            {/* 7. Action Buttons: Review Answers, Retry Quiz, Continue Learning */}
-            <div className="flex flex-wrap items-center justify-center gap-3.5 sm:gap-4 mt-8 w-full max-w-lg mx-auto">
-              <button
-                id="btn-quiz-review-answers"
-                type="button"
-                onClick={() => {
-                  soundManager.playNav();
-                  const el = document.getElementById('quiz-question-overview-section');
-                  if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }}
-                className="px-5 py-2.5 rounded-xl bg-[#EFF6FF] dark:bg-blue-950/60 border border-[#BFDBFE] dark:border-blue-900/40 text-[#2563EB] dark:text-blue-300 font-sans text-xs sm:text-sm font-semibold shadow-xs hover:bg-[#DBEAFE] dark:hover:bg-blue-900/50 transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                <ListOrdered className="w-4 h-4" />
-                <span>Review Answers</span>
-              </button>
-
+            {/* Bottom Two Buttons */}
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 w-full max-w-md mx-auto">
               <button
                 id="btn-quiz-retake"
                 type="button"
                 onClick={handleResetQuiz}
-                className="btn-modern-primary px-6 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
+                className="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold text-xs sm:text-sm shadow-md shadow-indigo-500/25 dark:shadow-blue-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
               >
                 <RotateCcw className="w-4 h-4 stroke-[2.2]" />
-                <span>Retry Quiz</span>
+                <span>Retake Quiz</span>
               </button>
 
               <button
-                id="btn-quiz-continue-learning"
+                id="btn-quiz-back-home"
                 type="button"
                 onClick={() => {
                   soundManager.playNav();
-                  if (onNavigateToQuest) {
-                    onNavigateToQuest(1);
-                  } else if (onNavigateToHome) {
+                  if (onNavigateToHome) {
                     onNavigateToHome();
+                  } else {
+                    onNavigateToTheory('theory-01');
                   }
                 }}
-                className="btn-modern-secondary px-5 py-2.5 text-xs sm:text-sm font-semibold flex items-center justify-center gap-2 cursor-pointer"
+                className="px-6 py-3 rounded-xl bg-white dark:bg-[#080D1F] border border-slate-200/90 dark:border-blue-900/40 hover:bg-slate-50 dark:hover:bg-[#0F1733] text-slate-800 dark:text-slate-200 font-semibold text-xs sm:text-sm shadow-2xs flex items-center justify-center gap-2 cursor-pointer transition-all active:scale-[0.98]"
               >
-                <Gamepad2 className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
-                <span>Continue Learning</span>
+                <Home className="w-4 h-4 text-slate-700 dark:text-slate-300" />
+                <span>Back to Home</span>
+              </button>
+            </div>
+
+            {/* Question Breakdown Toggle */}
+            <div className="mt-8 pt-6 border-t border-slate-100 dark:border-blue-900/20 w-full text-center">
+              <button
+                id="btn-quiz-toggle-review"
+                type="button"
+                onClick={() => {
+                  soundManager.playNav();
+                  setShowDetailedReview((prev) => !prev);
+                }}
+                className="text-xs sm:text-sm font-semibold text-indigo-600 dark:text-blue-400 hover:text-indigo-700 dark:hover:text-blue-300 inline-flex items-center gap-1.5 cursor-pointer transition-colors"
+              >
+                <ListOrdered className="w-4 h-4" />
+                <span>{showDetailedReview ? 'Hide Question Explanations' : 'Review Questions & Explanations (10)'}</span>
               </button>
             </div>
           </div>
 
-          {/* 2. QUESTION OVERVIEW SECTION (Directly Below Completion Certificate) */}
-          <div id="quiz-question-overview-section" className="space-y-6">
-            {/* Section Heading */}
-            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-blue-900/25">
-              <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
-                <ListOrdered className="w-5 h-5 text-[#2563EB] dark:text-blue-400" />
-                <span>Full Question-by-Question Review</span>
-              </h3>
-              <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-semibold font-mono">
-                {score} of {totalQuestions} Correct
-              </span>
-            </div>
+          {/* Full Question Review Breakdown (when expanded) */}
+          {showDetailedReview && (
+            <div id="quiz-question-overview-section" className="space-y-6 pt-2 animate-page-enter">
+              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-200 dark:border-blue-900/25">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 font-display">
+                  <ListOrdered className="w-5 h-5 text-indigo-600 dark:text-blue-400" />
+                  <span>Full Question-by-Question Review</span>
+                </h3>
+                <span className="text-xs sm:text-sm text-slate-600 dark:text-slate-400 font-semibold font-mono">
+                  {score} of {totalQuestions} Correct
+                </span>
+              </div>
 
-            {/* 10 Question Review Cards (Sequential Order 01 to 10) */}
-            <div className="space-y-5">
-              {QUIZ_QUESTIONS.map((q, idx) => {
-                const rec = studentAnswers[q.id];
-                const isCorrect = rec?.isCorrect || false;
-                const cleanQuestionText = q.question.replace(/^\d+\.\s*/, '');
-                const questionNumberStr = idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`;
+              {/* 10 Question Review Cards */}
+              <div className="space-y-5">
+                {QUIZ_QUESTIONS.map((q, idx) => {
+                  const rec = studentAnswers[q.id];
+                  const isCorrect = rec?.isCorrect || false;
+                  const cleanQuestionText = q.question.replace(/^\d+\.\s*/, '');
+                  const questionNumberStr = idx + 1 < 10 ? `0${idx + 1}` : `${idx + 1}`;
 
-                return (
-                  <div
-                    key={q.id}
-                    id={`quiz-review-card-${q.id}`}
-                    className={`p-6 sm:p-7 rounded-[22px] sm:rounded-[24px] bg-white dark:bg-[#0B1228] transition-all shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] ${
-                      isCorrect
-                        ? 'border-2 border-emerald-400 dark:border-emerald-500/50'
-                        : 'border-2 border-rose-300 dark:border-rose-500/50'
-                    }`}
-                  >
-                    {/* Top Header: Badge + Identifier (Left) & Status Badge (Right) */}
-                    <div className="flex items-center justify-between gap-3 mb-3">
-                      <div className="flex items-center gap-2.5">
-                        <span className="px-3 py-1 bg-[#2563EB] dark:bg-blue-600 text-white rounded-full text-xs font-bold font-mono tracking-wide shadow-xs inline-flex items-center justify-center">
-                          Question {questionNumberStr}
-                        </span>
-                        <span className="text-xs font-bold text-[#2563EB] dark:text-blue-300 font-mono tracking-wider">
-                          {q.techniqueCode}
-                        </span>
+                  return (
+                    <div
+                      key={q.id}
+                      id={`quiz-review-card-${q.id}`}
+                      className={`p-6 sm:p-7 rounded-[22px] sm:rounded-[24px] bg-white dark:bg-[#0B1228] transition-all shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] ${
+                        isCorrect
+                          ? 'border-2 border-emerald-400 dark:border-emerald-500/50'
+                          : 'border-2 border-rose-300 dark:border-rose-500/50'
+                      }`}
+                    >
+                      {/* Top Header: Badge + Identifier (Left) & Status Badge (Right) */}
+                      <div className="flex items-center justify-between gap-3 mb-3">
+                        <div className="flex items-center gap-2.5">
+                          <span className="px-3 py-1 bg-[#2563EB] dark:bg-blue-600 text-white rounded-full text-xs font-bold font-mono tracking-wide shadow-xs inline-flex items-center justify-center">
+                            Question {questionNumberStr}
+                          </span>
+                          <span className="text-xs font-bold text-[#2563EB] dark:text-blue-300 font-mono tracking-wider">
+                            {q.techniqueCode}
+                          </span>
+                        </div>
+
+                        <div>
+                          {isCorrect ? (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#E6F8F0] dark:bg-emerald-950/60 border border-[#00A86B]/30 dark:border-emerald-500/30 text-[#008A54] dark:text-emerald-300 rounded-lg text-xs font-bold font-sans">
+                              <Check className="w-3.5 h-3.5 stroke-[2.5]" />
+                              <span>Correct</span>
+                            </div>
+                          ) : (
+                            <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 rounded-lg text-xs font-bold font-sans">
+                              <XCircle className="w-3.5 h-3.5 stroke-[2.5]" />
+                              <span>Incorrect</span>
+                            </div>
+                          )}
+                        </div>
                       </div>
 
-                      <div>
-                        {isCorrect ? (
-                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#E6F8F0] dark:bg-emerald-950/60 border border-[#00A86B]/30 dark:border-emerald-500/30 text-[#008A54] dark:text-emerald-300 rounded-lg text-xs font-bold font-sans">
-                            <Check className="w-3.5 h-3.5 stroke-[2.5]" />
-                            <span>Correct</span>
-                          </div>
-                        ) : (
-                          <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-500/30 text-rose-700 dark:text-rose-300 rounded-lg text-xs font-bold font-sans">
-                            <XCircle className="w-3.5 h-3.5 stroke-[2.5]" />
-                            <span>Incorrect</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
+                      {/* Question Statement */}
+                      <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-3.5 mb-4 leading-snug break-words whitespace-pre-line">
+                        {cleanQuestionText}
+                      </h4>
 
-                    {/* Question Statement */}
-                    <h4 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-3.5 mb-4 leading-snug break-words whitespace-pre-line">
-                      {cleanQuestionText}
-                    </h4>
-
-                    {/* Submission and Correct Answer Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
-                      {/* Left: Your Submission */}
-                      <div
-                        className={`p-3.5 sm:p-4 rounded-xl border ${
-                          isCorrect
-                            ? 'bg-[#E8FAF0] dark:bg-emerald-950/40 border-[#A7F3D0] dark:border-emerald-500/30'
-                            : 'bg-[#FEECEB] dark:bg-rose-950/40 border-rose-200 dark:border-rose-500/30'
-                        }`}
-                      >
+                      {/* Submission and Correct Answer Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
+                        {/* Left: Your Submission */}
                         <div
-                          className={`text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase mb-1.5 font-sans ${
-                            isCorrect ? 'text-emerald-800 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'
+                          className={`p-3.5 sm:p-4 rounded-xl border ${
+                            isCorrect
+                              ? 'bg-[#E8FAF0] dark:bg-emerald-950/40 border-[#A7F3D0] dark:border-emerald-500/30'
+                              : 'bg-[#FEECEB] dark:bg-rose-950/40 border-rose-200 dark:border-rose-500/30'
                           }`}
                         >
-                          YOUR SUBMISSION:
+                          <div
+                            className={`text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase mb-1.5 font-sans ${
+                              isCorrect ? 'text-emerald-800 dark:text-emerald-300' : 'text-rose-700 dark:text-rose-300'
+                            }`}
+                          >
+                            YOUR SUBMISSION:
+                          </div>
+                          <div className="font-mono font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 break-words">
+                            {rec
+                              ? `${String.fromCharCode(65 + rec.selectedOptionIndex)}: ${rec.selectedAnswerText}`
+                              : 'No Answer Submitted'}
+                          </div>
                         </div>
-                        <div className="font-mono font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 break-words">
-                          {rec
-                            ? `${String.fromCharCode(65 + rec.selectedOptionIndex)}: ${rec.selectedAnswerText}`
-                            : 'No Answer Submitted'}
+
+                        {/* Right: Correct Answer */}
+                        <div className="p-3.5 sm:p-4 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-[#F8FAFC] dark:bg-[#070B18]">
+                          <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-1.5 font-sans">
+                            CORRECT ANSWER:
+                          </div>
+                          <div className="font-mono font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 break-words">
+                            {String.fromCharCode(65 + q.correctIndex)}: {q.correctAnswerText}
+                          </div>
                         </div>
                       </div>
 
-                      {/* Right: Correct Answer */}
-                      <div className="p-3.5 sm:p-4 rounded-xl border border-slate-200 dark:border-blue-900/30 bg-[#F8FAFC] dark:bg-[#070B18]">
-                        <div className="text-[10px] sm:text-[11px] font-mono font-bold tracking-wider uppercase text-slate-500 dark:text-slate-400 mb-1.5 font-sans">
-                          CORRECT ANSWER:
+                      {/* Technical Explanation Panel */}
+                      <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#070B18] border border-slate-200 dark:border-blue-900/25 text-xs">
+                        <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-xs sm:text-sm mb-2">
+                          <HelpCircle className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
+                          <span>Technical Explanation:</span>
                         </div>
-                        <div className="font-mono font-bold text-xs sm:text-sm text-slate-900 dark:text-slate-100 break-words">
-                          {String.fromCharCode(65 + q.correctIndex)}: {q.correctAnswerText}
+                        <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 font-normal">
+                          {q.explanation}
+                        </p>
+
+                        {q.exampleSnippet && (
+                          <div className="mb-3 p-2.5 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-lg font-mono text-xs text-[#1D4ED8] dark:text-blue-300 font-semibold">
+                            Example: {q.exampleSnippet}
+                          </div>
+                        )}
+
+                        <div className="flex flex-wrap items-center gap-4 text-xs pt-1">
+                          {q.targetChapterId && (
+                            <button
+                              onClick={() => {
+                                soundManager.playNav();
+                                onNavigateToTheory(q.targetChapterId);
+                              }}
+                              className="text-[#2563EB] dark:text-blue-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
+                            >
+                              <BookOpen className="w-3.5 h-3.5" />
+                              <span>Review in Theory Guide →</span>
+                            </button>
+                          )}
+                          {q.targetLevelId && (
+                            <button
+                              onClick={() => {
+                                soundManager.playNav();
+                                onNavigateToQuest(q.targetLevelId);
+                              }}
+                              className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
+                            >
+                              <Gamepad2 className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
+                              <span>Practice in Quest Level {q.targetLevelId} →</span>
+                            </button>
+                          )}
                         </div>
                       </div>
                     </div>
-
-                    {/* Technical Explanation Panel */}
-                    <div className="p-4 sm:p-5 rounded-2xl bg-[#F8FAFC] dark:bg-[#070B18] border border-slate-200 dark:border-blue-900/25 text-xs">
-                      <div className="flex items-center gap-1.5 font-bold text-slate-900 dark:text-white text-xs sm:text-sm mb-2">
-                        <HelpCircle className="w-4 h-4 text-[#2563EB] dark:text-blue-400" />
-                        <span>Technical Explanation:</span>
-                      </div>
-                      <p className="text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed mb-3 font-normal">
-                        {q.explanation}
-                      </p>
-
-                      {q.exampleSnippet && (
-                        <div className="mb-3 p-2.5 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-lg font-mono text-xs text-[#1D4ED8] dark:text-blue-300 font-semibold">
-                          Example: {q.exampleSnippet}
-                        </div>
-                      )}
-
-                      <div className="flex flex-wrap items-center gap-4 text-xs pt-1">
-                        {q.targetChapterId && (
-                          <button
-                            onClick={() => {
-                              soundManager.playNav();
-                              onNavigateToTheory(q.targetChapterId);
-                            }}
-                            className="text-[#2563EB] dark:text-blue-400 hover:text-[#1D4ED8] dark:hover:text-blue-300 font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
-                          >
-                            <BookOpen className="w-3.5 h-3.5" />
-                            <span>Review in Theory Guide →</span>
-                          </button>
-                        )}
-                        {q.targetLevelId && (
-                          <button
-                            onClick={() => {
-                              soundManager.playNav();
-                              onNavigateToQuest(q.targetLevelId);
-                            }}
-                            className="text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-semibold text-xs inline-flex items-center gap-1.5 hover:underline cursor-pointer"
-                          >
-                            <Gamepad2 className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
-                            <span>Practice in Quest Level {q.targetLevelId} →</span>
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ) : (
-        /* Taking the Quiz: Step-by-Step Question Flow (Questions 1 to 10) */
-        <div className="space-y-6">
+        <>
+          {/* Header Banner for active quiz taking */}
+          <div className="border border-slate-200 dark:border-blue-900/30 rounded-2xl pb-6 mb-6 bg-white dark:bg-[#0B1228] p-6 sm:p-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
+            <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#EFF6FF] dark:bg-blue-950/60 border border-[#BFDBFE] dark:border-blue-500/30 text-[#2563EB] dark:text-blue-300 rounded-lg text-xs font-semibold uppercase tracking-wider font-mono">
+                <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
+                <span>KNOWLEDGE ASSESSMENT</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
+                  Single Linked List Quiz (10 Questions)
+                </span>
+              </div>
+            </div>
+
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight animate-heading-enter">
+              Single Linked List Knowledge Check
+            </h1>
+            <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl mt-1 leading-relaxed">
+              Test your understanding of nodes, pointers, traversal, insertion, deletion, searching, and the basic operations of a single linked list.
+            </p>
+
+            {/* Question Index Tabs / Progress Tracker */}
+            <div className="mt-5 pt-4 border-t border-slate-100 dark:border-blue-900/20">
+              <div className="flex items-center justify-between gap-2 mb-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <div className="flex items-center gap-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-[#2563EB] dark:text-blue-400" />
+                  <span>
+                    Progress: <strong className="text-[#2563EB] dark:text-blue-300 font-mono">{answeredCount}</strong> / {totalQuestions} Answered
+                  </span>
+                </div>
+              </div>
+
+              {/* Question Index Pills */}
+              <div className="grid grid-cols-5 sm:grid-cols-10 gap-1.5">
+                {QUIZ_QUESTIONS.map((q, idx) => {
+                  const rec = studentAnswers[q.id];
+                  const isAnswered = rec !== undefined;
+                  const isCurrent = currentQuestionIndex === idx;
+
+                  let pillStyle = 'bg-slate-50 dark:bg-[#080D1F] text-slate-700 dark:text-slate-300 border-slate-200 dark:border-blue-900/30 hover:bg-slate-100 dark:hover:bg-[#0F1733]';
+                  if (isCurrent) {
+                    pillStyle = 'bg-[#2563EB] dark:bg-blue-600 text-white border-[#2563EB] dark:border-blue-500 font-bold shadow-xs dark:shadow-[0_0_12px_rgba(37,99,235,0.4)]';
+                  } else if (isAnswered) {
+                    if (rec.isCorrect) {
+                      pillStyle = 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border-emerald-200 dark:border-emerald-500/30 font-semibold';
+                    } else {
+                      pillStyle = 'bg-rose-50 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300 border-rose-200 dark:border-rose-500/30 font-semibold';
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={q.id}
+                      id={`btn-quiz-jump-${q.id}`}
+                      onClick={() => {
+                        soundManager.playNav();
+                        setCurrentQuestionIndex(idx);
+                      }}
+                      className={`py-2 text-center text-xs font-mono rounded-lg border transition-all cursor-pointer ${pillStyle}`}
+                      title={`Question ${idx + 1}`}
+                    >
+                      <span>Q{idx + 1}</span>
+                      {isAnswered && (
+                        <span className="block text-[10px] leading-tight mt-0.5">
+                          {rec.isCorrect ? '✓' : '✕'}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+
+          {/* Taking the Quiz: Step-by-Step Question Flow (Questions 1 to 10) */}
+          <div className="space-y-6">
           <div
             key={currentQuestion.id}
             id={`quiz-step-card-${currentQuestion.id}`}
@@ -1077,6 +1068,7 @@ export const QuizView: React.FC<QuizViewProps> = ({
             )}
           </div>
         </div>
+        </>
       )}
     </div>
   );

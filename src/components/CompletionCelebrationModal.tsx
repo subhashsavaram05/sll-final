@@ -4,18 +4,12 @@ import {
   CheckCircle2,
   Sparkles,
   Printer,
-  RotateCcw,
-  ArrowRight,
   ShieldCheck,
-  Zap,
-  Check,
   X,
-  BookOpen,
-  Gamepad2,
   Sliders,
 } from 'lucide-react';
 import { soundManager } from '../utils/audio';
-import { progressManager } from '../utils/progressManager';
+import { progressManager, SLL_PROGRESS_ACTIVITIES } from '../utils/progressManager';
 
 interface CompletionCelebrationModalProps {
   isOpen: boolean;
@@ -41,27 +35,17 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
   if (!isOpen) return null;
 
   const stats = progressManager.getStats();
-  const state = progressManager.getState();
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   });
 
-  const competencies = [
-    { code: 'FN-01', title: 'What is Hashing? & O(1) Time Complexity', status: 'Mastered' },
-    { code: 'FN-02', title: 'The Hash Function & Modulo Arithmetic', status: 'Mastered' },
-    { code: 'FN-03', title: 'The Hash Table Architecture & Direct Addressing', status: 'Mastered' },
-    { code: 'FN-04', title: 'The Hashing Lifecycle Pipeline', status: 'Mastered' },
-    { code: 'FN-05', title: 'What is a Collision? & Birthday Paradox', status: 'Mastered' },
-    { code: 'FN-06', title: 'Separate Chaining & Linked Buckets', status: 'Mastered' },
-    { code: 'FN-07', title: 'Linear Probing & Open Addressing', status: 'Mastered' },
-    { code: 'FN-08', title: 'Quadratic Probing & Square Leap Intervals', status: 'Mastered' },
-    { code: 'FN-09', title: 'Double Hashing & Dual Step Functions', status: 'Mastered' },
-    { code: 'FN-10', title: 'Real-World Production Applications & Systems', status: 'Mastered' },
-    { code: 'FN-11', title: 'Core Algorithmic Advantages & Hardware Cache', status: 'Mastered' },
-    { code: 'FN-12', title: 'Limitations, Range Search Tradeoffs & Rehashing', status: 'Mastered' },
-  ];
+  const competencies = SLL_PROGRESS_ACTIVITIES.map((act) => ({
+    code: act.code,
+    title: act.title,
+    status: 'Mastered',
+  }));
 
   const handlePrint = () => {
     soundManager.playClick();
@@ -76,7 +60,7 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
     >
       <div
         id="completion-celebration-modal"
-        className="relative w-full max-w-3xl my-8 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-3xl shadow-2xl dark:shadow-[0_0_35px_rgba(37,99,235,0.25)] p-6 sm:p-8 text-slate-900 dark:text-white animate-editorial-scale"
+        className="relative w-full max-w-3xl my-8 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/40 rounded-3xl shadow-2xl dark:shadow-[0_0_35px_rgba(37,99,235,0.25)] p-6 sm:p-8 text-slate-900 dark:text-white animate-editorial-scale max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
@@ -105,7 +89,7 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
           </h2>
 
           <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-xl mx-auto mt-2 leading-relaxed font-normal">
-            You have successfully completed every Field Note module, conquered all 5 interactive Quest levels, mastered collision resolution strategies, and passed the official examination.
+            You have successfully completed every Singly Linked List activity, conquered all 5 interactive levels, mastered node operations and pointer manipulation, and passed the official examination.
           </p>
         </div>
 
@@ -118,7 +102,7 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
                 <span>Official DSA Certification</span>
               </div>
               <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-1">
-                Hash Quest Data Structure Specialist
+                Singly Linked List Data Structure Specialist
               </div>
             </div>
 
@@ -137,11 +121,11 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
             <div className="p-3 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/25 rounded-xl shadow-2xs">
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase font-mono">MODULES</div>
-              <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">10 / 10</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase font-mono">ACTIVITIES</div>
+              <div className="text-lg font-bold text-slate-900 dark:text-white font-mono">{stats.total} / {stats.total}</div>
             </div>
             <div className="p-3 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/25 rounded-xl shadow-2xs">
-              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase font-mono">QUEST LEVELS</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase font-mono">LEVELS WON</div>
               <div className="text-lg font-bold text-emerald-600 dark:text-emerald-400 font-mono">5 / 5 WON</div>
             </div>
             <div className="p-3 bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/25 rounded-xl shadow-2xs">
@@ -160,7 +144,7 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
               <Award className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
               <span>Verified Competencies:</span>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs max-h-60 overflow-y-auto pr-1">
               {competencies.map((comp) => (
                 <div
                   key={comp.code}
@@ -229,3 +213,4 @@ export const CompletionCelebrationModal: React.FC<CompletionCelebrationModalProp
     </div>
   );
 };
+

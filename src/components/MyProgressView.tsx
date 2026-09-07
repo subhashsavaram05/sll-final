@@ -1,23 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import {
-  CheckCircle2,
   Sparkles,
   ArrowRight,
   RotateCcw,
   Trophy,
-  BookOpen,
   Gamepad2,
-  Layers,
   Video,
   Award,
-  AlertTriangle,
-  Flame,
   Check,
   Star,
   Circle,
-  Clock,
 } from 'lucide-react';
-import { progressManager } from '../utils/progressManager';
+import { progressManager, SLL_LEVELS } from '../utils/progressManager';
 import { ModuleRecord, ModuleStatus, UserProgressState, MainViewTab } from '../types/game';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import { CompletionCelebrationModal } from './CompletionCelebrationModal';
@@ -138,7 +132,7 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
           Learning Progress & Mastery
         </h1>
         <p className="text-sm text-slate-600 dark:text-slate-300 max-w-2xl mt-1 leading-relaxed">
-          Track your journey through hashing principles, collision resolution techniques, and interactive lab experiments.
+          Track your journey through Singly Linked List concepts, node connections, operations, and interactive challenges.
         </p>
 
         {/* 100% Completion Golden Banner if Completed */}
@@ -156,7 +150,7 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
                   ★ Congratulations! 100% Curriculum Completed
                 </div>
                 <div className="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">
-                  You Have Mastered All 12 Hashing Modules & Activities
+                  You Have Mastered All 20 Singly Linked List Activities & Challenges
                 </div>
               </div>
             </div>
@@ -240,11 +234,13 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
               <span>Recommended Next Step</span>
               <span className="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-ping" />
             </div>
-            <h3 className="text-lg font-bold text-slate-900 dark:text-white line-clamp-1">
-              {stats.nextModule.title}
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white uppercase line-clamp-1">
+              {stats.nextModule ? stats.nextModule.title : 'WHAT IS A SINGLY LINKED LIST?'}
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 line-clamp-2 leading-relaxed">
-              {stats.nextModule.criteriaDescription}
+              {stats.nextModule && stats.nextModule.id !== 'sl-01-intro'
+                ? stats.nextModule.description
+                : 'Learn how nodes store data and connect to the next node. Understand Head and node connections.'}
             </p>
           </div>
 
@@ -291,9 +287,14 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-blue-900/25">
           {/* Lesson 1 status */}
           <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-[#080D1F] border border-slate-200/80 dark:border-blue-900/25">
-            <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
-              Introduction to Hashing
-            </span>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30">
+                VIDEO 1
+              </span>
+              <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
+                Introduction to Singly Linked List
+              </span>
+            </div>
             {videoStats.isIntroCompleted ? (
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 <Check className="w-3.5 h-3.5 stroke-[2.5]" /> Completed
@@ -307,10 +308,15 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
 
           {/* Lesson 2 status */}
           <div className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-[#080D1F] border border-slate-200/80 dark:border-blue-900/25">
-            <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
-              Collision
-            </span>
-            {videoStats.isCollisionCompleted ? (
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30">
+                VIDEO 2
+              </span>
+              <span className="text-xs font-medium text-slate-800 dark:text-slate-200">
+                Singly Linked List Operations
+              </span>
+            </div>
+            {videoStats.isOperationsCompleted ? (
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
                 <Check className="w-3.5 h-3.5 stroke-[2.5]" /> Completed
               </span>
@@ -320,6 +326,79 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
               </span>
             )}
           </div>
+        </div>
+      </div>
+
+      {/* Singly Linked List Levels Progress Card */}
+      <div className="bg-white dark:bg-[#0B1228] border border-slate-200 dark:border-blue-900/30 rounded-2xl p-5 mb-8 shadow-xs dark:shadow-[0_8px_30px_rgba(0,0,0,0.35)] reveal-on-scroll">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 border border-indigo-100 dark:border-indigo-900/30">
+              <Gamepad2 className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+                LEVELS
+              </div>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">
+                5 LEVELS ({progressState.levelsCompleted.length} / 5 Won)
+              </h4>
+            </div>
+          </div>
+
+          <button
+            onClick={() => {
+              soundManager.playNav();
+              onNavigateToTab('GAME', 1);
+            }}
+            className="text-xs font-semibold text-blue-600 dark:text-blue-300 hover:text-blue-700 dark:hover:text-blue-200 flex items-center gap-1.5 self-start sm:self-auto cursor-pointer transition-colors"
+          >
+            <span>Play Levels</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 mt-4 pt-4 border-t border-slate-100 dark:border-blue-900/25">
+          {SLL_LEVELS.map((lvl) => {
+            const isWon = progressState.levelsCompleted.includes(lvl.id);
+            return (
+              <div
+                key={lvl.id}
+                onClick={() => {
+                  soundManager.playSelect();
+                  onNavigateToTab('GAME', lvl.id);
+                }}
+                className={`p-3 rounded-xl border transition-all cursor-pointer flex flex-col justify-between ${
+                  isWon
+                    ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200 dark:border-emerald-500/30 hover:border-emerald-300'
+                    : 'bg-slate-50 dark:bg-[#080D1F] border-slate-200/80 dark:border-blue-900/25 hover:border-blue-300 dark:hover:border-blue-800'
+                }`}
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-[10px] font-bold font-mono px-1.5 py-0.5 rounded bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-300 border border-blue-100 dark:border-blue-900/30">
+                      LEVEL {lvl.id}
+                    </span>
+                    {isWon ? (
+                      <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                        <Check className="w-3 h-3 stroke-[2.5]" /> Won
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[11px] text-slate-400">
+                        <Circle className="w-2.5 h-2.5" /> Pending
+                      </span>
+                    )}
+                  </div>
+                  <h5 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
+                    {lvl.title}
+                  </h5>
+                </div>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-2 line-clamp-1">
+                  {lvl.subtitle}
+                </p>
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -338,13 +417,13 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
                 : 'bg-slate-100 dark:bg-[#080D1F] text-slate-600 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-[#0F1733]'
                 }`}
             >
-              {cat === 'ALL' ? 'All Modules' : cat.charAt(0) + cat.slice(1).toLowerCase()}
+              {cat === 'ALL' ? 'All Activities' : cat.charAt(0) + cat.slice(1).toLowerCase()}
             </button>
           ))}
         </div>
 
         <div className="text-xs font-medium text-slate-500 dark:text-slate-400">
-          Showing {filteredModules.length} of {modules.length} modules
+          Showing {filteredModules.length} of {modules.length} activities
         </div>
       </div>
 
@@ -421,7 +500,7 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
                       : 'btn-modern-primary'
                       }`}
                   >
-                    <span>{isDone ? 'Review Module' : isInProgress ? 'Resume Activity' : 'Start Module'}</span>
+                    <span>{isDone ? 'Review Activity' : isInProgress ? 'Resume Activity' : 'Start Activity'}</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 </div>
@@ -450,3 +529,4 @@ export const MyProgressView: React.FC<MyProgressViewProps> = ({ onNavigateToTab 
 };
 
 export default MyProgressView;
+
